@@ -21,23 +21,21 @@ Or
 h2. Installation
 
 <pre>
-	gem sources -a http://gemcutter.org
-  sudo gem install alchemist
+gem sources -a http://gemcutter.org
+sudo gem install alchemist
 </pre>
 
 h2. Usage
 
 <pre>
-	
-	require 'rubygems'
-	require 'alchemist'
-	
+require 'rubygems'
+require 'alchemist'	
 </pre>
 
 Or if you're using rails
 
 <pre>
-		config.gem 'alchemist', :source => 'http://gemcutter.org'
+config.gem 'alchemist', :source => 'http://gemcutter.org'
 </pre>
 
 h2. Alchemist has conversions for:
