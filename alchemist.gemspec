@@ -1,7 +1,7 @@
 --- !ruby/object:Gem::Specification 
 name: alchemist
 version: !ruby/object:Gem::Version 
-  version: 0.0.2
+  version: 0.0.3
 platform: ruby
 authors: 
 - Matthew Mongeau
@@ -9,7 +9,7 @@ autorequire:
 bindir: bin
 cert_chain: []
 
-date: 2009-10-23 00:00:00 -04:00
+date: 2009-10-24 00:00:00 -04:00
 default_executable: 
 dependencies: []
 
@@ -23,8 +23,6 @@ extra_rdoc_files: []
 
 files: 
 - Rakefile
-- lib/alchemist
-- lib/alchemist/numeric_conversion.rb
 - lib/alchemist.rb
 has_rdoc: true
 homepage: http://github.com/toastyapps/alchemist
@@ -50,7 +48,7 @@ required_rubygems_version: !ruby/object:Gem::Requirement
 requirements: []
 
 rubyforge_project: 
-rubygems_version: 1.3.4
+rubygems_version: 1.3.5
 signing_key: 
 specification_version: 3
 summary: Conversions... like you've never seen them before!

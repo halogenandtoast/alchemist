@@ -12,11 +12,12 @@ You could add comments
 
 But why not have this!
 
-<pre>8.from(:meters).to(:miles)</pre>
+<pre>8.meters.to.miles</pre>
 
-Or
+You can even perform mathematical operations
 
-<pre>8.meters.to(:miles)</pre>
+<pre>10.kilometers + 1.mile # 11.609344 kilometers</pre>
+
 
 h2. Installation
 
@@ -100,4 +101,4 @@ h3. Volume
 * tablespoons
 * teaspoons
 
-h3. And many more checkout *lib/alchemist/numeric_conversion.rb* for the rest
+h3. And many more checkout *lib/alchemist.rb* for the rest
