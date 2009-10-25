@@ -1,7 +1,7 @@
 --- !ruby/object:Gem::Specification 
 name: alchemist
 version: !ruby/object:Gem::Version 
-  version: 0.0.3
+  version: 0.0.4
 platform: ruby
 authors: 
 - Matthew Mongeau
@@ -9,7 +9,7 @@ autorequire:
 bindir: bin
 cert_chain: []
 
-date: 2009-10-24 00:00:00 -04:00
+date: 2009-10-25 00:00:00 -04:00
 default_executable: 
 dependencies: []
 
