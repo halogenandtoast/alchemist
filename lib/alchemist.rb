@@ -1,8 +1,8 @@
 module Alchemist
   @@si_units = %w[m meter metre meters metres liter litre litres liters l L farad farads F coulombs C gray grays Gy siemen siemens S mhos mho ohm ohms volt volts V ]
-  @@si_units + %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd]
-  @@si_units + %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa]
-  @@si_units + %w[becquerel becquerels Bq curie curies Ci]
+  @@si_units += %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd]
+  @@si_units += %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa]
+  @@si_units += %w[becquerel becquerels Bq curie curies Ci]
   @@conversion_table = {
     :absorbed_radiation_dose => {
       :gray => 1.0, :grays => 1.0, :Gy => 1.0,
@@ -10,20 +10,20 @@ module Alchemist
     },
     :angles => {
       :radian => 1.0, :radians => 1.0,
-      :degree => 0.0174532925, :degrees => 0.0174532925,
-      :arcminute => 2.90888208333e-4, :arcminutes => 2.90888208333e-4,
-      :arcsecond => 4.848136806e-6, :arcseconds => 4.848136806e-6,
+      :degree => Math::PI / 180.0, :degrees => Math::PI / 180.0,
+      :arcminute => Math::PI / 10800.0, :arcminutes => Math::PI / 10800.0,
+      :arcsecond => Math::PI / 648000.0, :arcseconds => Math::PI / 648000.0,
       :mil => 9.817477e-4, :mils => 9.817477e-4,
-      :revolution => 6.283185, :revolutions => 6.283185,
-      :circle => 6.28318531, :circles => 6.28318531,
-      :right_angle => 1.57079633, :right_angles => 1.57079633,
-      :grad => 0.0157079633, :grade => 0.0157079633, :gradian => 0.0157079633, :gon => 0.0157079633, :grads => 0.0157079633, :grades => 0.0157079633, :gradians => 0.0157079633, :gons => 0.0157079633,
+      :revolution => Math::PI * 2.0, :revolutions => Math::PI * 2.0,
+      :circle =>  Math::PI * 2.0, :circles =>  Math::PI * 2.0,
+      :right_angle =>  Math::PI / 2.0, :right_angles =>  Math::PI / 2.0,
+      :grad => Math::PI / 200.0, :grade => Math::PI / 200.0, :gradian => Math::PI / 200.0, :gon => Math::PI / 200.0, :grads => Math::PI / 200.0, :grades => Math::PI / 200.0, :gradians => Math::PI / 200.0, :gons => Math::PI / 200.0,
       #unusual measurements
       :furman => 9.58737992858887e-5, :furmans => 9.58737992858887e-5
     },
     :area => {
       :square_meter => 1.0, :square_meters => 1.0, :square_metre => 1.0, :square_metres => 1.0,
-      :acre => 4.046873e+3, :acres => 4.046873e+3, 
+      :acre => 4046.85642, :acres => 4046.85642, 
       :are => 1.0e+2, :ares => 1.0e+2, :a => 1.0e+2,
       :barn => 1.0e-28, :barns => 1.0e-28, :b => 1.0e-28,
       :circular_mil => 5.067075e-10, :circular_mils => 5.067075e-10,
@@ -31,7 +31,7 @@ module Alchemist
       :square_foot => 9.290304e-2, :square_feet => 9.290304e-2,
       :square_inch => 6.4516e-4, :square_inches => 6.4516e-4,
       :square_mile => 2.589988e+6, :square_miles => 2.589988e+6,
-      :square_yard => 8.361274e-1, :square_yards => 8.361274e-1
+      :square_yard => 0.83612736, :square_yards => 0.83612736
     },
     :capacitance => {
       :farad => 1.0, :farads => 1.0, :F => 1.0,
@@ -287,6 +287,7 @@ module Alchemist
     }
   }
   @@british_standard_unit_prefixes = {
+    :googol => 1e+100,
     :yotta => 1e+24, :Y => 1e+24,
     :zetta => 1e+21, :Z => 1e+21,
     :exa => 1e+18, :E => 1e+18,
