@@ -323,6 +323,8 @@ module Alchemist
   end
   
   class NumericConversion
+    include Comparable
+    
     def to(type = nil)
       unless type
         self 
@@ -346,6 +348,10 @@ module Alchemist
     
     def to_f
       @value
+    end
+    
+    def <=>(other)
+      (self.to_f * @exponent) <=> other.to(@unit_name).to_f
     end
     
     private 

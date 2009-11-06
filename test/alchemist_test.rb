@@ -25,5 +25,9 @@ class TestUnits < Test::Unit::TestCase
   def test_lb_to_kg
     assert_equal( 0.45359237.kg.to_f, 1.lb.to.kg.to_f )
   end
-    
+  
+  def test_comparison
+    assert_equal( 5.grams, 0.005.kilograms )
+  end
+  
 end
