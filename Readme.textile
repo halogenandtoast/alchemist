@@ -18,6 +18,10 @@ You can even perform mathematical operations
 
 <pre>10.kilometers + 1.mile # 11.609344 kilometers</pre>
 
+Thanks to <a href='http://github.com/simonmenke'>simonmenke</a> you can now do comparisons without having to convert to floats like so:
+
+<pre>5.grams == 0.005.kilograms</pre>
+
 
 h2. Installation
 
