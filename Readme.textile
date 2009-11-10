@@ -18,6 +18,15 @@ You can even perform mathematical operations
 
 <pre>10.kilometers + 1.mile # 11.609344 kilometers</pre>
 
+Handling bytes now works according to the JEDEC memory standard
+
+<pre>1.kb.to.b.to_f == 1024.0</pre>
+
+To switch to the IEC memory standard, force SI units with
+
+<pre>Alchemist::use_si = true</pre>
+
+
 Thanks to <a href='http://github.com/simonmenke'>simonmenke</a> you can now do comparisons without having to convert to floats like so:
 
 <pre>5.grams == 0.005.kilograms</pre>

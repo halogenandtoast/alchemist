@@ -1,4 +1,9 @@
 module Alchemist
+  @use_si = false
+  class << self
+    attr_accessor :use_si
+  end
+  
   @@si_units = %w[m meter metre meters metres liter litre litres liters l L farad farads F coulombs C gray grays Gy siemen siemens S mhos mho ohm ohms volt volts V ]
   @@si_units += %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd]
   @@si_units += %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa]
@@ -153,7 +158,7 @@ module Alchemist
     },
     :information_storage => {
       :bit => 1.0, :bits => 1.0, :b => 1.0,
-      :byte => 8.0, :bytes => 8.0, 
+      :byte => 8.0, :bytes => 8.0, :B => 8.0,
       :nibbles => 4.0, :nybbles => 4.0
     },
     :luminous_flux => {
@@ -392,6 +397,9 @@ module Alchemist
   def self.parse_prefix(unit)
     @@british_standard_unit_prefixes.each do |prefix, value|
       if unit.to_s =~ /^#{prefix}.+/ && @@si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))        
+        if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !@use_si && value >= 1000.0
+          value = 2 ** (10 * (Math.log(value) / Math.log(10)) / 3)
+        end
         return [value, unit.to_s.gsub(/^#{prefix}/,'').to_sym]
       end
     end
