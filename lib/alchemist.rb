@@ -438,5 +438,3 @@ end
 class Numeric
   include Alchemist
 end
-
-puts 5.angstroms.inspect

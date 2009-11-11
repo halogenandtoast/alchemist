@@ -43,6 +43,9 @@ class TestUnits < Test::Unit::TestCase
   def test_register
     Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
     assert_equal( 1.beard_second, 5.angstroms)    
+    # Alchemist.register(:temperature, :yeti, [Proc.new{|t| t + 1}, Proc.new{|t| t - 1}])
+    #     puts 0.kelvin.to.yeti
+    #     assert_equal( 1.yeti, 0.kelvin)    
   end
   
 end
