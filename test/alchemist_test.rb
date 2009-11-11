@@ -11,6 +11,9 @@ class TestUnits < Test::Unit::TestCase
     assert_in_delta(1.MB.to.kB.to_f, 1024.0, 1e-5)
     assert_in_delta(1.MB.to.b.to_f, 8388608.0, 1e-5)
     assert_in_delta(1.GB.to.B.to_f, 1073741824.0, 1e-5)
+    assert_in_delta(1.MiB.to.KiB.to_f, 1024.0, 1e-5)
+    assert_in_delta(1.MiB.to.b.to_f, 8388608.0, 1e-5)
+    assert_in_delta(1.GiB.to.B.to_f, 1073741824.0, 1e-5)
     Alchemist::use_si = true
     assert_in_delta(1.GB.to.B.to_f, 1000000000.0, 1e-5)
     assert_in_delta(1.MB.to.b.to_f, 8000000.0, 1e-5)
@@ -35,6 +38,11 @@ class TestUnits < Test::Unit::TestCase
   
   def test_comparison
     assert_equal( 5.grams, 0.005.kilograms )
+  end
+  
+  def test_register
+    Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
+    assert_equal( 1.beard_second, 5.angstroms)    
   end
   
 end

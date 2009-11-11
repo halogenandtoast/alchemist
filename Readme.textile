@@ -26,6 +26,10 @@ To switch to the IEC memory standard, force SI units with
 
 <pre>Alchemist::use_si = true</pre>
 
+<strong>You may also register your own units</strong>
+
+<pre>Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)</pre>
+
 
 Thanks to <a href='http://github.com/simonmenke'>simonmenke</a> you can now do comparisons without having to convert to floats like so:
 

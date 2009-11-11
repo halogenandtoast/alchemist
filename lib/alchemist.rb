@@ -83,8 +83,8 @@ module Alchemist
       :circle_of_the_earth => 40075016.686, :equator => 40075016.686, :circles_of_the_earth => 40075016.686, :equators => 40075016.686,
       :siriometer => 1.494838e+17, :siriometers => 1.494838e+17,
       :football_field => 91.0, :football_fields => 91.0,
-      :length_of_a_double_decker_bus => 8.4, :height_of_a_double_decker_bus => 4.4
-      
+      :length_of_a_double_decker_bus => 8.4, :height_of_a_double_decker_bus => 4.4,
+      :smoot => 1.7018, :smoots => 1.7018
     },
     :dose_equivalent => {
       :sievert => 1.0, :sieverts => 1.0, :Si => 1.0,
@@ -291,7 +291,7 @@ module Alchemist
       :sydharb => 5.0e+11, :sydharbs => 5.0e+11
     }
   }
-  @@british_standard_unit_prefixes = {
+  @@unit_prefixes = {
     :googol => 1e+100,
     :yotta => 1e+24, :Y => 1e+24,
     :zetta => 1e+21, :Z => 1e+21,
@@ -312,15 +312,26 @@ module Alchemist
     :femto => 1e-15, :f => 1e-15,
     :atto => 1e-18, :a => 1e-18,
     :zepto => 1e-21, :z => 1e-21,
-    :yocto => 1e-24, :y => 1e-24
+    :yocto => 1e-24, :y => 1e-24,
+    
+    # binary prefixes
+    
+    :kibi => 2.0**10.0, :Ki => 2.0**10.0,
+    :mebi => 2.0**20.0, :Mi => 2.0**20.0,
+    :gibi => 2.0**30.0, :Gi => 2.0**30.0,
+    :tebi => 2.0**40.0, :Ti => 2.0**40.0,
+    :pebi => 2.0**50.0, :Pi => 2.0**50.0,
+    :exbi => 2.0**60.0, :Ei => 2.0**60.0,
+    :zebi => 2.0**70.0, :Zi => 2.0**70.0,
+    :yobi => 2.0**80.0, :Yi => 2.0**80.0
   }
   
   def from(unit_name)
     send(unit_name)
   end
   
-  def self.british_standard_unit_prefixes
-    @@british_standard_unit_prefixes
+  def self.unit_prefixes
+    @@unit_prefixes
   end
   
   def self.conversion_table
@@ -394,10 +405,20 @@ module Alchemist
     NumericConversion.new self, unit_name, exponent
   end
   
+  def self.register(type, names, value)
+    names = [names] unless names.is_a?(Array)
+    value = value.is_a?(NumericConversion) ? value.base(type) : value
+    names.each do |name|
+      Conversions[name] ||= []
+      Conversions[name] << type
+      Alchemist.conversion_table[type][name] = value
+    end
+  end
+  
   def self.parse_prefix(unit)
-    @@british_standard_unit_prefixes.each do |prefix, value|
+    @@unit_prefixes.each do |prefix, value|
       if unit.to_s =~ /^#{prefix}.+/ && @@si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))        
-        if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !@use_si && value >= 1000.0
+        if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !@use_si && value >= 1000.0 && value.to_i & -value.to_i != value
           value = 2 ** (10 * (Math.log(value) / Math.log(10)) / 3)
         end
         return [value, unit.to_s.gsub(/^#{prefix}/,'').to_sym]
@@ -417,3 +438,5 @@ end
 class Numeric
   include Alchemist
 end
+
+puts 5.angstroms.inspect
