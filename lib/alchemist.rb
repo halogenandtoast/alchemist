@@ -8,6 +8,7 @@ module Alchemist
   @@si_units += %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd]
   @@si_units += %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa]
   @@si_units += %w[becquerel becquerels Bq curie curies Ci]
+  @@operator_actions = {}
   @@conversion_table = {
     :absorbed_radiation_dose => {
       :gray => 1.0, :grays => 1.0, :Gy => 1.0,
@@ -338,6 +339,10 @@ module Alchemist
     @@conversion_table
   end
   
+  def self.operator_actions
+    @@operator_actions
+  end
+  
   class NumericConversion
     include Comparable
     
@@ -358,6 +363,10 @@ module Alchemist
       end
     end
     
+    def unit_name
+      @unit_name
+    end
+    
     def to_s
       @value.to_s
     end
@@ -367,7 +376,7 @@ module Alchemist
     end
     
     def <=>(other)
-      (self.to_f * @exponent) <=> other.to(@unit_name).to_f
+      (self.to_f * @exponent).to_f <=> other.to(@unit_name).to_f
     end
     
     private 
@@ -391,9 +400,24 @@ module Alchemist
           raise Exception, "Incompatible Types"
         end
       else
+        if args[0] && args[0].is_a?(NumericConversion) && Alchemist.operator_actions[unit_name]
+          t1 = Conversions[ @unit_name ][0]
+          t2 = Conversions[ args[0].unit_name ][0]
+          Alchemist.operator_actions[unit_name].each do |s1, s2, new_type|
+            if t1 == s1 && t2 == s2
+              return (@value * args[0].to_f).send(new_type)
+            end
+          end
+        end
+        raise Exception, "Incompatible Types" if unit_name == :*
+        if unit_name == :/ && args[0].is_a?(NumericConversion)
+          raise Exception, "Incompatible Types" unless (Conversions[@unit_name] & Conversions[args[0].unit_name]).length > 0  
+        end
         args.map!{|a| a.is_a?(NumericConversion) ? a.send(@unit_name).to_f / @exponent : a }
         @value = @value.send( unit_name, *args, &block )
-        self
+        
+        
+        unit_name == :/ ? @value : self
       end
     end
   end
@@ -414,6 +438,11 @@ module Alchemist
       Alchemist.conversion_table[type][name] = value
     end
   end
+
+	def self.register_operation_conversions type, other_type, operation, converted_type
+	  @@operator_actions[operation] ||= []
+    @@operator_actions[operation] << [type, other_type, converted_type]
+	end
   
   def self.parse_prefix(unit)
     @@unit_prefixes.each do |prefix, value|
@@ -438,3 +467,7 @@ end
 class Numeric
   include Alchemist
 end
+
+require 'alchemist/compound'
+
+3.seconds * 3.seconds

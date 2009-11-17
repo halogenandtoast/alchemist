@@ -21,11 +21,11 @@ class TestUnits < Test::Unit::TestCase
   end
   
   def test_feet_to_miles
-    assert_equal( 5280.feet.to_f,  1.mile.to.feet.to_f )
+    assert_equal( 5280.feet,  1.mile.to.feet )
   end
   
   def test_acre_to_yards_squared
-    assert_in_delta( 4840.square_yards,  1.acre.to.square_yards, 1e-5)
+    assert_in_delta( 4840.square_yards.to_f,  1.acre.to.square_yards.to_f, 1e-5)
   end
   
   def test_gallon_to_liter
@@ -43,9 +43,21 @@ class TestUnits < Test::Unit::TestCase
   def test_register
     Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
     assert_equal( 1.beard_second, 5.angstroms)    
-    # Alchemist.register(:temperature, :yeti, [Proc.new{|t| t + 1}, Proc.new{|t| t - 1}])
-    #     puts 0.kelvin.to.yeti
-    #     assert_equal( 1.yeti, 0.kelvin)    
+    Alchemist.register(:temperature, :yeti, [Proc.new{|t| t + 1}, Proc.new{|t| t - 1}])
+    assert_equal( 0.yeti, 1.kelvin)    
+  end
+  
+  def test_meters_times_meters
+    assert_equal(1.meter * 1.meter, 1.square_meter)
+  end
+  
+  def test_meters_times_meters_times_meters
+    assert_equal(1.meter * 2.meter * 3.meter, 6.cubic_meters)
+    assert_equal(2.square_meters * 3.meters, 6.cubic_meters)
+  end
+  
+  def test_division
+    assert_equal(2.meters / 1.meters, 2.0)
   end
   
 end
