@@ -469,5 +469,3 @@ class Numeric
 end
 
 require 'alchemist/compound'
-
-3.seconds * 3.seconds
