@@ -343,8 +343,30 @@ module Alchemist
     @@operator_actions
   end
   
+  class CompoundNumericConversion
+    attr_accessor :numerator, :denominator
+    def initialize(numerator)
+      @numerator = numerator
+      @denominator = nil
+    end
+    
+    def method_missing(method, *attrs, &block)
+      if Conversions[method]
+        @denominator = 1.send(method)
+      end
+    end
+  end
+  
   class NumericConversion
     include Comparable
+    
+    def per
+      new CompoundNumericConversion(self)
+    end
+    
+    def p
+      per
+    end
     
     def to(type = nil)
       unless type
