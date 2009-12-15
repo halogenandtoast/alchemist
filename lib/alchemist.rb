@@ -256,7 +256,7 @@ module Alchemist
       :second => 1.0, :seconds => 1.0, :s => 1.0,
       :minute => 60.0, :minutes => 60.0, :min => 60.0,
       :sidereal_minute => 5.983617, :sidereal_minutes => 5.983617,
-      :hour => 3600.0, :hours => 3600.0, :hr => 3600.0,
+      :hour => 3600.0, :hours => 3600.0, :hr => 3600.0, :h => 3600.0,
       :sidereal_hour => 3.590170e+3, :sidereal_hours => 3.590170e+3,
       :day => 86400.0, :days => 86400.0,
       :sidereal_day => 8.616409e+4, :sidereal_days => 8.616409e+4,
@@ -344,15 +344,53 @@ module Alchemist
   end
   
   class CompoundNumericConversion
-    attr_accessor :numerator, :denominator
+    attr_accessor :numerators, :denominators
     def initialize(numerator)
-      @numerator = numerator
-      @denominator = nil
+      @coefficient = 1 #* numerator.to_f
+      @numerators = [numerator]
+      @denominators = []
+    end
+    def *(value)
+      case value
+      when Numeric 
+         @coefficient *= value
+         self
+      when Alchemist::NumericConversion
+        @numerators << value
+        return consolidate
+      end
+    end
+    
+    def consolidate
+      @numerators.each_with_index do |numerator, n|
+        @denominators.each_with_index do |denominator, d|
+          next if numerator.is_a?(Numeric)
+          next if denominator.is_a?(Numeric)
+          if (Conversions[numerator.unit_name] & Conversions[denominator.unit_name]).length > 0
+            value = numerator / denominator
+            @numerators.delete_at(n)
+            @denominators.delete_at(d)
+            @coefficient *= value
+          end
+        end
+      end
+      if @denominators.length == 0 && @numerators.length == 1
+        @numerators[0] * @coefficient
+      elsif @denominators.length == 0 && @numerators.length == 0
+        @coefficient
+      else
+        self
+      end
+    end
+    
+    def to_s
+      
     end
     
     def method_missing(method, *attrs, &block)
       if Conversions[method]
-        @denominator = 1.send(method)
+        @denominators << 1.send(method)
+        consolidate
       end
     end
   end
@@ -361,7 +399,7 @@ module Alchemist
     include Comparable
     
     def per
-      new CompoundNumericConversion(self)
+      Alchemist::CompoundNumericConversion.new(self)
     end
     
     def p
@@ -391,6 +429,10 @@ module Alchemist
     
     def to_s
       @value.to_s
+    end
+    
+    def value
+      @value
     end
     
     def to_f
@@ -431,7 +473,14 @@ module Alchemist
             end
           end
         end
-        raise Exception, "Incompatible Types" if unit_name == :*
+        if unit_name == :*
+          if args[0].is_a?(Numeric)
+            @value *= args[0]
+            return self
+          else
+            raise Exception, "Incompatible Types"
+          end
+        end
         if unit_name == :/ && args[0].is_a?(NumericConversion)
           raise Exception, "Incompatible Types" unless (Conversions[@unit_name] & Conversions[args[0].unit_name]).length > 0  
         end

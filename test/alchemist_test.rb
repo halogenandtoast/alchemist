@@ -3,8 +3,12 @@ $:.unshift(File.dirname(__FILE__) + '../lib')
 require 'test/unit'
 require 'alchemist'
 
-class TestUnits < Test::Unit::TestCase
-
+class AlchemistTest < Test::Unit::TestCase
+  
+  def test_equivalence
+    assert_equal(1.m, 1.meter)
+  end
+  
   def test_bit_and_bytes
     assert_equal( 65.bit.to_f,  (1.bit + 8.bytes).to_f )
     assert_equal( 0.125.bytes.to_f, 1.bit.to.bytes.to_f )
