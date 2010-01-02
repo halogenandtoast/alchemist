@@ -244,12 +244,13 @@ module Alchemist
     },
     :temperature => {
       :kelvin => 1.0, :K => 1.0,
+      
       :celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
       :degree_celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :degree_centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
       :degrees_celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :degrees_centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
-      :fahrenheit => [Proc.new{ |t| t * (5.0/9.0) + 459.67 }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
-      :degree_fahrenheit => [Proc.new{ |t| t * (5.0/9.0) + 459.67 }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
-      :degrees_fahrenheit => [Proc.new{ |t| t * (5.0/9.0) + 459.67 }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
+      :fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
+      :degree_fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
+      :degrees_fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
       :rankine => 1.8, :rankines => 1.8
     }, 
     :time => {
@@ -437,6 +438,10 @@ module Alchemist
     
     def to_f
       @value
+    end
+    
+    def ==(other)
+      self <=> other
     end
     
     def <=>(other)
