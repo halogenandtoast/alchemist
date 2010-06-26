@@ -447,7 +447,7 @@ module Alchemist
     end
     
     def ==(other)
-      self <=> other
+      (self <=> other) == 0
     end
     
     def <=>(other)
