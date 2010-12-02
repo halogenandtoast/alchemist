@@ -3,6 +3,14 @@ $:.unshift(File.dirname(__FILE__) + '../lib')
 require 'test/unit'
 require 'alchemist'
 
+class Float
+  # truncates float to specified decimal places
+  def truncate(dec = 0)
+    return to_i if dec == 0
+    sprintf("%.#{dec}f", self).to_f
+  end
+end
+
 class AlchemistTest < Test::Unit::TestCase
   
   def test_equivalence
@@ -67,6 +75,12 @@ class AlchemistTest < Test::Unit::TestCase
   def test_temperature
     assert_equal(1.fahrenheit, 1.fahrenheit)
     assert_in_delta(1.fahrenheit, 1.fahrenheit.to.fahrenheit, 1e-5)
+  end
+  
+  def test_density
+    assert_equal(25.brix.to_f, 1.1058.sg.to.brix.truncate(1))
+    assert_equal(25.brix, 13.87.baume.truncate(1))    
+    assert_equal(25.plato, 25.125.brix)
   end
   
 end
