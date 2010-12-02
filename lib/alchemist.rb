@@ -44,6 +44,12 @@ module Alchemist
       :abfarad => 1.0e+9, :emu_of_capacitance => 1.0e+9, :abfarads => 1.0e+9, :emus_of_capacitance => 1.0e+9,
       :statfarad => 1.112650e-12, :esu_of_capacitance => 1.112650e-12, :statfarads => 1.112650e-12, :esus_of_capacitance => 1.112650e-12
     },
+    :density => {
+      :specific_gravity => 1, :sg => 1,
+      :brix     => [Proc.new{ |d| -261.3 / (d - 261.3) }, Proc.new{ |d| 261.3 - (261.3 / d) }],
+      :plato    => [Proc.new{ |d| -260.0 / (d - 260.0) }, Proc.new{ |d| 260.0 - (260.0 / d) }],
+      :baume    => [Proc.new{ |d| -145.0 / (d - 145.0) }, Proc.new{ |d| 145.0 - (145.0 / d) }]
+    },
     :distance => {
       :meter => 1.0, :metres => 1.0, :meters => 1.0, :m => 1.0,
       :fermi => 1.0e-15, :fermis => 1.0e-15,
