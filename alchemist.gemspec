@@ -1,7 +1,7 @@
 --- !ruby/object:Gem::Specification 
 name: alchemist
 version: !ruby/object:Gem::Version 
-  version: 0.1.2
+  version: 0.1.2.1
 platform: ruby
 authors: 
 - Matthew Mongeau
