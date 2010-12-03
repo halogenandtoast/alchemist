@@ -286,7 +286,7 @@ module Alchemist
       :imperial_fluid_ounce => 0.0284130742, :imperial_fluid_ounces => 0.0284130742,
       :ounce => 0.0295735296, :ounces => 0.0295735296, :fluid_ounce => 0.0295735296, :fluid_ounces => 0.0295735296,
       :imperial_gallon => 4.54609, :imperial_gallons => 4.54609,
-      :gallon => 3.785412, :gallons => 3.785412,
+      :gallon => 3.785412, :gallons => 3.785412, :gals => 3.785412, :Gals => 3.785412,
       :imperial_gill => 1.420653e-1, :imperial_gills => 1.420653e-1,
       :gill => 1.182941e-1, :gills => 1.182941e-1, :gi => 1.182941e-1,
       :pint => 5.506105e-1, :pints => 5.506105e-1,
