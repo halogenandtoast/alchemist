@@ -1,58 +1,14 @@
---- !ruby/object:Gem::Specification 
-name: alchemist
-version: !ruby/object:Gem::Version 
-  version: 0.1.2.1
-platform: ruby
-authors: 
-- Matthew Mongeau
-autorequire: 
-bindir: bin
-cert_chain: []
+# -*- encoding: utf-8 -*-
+PKG_FILES = %w(Rakefile) +
+  Dir.glob("{lib}/**/*")
 
-date: 2010-01-01 00:00:00 -05:00
-default_executable: 
-dependencies: []
-
-description: Conversions... like you've never seen them before!!
-email: matt@toastyapps.com
-executables: []
-
-extensions: []
-
-extra_rdoc_files: []
-
-files: 
-- Rakefile
-- lib/alchemist
-- lib/alchemist/compound.rb
-- lib/alchemist.rb
-has_rdoc: true
-homepage: http://github.com/toastyapps/alchemist
-licenses: []
-
-post_install_message: 
-rdoc_options: []
-
-require_paths: 
-- lib
-required_ruby_version: !ruby/object:Gem::Requirement 
-  requirements: 
-  - - ">="
-    - !ruby/object:Gem::Version 
-      version: "0"
-  version: 
-required_rubygems_version: !ruby/object:Gem::Requirement 
-  requirements: 
-  - - ">="
-    - !ruby/object:Gem::Version 
-      version: "0"
-  version: 
-requirements: []
-
-rubyforge_project: 
-rubygems_version: 1.3.5
-signing_key: 
-specification_version: 3
-summary: Conversions... like you've never seen them before!
-test_files: []
-
+gem_spec = Gem::Specification.new do |gem_spec|
+  gem_spec.name = 'alchemist'
+  gem_spec.version = '0.1.2.1'
+  gem_spec.summary = 'Conversions... like you\'ve never seen them before!'
+  gem_spec.description = 'Conversions... like you\'ve never seen them before!!'
+  gem_spec.email = 'matt@toastyapps.com'
+  gem_spec.homepage = 'http://github.com/toastyapps/alchemist'
+  gem_spec.authors = ["Matthew Mongeau"]
+  gem_spec.files = PKG_FILES
+end
