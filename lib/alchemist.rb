@@ -145,7 +145,8 @@ module Alchemist
     },
     :frequency => {
       :hertz => 1.0, :hz => 1.0, :'Hz' => 1.0,
-      :revolutions_per_minute => 60.0, :rpm => 60.0
+      :revolutions_per_minute => 60.0, :rpm => 60.0,
+      :beats_per_minute => 60.0, :bpm => 60.0
     },
     :force => {
       :newton => 1.0, :newtons => 1.0, :N => 1.0,
