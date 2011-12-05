@@ -83,4 +83,10 @@ class AlchemistTest < Test::Unit::TestCase
     assert_equal(25.plato, 25.125.brix)
   end
   
+  def test_frequency
+    assert_equal(1.hz, 60.rpm)
+    assert_equal(60.hz, 3600.rpm)
+    assert_equal(2400.rpm, 40.hz)
+  end
+  
 end
