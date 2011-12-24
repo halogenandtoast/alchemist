@@ -461,7 +461,7 @@ module Alchemist
     private 
     def initialize value, unit_name, exponent = 1.0
       @value = value.to_f
-      @unit_name = unit_name
+      @unit_name = unit_name.is_a?(String) ? unit_name.to_sym : unit_name
       @exponent = exponent
     end
     
