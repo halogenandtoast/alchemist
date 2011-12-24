@@ -85,6 +85,10 @@ class AlchemistTest < Test::Unit::TestCase
     assert_equal(2.meters / 1.meters, 2.0)
   end
   
+  def test_square_meters_divided_by_centimeters
+    assert_equal( 100, (1.square_meter / 1.cm).to.meters.value )
+  end
+  
   def test_temperature
     assert_equal(1.fahrenheit, 1.fahrenheit)
     assert_in_delta(1.fahrenheit, 1.fahrenheit.to.fahrenheit, 1e-5)
