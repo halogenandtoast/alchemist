@@ -2,6 +2,7 @@ $:.unshift(File.dirname(__FILE__) + '../lib')
 
 require 'test/unit'
 require 'alchemist'
+require 'bigdecimal'
 
 class Float
   # truncates float to specified decimal places
@@ -45,7 +46,11 @@ class AlchemistTest < Test::Unit::TestCase
   end
   
   def test_lb_to_kg
-    assert_equal( 0.45359237.kg.to_f, 1.lb.to.kg.to_f )
+    assert_equal( BigDecimal.new('0.45359237'), BigDecimal( 1.lb.to.kg.to_s ) )
+  end
+  
+  def test_kg_to_lbs
+    assert_equal( BigDecimal.new('2.20462262184878'), BigDecimal(1.kg.to.lbs.to_s) )
   end
   
   def test_comparison
@@ -61,6 +66,10 @@ class AlchemistTest < Test::Unit::TestCase
   
   def test_meters_times_meters
     assert_equal(1.meter * 1.meter, 1.square_meter)
+  end
+  
+  def test_meters_times_centimeters
+    assert_equal( 1.meter * 2.centimeter,  0.01.square_meters )
   end
   
   def test_meters_times_meters_times_meters
