@@ -2,6 +2,9 @@ $:.unshift(File.dirname(__FILE__) + '../lib')
 
 require 'test/unit'
 require 'alchemist'
+
+# Used for better comparisons. 
+# http://veerasundaravel.wordpress.com/2010/03/30/ruby-float-comparison-issues/
 require 'bigdecimal'
 
 class Float
@@ -69,6 +72,7 @@ class AlchemistTest < Test::Unit::TestCase
   end
   
   def test_meters_times_centimeters
+    # Ensures that exponents are taken into account when calculating values.
     assert_equal( 1.meter * 2.centimeter,  0.01.square_meters )
   end
   
