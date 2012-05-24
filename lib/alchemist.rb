@@ -3,7 +3,7 @@ module Alchemist
   class << self
     attr_accessor :use_si
   end
-  
+
   @@si_units = %w[m meter metre meters metres liter litre litres liters l L farad farads F coulombs C gray grays Gy siemen siemens S mhos mho ohm ohms volt volts V ]
   @@si_units += %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd]
   @@si_units += %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa]
@@ -29,7 +29,7 @@ module Alchemist
     },
     :area => {
       :square_meter => 1.0, :square_meters => 1.0, :square_metre => 1.0, :square_metres => 1.0,
-      :acre => 4046.85642, :acres => 4046.85642, 
+      :acre => 4046.85642, :acres => 4046.85642,
       :are => 1.0e+2, :ares => 1.0e+2, :a => 1.0e+2,
       :barn => 1.0e-28, :barns => 1.0e-28, :b => 1.0e-28,
       :circular_mil => 5.067075e-10, :circular_mils => 5.067075e-10,
@@ -250,7 +250,7 @@ module Alchemist
     },
     :temperature => {
       :kelvin => 1.0, :K => 1.0,
-      
+
       :celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
       :degree_celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :degree_centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
       :degrees_celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :degrees_centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
@@ -258,7 +258,7 @@ module Alchemist
       :degree_fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
       :degrees_fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
       :rankine => 1.8, :rankines => 1.8
-    }, 
+    },
     :time => {
       :second => 1.0, :seconds => 1.0, :s => 1.0,
       :minute => 60.0, :minutes => 60.0, :min => 60.0,
@@ -321,9 +321,9 @@ module Alchemist
     :atto => 1e-18, :a => 1e-18,
     :zepto => 1e-21, :z => 1e-21,
     :yocto => 1e-24, :y => 1e-24,
-    
+
     # binary prefixes
-    
+
     :kibi => 2.0**10.0, :Ki => 2.0**10.0,
     :mebi => 2.0**20.0, :Mi => 2.0**20.0,
     :gibi => 2.0**30.0, :Gi => 2.0**30.0,
@@ -333,23 +333,23 @@ module Alchemist
     :zebi => 2.0**70.0, :Zi => 2.0**70.0,
     :yobi => 2.0**80.0, :Yi => 2.0**80.0
   }
-  
+
   def from(unit_name)
     send(unit_name)
   end
-  
+
   def self.unit_prefixes
     @@unit_prefixes
   end
-  
+
   def self.conversion_table
     @@conversion_table
   end
-  
+
   def self.operator_actions
     @@operator_actions
   end
-  
+
   class CompoundNumericConversion
     attr_accessor :numerators, :denominators
     def initialize(numerator)
@@ -359,7 +359,7 @@ module Alchemist
     end
     def *(value)
       case value
-      when Numeric 
+      when Numeric
          @coefficient *= value
          self
       when Alchemist::NumericConversion
@@ -367,7 +367,7 @@ module Alchemist
         return consolidate
       end
     end
-    
+
     def consolidate
       @numerators.each_with_index do |numerator, n|
         @denominators.each_with_index do |denominator, d|
@@ -389,11 +389,11 @@ module Alchemist
         self
       end
     end
-    
+
     def to_s
-      
+
     end
-    
+
     def method_missing(method, *attrs, &block)
       if Conversions[method]
         @denominators << 1.send(method)
@@ -401,27 +401,27 @@ module Alchemist
       end
     end
   end
-  
+
   class NumericConversion
     include Comparable
-    
+
     def per
       Alchemist::CompoundNumericConversion.new(self)
     end
-    
+
     def p
       per
     end
-    
+
     def to(type = nil)
       unless type
-        self 
+        self
       else
         send(type)
       end
     end
     alias_method :as, :to
-    
+
     def base(unit_type)
       if(Alchemist.conversion_table[unit_type][@unit_name].is_a?(Array))
         @exponent * Alchemist.conversion_table[unit_type][@unit_name][0].call(@value)
@@ -429,41 +429,41 @@ module Alchemist
         @exponent * @value * Alchemist.conversion_table[unit_type][@unit_name]
       end
     end
-    
+
     def unit_name
       @unit_name
     end
-    
+
     def to_s
       @value.to_s
     end
-    
+
     def value
       @value
     end
-    
+
     def to_f
       @value
     end
-    
+
     def ==(other)
       (self <=> other) == 0
     end
-    
+
     def <=>(other)
       (self.to_f * @exponent).to_f <=> other.to(@unit_name).to_f
     end
-    
-    private 
+
+    private
     def initialize value, unit_name, exponent = 1.0
       @value = value.to_f
       @unit_name = unit_name
       @exponent = exponent
     end
-    
+
     def method_missing unit_name, *args, &block
       exponent, unit_name = Alchemist.parse_prefix(unit_name)
-      if Conversions[ unit_name ]  
+      if Conversions[ unit_name ]
         types = Conversions[ @unit_name] & Conversions[ unit_name]
         if types[0] # assume first type
           if(Alchemist.conversion_table[types[0]][unit_name].is_a?(Array))
@@ -493,24 +493,24 @@ module Alchemist
           end
         end
         if unit_name == :/ && args[0].is_a?(NumericConversion)
-          raise Exception, "Incompatible Types" unless (Conversions[@unit_name] & Conversions[args[0].unit_name]).length > 0  
+          raise Exception, "Incompatible Types" unless (Conversions[@unit_name] & Conversions[args[0].unit_name]).length > 0
         end
         args.map!{|a| a.is_a?(NumericConversion) ? a.send(@unit_name).to_f / @exponent : a }
         @value = @value.send( unit_name, *args, &block )
-        
-        
+
+
         unit_name == :/ ? @value : self
       end
     end
   end
-  
+
   Conversions = {}
   def method_missing unit_name, *args, &block
     exponent, unit_name = Alchemist.parse_prefix(unit_name)
     Conversions[ unit_name ] || super( unit_name, *args, &block )
     NumericConversion.new self, unit_name, exponent
   end
-  
+
   def self.register(type, names, value)
     names = [names] unless names.is_a?(Array)
     value = value.is_a?(NumericConversion) ? value.base(type) : value
@@ -525,10 +525,10 @@ module Alchemist
 	  @@operator_actions[operation] ||= []
     @@operator_actions[operation] << [type, other_type, converted_type]
 	end
-  
+
   def self.parse_prefix(unit)
     @@unit_prefixes.each do |prefix, value|
-      if unit.to_s =~ /^#{prefix}.+/ && @@si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))        
+      if unit.to_s =~ /^#{prefix}.+/ && @@si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))
         if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !@use_si && value >= 1000.0 && value.to_i & -value.to_i != value
           value = 2 ** (10 * (Math.log(value) / Math.log(10)) / 3)
         end
@@ -537,7 +537,7 @@ module Alchemist
     end
     [1.0, unit]
   end
-  
+
   @@conversion_table.each do |type, conversions|
     conversions.each do |name, value|
       Conversions[name] ||= []
