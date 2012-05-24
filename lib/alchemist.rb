@@ -39,6 +39,7 @@ module Alchemist
   def self.register(type, names, value)
     names = [names] unless names.is_a?(Array)
     value = value.is_a?(NumericConversion) ? value.base(type) : value
+    Alchemist.conversion_table[type] ||= {}
     names.each do |name|
       Conversions[name] ||= []
       Conversions[name] << type
