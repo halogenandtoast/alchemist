@@ -434,16 +434,20 @@ module Alchemist
       @unit_name
     end
     
+    def exponent
+      @exponent
+    end
+    
     def to_s
       @value.to_s
     end
     
     def value
-      @value
+      @value * @exponent
     end
     
     def to_f
-      @value
+      @value * @exponent
     end
     
     def ==(other)
@@ -457,7 +461,7 @@ module Alchemist
     private 
     def initialize value, unit_name, exponent = 1.0
       @value = value.to_f
-      @unit_name = unit_name
+      @unit_name = unit_name.is_a?(String) ? unit_name.to_sym : unit_name
       @exponent = exponent
     end
     
@@ -476,11 +480,21 @@ module Alchemist
         end
       else
         if args[0] && args[0].is_a?(NumericConversion) && Alchemist.operator_actions[unit_name]
-          t1 = Conversions[ @unit_name ][0]
-          t2 = Conversions[ args[0].unit_name ][0]
+          first_unit_type = Conversions[ @unit_name ][0]
+          second_unit_type = Conversions[ args[0].unit_name ][0]
+
+          # In alchemist/compound.rb, find the right conversion where the units of the first
+          # item and the second item match. e.g. [:distance, :distance, :squared_meters]
           Alchemist.operator_actions[unit_name].each do |s1, s2, new_type|
-            if t1 == s1 && t2 == s2
-              return (@value * args[0].to_f).send(new_type)
+            if first_unit_type == s1 && second_unit_type == s2
+              first_unit_conversion_factor = 
+                Alchemist.conversion_table[first_unit_type][@unit_name]
+              second_unit_conversion_factor = 
+                Alchemist.conversion_table[second_unit_type][args.first.unit_name]
+                
+              first_value = @value / first_unit_conversion_factor
+              second_value = args[0].to_f * second_unit_conversion_factor
+              return ( eval( "#{first_value} #{unit_name.to_s} #{second_value}" ) ).send(new_type)
             end
           end
         end
