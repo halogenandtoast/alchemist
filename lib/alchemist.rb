@@ -35,6 +35,7 @@ module Alchemist
 
     names = Array(names)
     value = value.is_a?(NumericConversion) ? value.base(type) : value
+    Alchemist.conversion_table[type] ||= {}
 
     names.each do |name|
       conversions[name] ||= []

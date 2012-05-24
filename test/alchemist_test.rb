@@ -54,6 +54,10 @@ class AlchemistTest < Test::Unit::TestCase
   end
 
   def test_register
+    Alchemist.register :quux, :qaat, 1.0
+    Alchemist.register :quux, :quut, 3.0
+    assert_equal 1.quut, 3.qaat
+
     Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
     assert_equal( 1.beard_second, 5.angstroms)
     Alchemist.register(:temperature, :yeti, [Proc.new{|t| t + 1}, Proc.new{|t| t - 1}])
