@@ -48,7 +48,7 @@ module Alchemist
     end
     
     def <=>(other)
-      (self.to_f * @exponent).to_f <=> other.to(@unit_name).to_f
+      other.respond_to?(:to) && (self.to_f * @exponent).to_f <=> other.to(@unit_name).to_f
     end
     
     private 

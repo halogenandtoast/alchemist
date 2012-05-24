@@ -15,6 +15,7 @@ class AlchemistTest < Test::Unit::TestCase
   
   def test_equivalence
     assert_equal(1.m, 1.meter)
+    assert_not_equal 1.meter, false
   end
   
   def test_bit_and_bytes
