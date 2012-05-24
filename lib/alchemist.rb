@@ -434,16 +434,20 @@ module Alchemist
       @unit_name
     end
     
+    def exponent
+      @exponent
+    end
+    
     def to_s
       @value.to_s
     end
     
     def value
-      @value
+      @value * @exponent
     end
     
     def to_f
-      @value
+      @value * @exponent
     end
     
     def ==(other)
