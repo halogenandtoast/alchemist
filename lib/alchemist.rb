@@ -36,6 +36,9 @@ module Alchemist
     @@operator_actions
   end
 
+  def self.si_units
+    @@si_units
+  end
 
   def self.register(type, names, value)
     names = [names] unless names.is_a?(Array)
@@ -48,13 +51,13 @@ module Alchemist
   end
 
 	def self.register_operation_conversions type, other_type, operation, converted_type
-	  @@operator_actions[operation] ||= []
-    @@operator_actions[operation] << [type, other_type, converted_type]
+	  operator_actions[operation] ||= []
+    operator_actions[operation] << [type, other_type, converted_type]
 	end
 
   def self.parse_prefix(unit)
-    @@unit_prefixes.each do |prefix, value|
-      if unit.to_s =~ /^#{prefix}.+/ && @@si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))
+    unit_prefixes.each do |prefix, value|
+      if unit.to_s =~ /^#{prefix}.+/ && si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))
         if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !@use_si && value >= 1000.0 && value.to_i & -value.to_i != value
           value = 2 ** (10 * (Math.log(value) / Math.log(10)) / 3)
         end
@@ -64,7 +67,7 @@ module Alchemist
     [1.0, unit]
   end
 
-  @@conversion_table.each do |type, conversions|
+  conversion_table.each do |type, conversions|
     conversions.each do |name, value|
       Conversions[name] ||= []
       Conversions[name] << type
