@@ -40,18 +40,17 @@ now do comparisons without having to convert to floats like so:
 Installation
 ------------
 
-    gem sources -a http://gemcutter.org
-    sudo gem install alchemist
+    gem install alchemist
 
 Usage
 -----
 
     require 'rubygems'
-    require 'alchemist' 
+    require 'alchemist'
 
 Or if you’re using rails
 
-    config.gem 'alchemist', :source => 'http://gemcutter.org'
+    gem 'alchemist'
 
 Alchemist has conversions for:
 ------------------------------
