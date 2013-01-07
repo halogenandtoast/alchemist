@@ -46,10 +46,6 @@ module Alchemist
       @value
     end
 
-    def ==(other)
-      (self <=> other) == 0
-    end
-
     def <=>(other)
       (self.to_f * exponent).to_f <=> other.to(unit_name).to_f
     end
