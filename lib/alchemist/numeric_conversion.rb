@@ -17,10 +17,12 @@ module Alchemist
     alias_method :as, :to
 
     def base(unit_type)
-      if(Alchemist.conversion_table[unit_type][unit_name].is_a?(Array))
-        exponent * Alchemist.conversion_table[unit_type][unit_name][0].call(value)
+      conversion_base = conversion_base_for(unit_type)
+
+      if(conversion_base.is_a?(Array))
+        exponent * conversion_base[0].call(value)
       else
-        exponent * value * Alchemist.conversion_table[unit_type][unit_name]
+        exponent * value * conversion_base
       end
     end
 
@@ -57,6 +59,10 @@ module Alchemist
       @value = value.to_f
       @unit_name = unit_name
       @exponent = exponent
+    end
+
+    def conversion_base_for unit_type
+      Alchemist.conversion_table[unit_type][unit_name]
     end
 
     def method_missing unit_name, *args, &block
