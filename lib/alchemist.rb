@@ -12,10 +12,6 @@ module Alchemist
     @use_si = use_si
   end
 
-  def self.use_binary? unit
-    !use_si && measurement_for(unit).include?(:information_storage)
-  end
-
   def self.unit_prefixes
     UNIT_PREFIXES
   end
@@ -73,13 +69,20 @@ module Alchemist
     end
   end
 
+  private
+
+  def self.use_binary_prefix? unit
+    !use_si && measurement_for(unit).include?(:information_storage)
+  end
+
+
   def self.prefix_matcher
     keys = unit_prefixes.keys.map(&:to_s).sort{ |a,b| b.length <=> a.length }
     %r{^(#{keys.join('|')})?(.+)}
   end
 
   def self.prefixed_value_for prefix, unit
-    if use_binary?(unit)
+    if use_binary_prefix? unit
       binary_prefixes[prefix]
     else
       unit_prefixes[prefix]
