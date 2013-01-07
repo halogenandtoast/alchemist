@@ -60,6 +60,7 @@ module Alchemist
 
     def method_missing unit_name, *args, &block
       exponent, unit_name = Alchemist.parse_prefix(unit_name)
+
       if Conversions[ unit_name ]
         types = Conversions[ @unit_name] & Conversions[ unit_name]
         if types[0] # assume first type

@@ -1,11 +1,13 @@
 module Alchemist
   class CompoundNumericConversion
     attr_accessor :numerators, :denominators
+
     def initialize(numerator)
-      @coefficient = 1 #* numerator.to_f
+      @coefficient = 1
       @numerators = [numerator]
       @denominators = []
     end
+
     def *(value)
       case value
       when Numeric
@@ -37,10 +39,6 @@ module Alchemist
       else
         self
       end
-    end
-
-    def to_s
-
     end
 
     def method_missing(method, *attrs, &block)

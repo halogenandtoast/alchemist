@@ -6,16 +6,6 @@ require "alchemist/numeric_ext"
 module Alchemist
   Conversions = {}
 
-  def from(unit_name)
-    send(unit_name.to_sym)
-  end
-
-  def method_missing unit_name, *args, &block
-    exponent, unit_name = Alchemist.parse_prefix(unit_name)
-    Conversions[ unit_name ] || super( unit_name, *args, &block )
-    NumericConversion.new self, unit_name, exponent
-  end
-
   def self.use_si
     @use_si ||= false
   end
@@ -41,8 +31,8 @@ module Alchemist
   end
 
   def self.register(type, names, value)
-    names = Array(names)
 
+    names = Array(names)
     value = value.is_a?(NumericConversion) ? value.base(type) : value
 
     names.each do |name|
@@ -52,25 +42,37 @@ module Alchemist
     end
   end
 
-	def self.register_operation_conversions type, other_type, operation, converted_type
-	  operator_actions[operation] ||= []
+  def self.register_operation_conversions type, other_type, operation, converted_type
+    operator_actions[operation] ||= []
     operator_actions[operation] << [type, other_type, converted_type]
-	end
+  end
 
   def self.parse_prefix(unit)
+    unit = unit.to_s
     unit_prefixes.each do |prefix, value|
-      if unit.to_s =~ /^#{prefix}.+/ && si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))
-        if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !use_si && value >= 1e3 && power_of_2?(value)
+      if starts_with_prefix?(unit, prefix) && si_units.include?(remove_prefix(unit, prefix))
+        unit = remove_prefix(unit, prefix).to_sym
+
+        if !(Conversions[ unit ] & [ :information_storage ]).empty? && !use_si && value >= 1e3 && power_of_2?(value)
           value = convert_to_binary(value)
         end
-        return [value, unit.to_s.gsub(/^#{prefix}/,'').to_sym]
+
+        return [value, unit]
       end
     end
-    [1.0, unit]
+    [1.0, unit.to_sym]
+  end
+
+  def self.remove_prefix unit, prefix
+    unit.gsub(/^#{prefix}/, '')
   end
 
   def self.power_of_2? value
     value.to_i & -value.to_i != value
+  end
+
+  def self.starts_with_prefix? unit, prefix
+    unit.to_s =~ /^#{prefix}.+/
   end
 
   def self.convert_to_binary value
