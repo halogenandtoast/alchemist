@@ -12,8 +12,16 @@ module Alchemist
     @use_si = use_si
   end
 
+  def self.use_binary? unit
+    !use_si && measurement_for(unit).include?(:information_storage)
+  end
+
   def self.unit_prefixes
     UNIT_PREFIXES
+  end
+
+  def self.binary_prefixes
+    BINARY_PREFIXES
   end
 
   def self.conversion_table
@@ -33,7 +41,7 @@ module Alchemist
   end
 
   def self.measurement_for name
-    conversions[ name ]
+    conversions[ name.to_sym ]
   end
 
   def self.register(type, names, value)
@@ -54,36 +62,28 @@ module Alchemist
   end
 
   def self.parse_prefix(unit)
-    unit = unit.to_s
-    unit_prefixes.each do |prefix, value|
-      if starts_with_prefix?(unit, prefix) && si_units.include?(remove_prefix(unit, prefix))
-        unit = remove_prefix(unit, prefix).to_sym
+    matches = unit.to_s.match(prefix_matcher)
+    prefix, parsed_unit = matches.captures
 
-        if !(measurement_for(unit) & [ :information_storage ]).empty? && !use_si && value >= 1e3 && power_of_2?(value)
-          value = convert_to_binary(value)
-        end
-
-        return [value, unit]
-      end
+    if prefix && si_units.include?(parsed_unit)
+      value = prefixed_value_for(prefix.to_sym, parsed_unit)
+      [value, parsed_unit.to_sym]
+    else
+      [1, unit]
     end
-    [1.0, unit.to_sym]
   end
 
-  def self.remove_prefix unit, prefix
-    unit.gsub(/^#{prefix}/, '')
+  def self.prefix_matcher
+    keys = unit_prefixes.keys.map(&:to_s).sort{ |a,b| b.length <=> a.length }
+    %r{^(#{keys.join('|')})?(.+)}
   end
 
-  def self.power_of_2? value
-    value.to_i & -value.to_i != value
-  end
-
-  def self.starts_with_prefix? unit, prefix
-    unit.to_s =~ /^#{prefix}.+/
-  end
-
-  def self.convert_to_binary value
-    exponent = Math.log10(value)
-    2 ** (10 * (exponent / 3))
+  def self.prefixed_value_for prefix, unit
+    if use_binary?(unit)
+      binary_prefixes[prefix]
+    else
+      unit_prefixes[prefix]
+    end
   end
 
   conversion_table.each do |type, table_conversions|

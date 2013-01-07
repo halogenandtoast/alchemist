@@ -24,7 +24,7 @@ class AlchemistTest < Test::Unit::TestCase
     assert_in_delta(1.MB.to.kB.to_f, 1024.0, 1e-5)
     assert_in_delta(1.MB.to.b.to_f, 8388608.0, 1e-5)
     assert_in_delta(1.GB.to.B.to_f, 1073741824.0, 1e-5)
-    assert_in_delta(1.MiB.to.KiB.to_f, 1024.0, 1e-5)
+    assert_in_delta(1.MiB.to(:KiB).to_f, 1024.0, 1e-5)
     assert_in_delta(1.MiB.to.b.to_f, 8388608.0, 1e-5)
     assert_in_delta(1.GiB.to.B.to_f, 1073741824.0, 1e-5)
     Alchemist::use_si = true
