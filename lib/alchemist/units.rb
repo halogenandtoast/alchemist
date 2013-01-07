@@ -1,3 +1,22 @@
+# TODO: This file needs lots of help.
+# I want to get rid of the hashes and introduce
+# some way to load on the Alchemist module
+#
+# For example:
+#
+#   Alchemist.define(:absorbed_radiation_dose) do
+#     unit :gray, 1.0 do
+#       plural :grays
+#       short :Gy
+#     end
+#
+#     unit :rad, 1e-2 do
+#       plural :rads
+#     end
+#   end
+#
+# While more verbose, I feel like it will be more flexible
+
 module Alchemist
   SI_UNITS = %w[
     m meter metre meters metres liter litre litres liters l L

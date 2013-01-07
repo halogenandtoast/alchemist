@@ -51,6 +51,7 @@ module Alchemist
       Alchemist.conversion_table[unit_type][unit_name]
     end
 
+    # TODO: lots of work here
     def method_missing unit_name, *args, &block
       exponent, unit_name = Alchemist.parse_prefix(unit_name)
 
