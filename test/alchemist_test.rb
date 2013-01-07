@@ -3,6 +3,7 @@ $:.unshift(File.dirname(__FILE__) + '../lib')
 require 'test/unit'
 require 'alchemist'
 
+# TODO: Remove this
 class Float
   # truncates float to specified decimal places
   def truncate(dec = 0)

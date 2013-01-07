@@ -3,7 +3,7 @@ module Alchemist
   @@si_units += %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd]
   @@si_units += %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa]
   @@si_units += %w[becquerel becquerels Bq curie curies Ci]
-  @@operator_actions = {}
+
   @@conversion_table = {
     :absorbed_radiation_dose => {
       :gray => 1.0, :grays => 1.0, :Gy => 1.0,
@@ -299,6 +299,7 @@ module Alchemist
       :sydharb => 5.0e+11, :sydharbs => 5.0e+11
     }
   }
+
   @@unit_prefixes = {
     :googol => 1e+100,
     :yotta => 1e+24, :Y => 1e+24,

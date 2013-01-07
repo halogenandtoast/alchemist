@@ -7,7 +7,7 @@ module Alchemist
   Conversions = {}
 
   def from(unit_name)
-    send(unit_name)
+    send(unit_name.to_sym)
   end
 
   def method_missing unit_name, *args, &block
@@ -33,7 +33,7 @@ module Alchemist
   end
 
   def self.operator_actions
-    @@operator_actions
+    @@operator_actions ||= {}
   end
 
   def self.si_units
@@ -41,8 +41,10 @@ module Alchemist
   end
 
   def self.register(type, names, value)
-    names = [names] unless names.is_a?(Array)
+    names = Array(names)
+
     value = value.is_a?(NumericConversion) ? value.base(type) : value
+
     names.each do |name|
       Conversions[name] ||= []
       Conversions[name] << type
@@ -58,13 +60,22 @@ module Alchemist
   def self.parse_prefix(unit)
     unit_prefixes.each do |prefix, value|
       if unit.to_s =~ /^#{prefix}.+/ && si_units.include?(unit.to_s.gsub(/^#{prefix}/,''))
-        if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !@use_si && value >= 1000.0 && value.to_i & -value.to_i != value
-          value = 2 ** (10 * (Math.log(value) / Math.log(10)) / 3)
+        if !(Conversions[ unit.to_s.gsub(/^#{prefix}/,'').to_sym ] & [ :information_storage ]).empty? && !use_si && value >= 1e3 && power_of_2?(value)
+          value = convert_to_binary(value)
         end
         return [value, unit.to_s.gsub(/^#{prefix}/,'').to_sym]
       end
     end
     [1.0, unit]
+  end
+
+  def self.power_of_2? value
+    value.to_i & -value.to_i != value
+  end
+
+  def self.convert_to_binary value
+    exponent = Math.log10(value)
+    2 ** (10 * (exponent / 3))
   end
 
   conversion_table.each do |type, conversions|
