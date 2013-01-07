@@ -15,15 +15,15 @@ module Alchemist
   end
 
   def self.unit_prefixes
-    @@unit_prefixes
+    UNIT_PREFIXES
   end
 
   def self.conversion_table
-    @@conversion_table
+    @conversion_table ||= CONVERSION_TABLE.dup
   end
 
   def self.operator_actions
-    @@operator_actions ||= {}
+    @operator_actions ||= {}
   end
 
   def self.si_units

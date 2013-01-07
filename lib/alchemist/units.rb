@@ -4,7 +4,7 @@ module Alchemist
   %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa] +
   %w[becquerel becquerels Bq curie curies Ci]
 
-  @@conversion_table = {
+  CONVERSION_TABLE = {
     :absorbed_radiation_dose => {
       :gray => 1.0, :grays => 1.0, :Gy => 1.0,
       :rad => 1.0e-2, :rads => 1.0e-2
@@ -327,7 +327,7 @@ module Alchemist
     }
   }
 
-  @@unit_prefixes = {
+  UNIT_PREFIXES = {
     :googol => 1e+100,
     :yotta => 1e+24, :Y => 1e+24,
     :zetta => 1e+21, :Z => 1e+21,
