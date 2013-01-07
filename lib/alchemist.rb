@@ -33,7 +33,7 @@ module Alchemist
   end
 
   def self.conversions
-    @conversions ||= {}
+    @conversions ||= load_conversions
   end
 
   def self.measurement_for name
@@ -89,11 +89,15 @@ module Alchemist
     end
   end
 
-  conversion_table.each do |type, table_conversions|
-    table_conversions.each do |name, value|
-      conversions[name] ||= []
-      conversions[name] << type
+  def self.load_conversions
+    conversions = {}
+    conversion_table.each do |type, table_conversions|
+      table_conversions.each do |name, value|
+        conversions[name] ||= []
+        conversions[name] << type
+      end
     end
+    conversions
   end
 end
 
