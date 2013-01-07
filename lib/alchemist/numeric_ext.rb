@@ -3,7 +3,7 @@ module Alchemist
     def method_missing unit_name, *args, &block
       exponent, unit_name = Alchemist.parse_prefix(unit_name)
       Alchemist.measurement_for(unit_name) || super( unit_name, *args, &block )
-      NumericConversion.new self, unit_name, exponent
+      Alchemist.measurement self, unit_name, exponent
     end
   end
 end

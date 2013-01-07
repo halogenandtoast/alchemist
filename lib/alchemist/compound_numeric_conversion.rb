@@ -19,6 +19,7 @@ module Alchemist
       end
     end
 
+    # TODO: minify this
     def consolidate
       @numerators.each_with_index do |numerator, n|
         @denominators.each_with_index do |denominator, d|
@@ -43,7 +44,7 @@ module Alchemist
 
     def method_missing(method, *attrs, &block)
       if Alchemist.measurement_for(method)
-        @denominators << 1.send(method)
+        @denominators << Alchemist.measurement(1, method)
         consolidate
       end
     end

@@ -4,6 +4,10 @@ require "alchemist/numeric_conversion"
 require "alchemist/numeric_ext"
 
 module Alchemist
+  def self.measurement value, unit, exponent = 1.0
+    NumericConversion.new value, unit, exponent
+  end
+
   def self.use_si
     @use_si ||= false
   end
