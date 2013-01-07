@@ -27,7 +27,7 @@ module Alchemist
   end
 
   def self.si_units
-    @@si_units
+    SI_UNITS
   end
 
   def self.register(type, names, value)

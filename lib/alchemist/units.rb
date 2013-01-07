@@ -1,14 +1,15 @@
 module Alchemist
-  @@si_units = %w[m meter metre meters metres liter litre litres liters l L farad farads F coulombs C gray grays Gy siemen siemens S mhos mho ohm ohms volt volts V ]
-  @@si_units += %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd]
-  @@si_units += %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa]
-  @@si_units += %w[becquerel becquerels Bq curie curies Ci]
+  SI_UNITS = %w[m meter metre meters metres liter litre litres liters l L farad farads F coulombs C gray grays Gy siemen siemens S mhos mho ohm ohms volt volts V ] +
+    %w[joule joules J newton newtons N lux lx henry henrys H b B bits bytes bit byte lumen lumens lm candela candelas cd] +
+  %w[tesla teslas T gauss Gs G gram gramme grams grammes g watt watts W pascal pascals Pa] +
+  %w[becquerel becquerels Bq curie curies Ci]
 
   @@conversion_table = {
     :absorbed_radiation_dose => {
       :gray => 1.0, :grays => 1.0, :Gy => 1.0,
       :rad => 1.0e-2, :rads => 1.0e-2
     },
+
     :angles => {
       :radian => 1.0, :radians => 1.0,
       :degree => Math::PI / 180.0, :degrees => Math::PI / 180.0,
@@ -22,6 +23,7 @@ module Alchemist
       #unusual measurements
       :furman => 9.58737992858887e-5, :furmans => 9.58737992858887e-5
     },
+
     :area => {
       :square_meter => 1.0, :square_meters => 1.0, :square_metre => 1.0, :square_metres => 1.0,
       :acre => 4046.85642, :acres => 4046.85642,
@@ -34,17 +36,20 @@ module Alchemist
       :square_mile => 2.589988e+6, :square_miles => 2.589988e+6,
       :square_yard => 0.83612736, :square_yards => 0.83612736
     },
+
     :capacitance => {
       :farad => 1.0, :farads => 1.0, :F => 1.0,
       :abfarad => 1.0e+9, :emu_of_capacitance => 1.0e+9, :abfarads => 1.0e+9, :emus_of_capacitance => 1.0e+9,
       :statfarad => 1.112650e-12, :esu_of_capacitance => 1.112650e-12, :statfarads => 1.112650e-12, :esus_of_capacitance => 1.112650e-12
     },
+
     :density => {
       :specific_gravity => 1, :sg => 1,
       :brix     => [Proc.new{ |d| -261.3 / (d - 261.3) }, Proc.new{ |d| 261.3 - (261.3 / d) }],
       :plato    => [Proc.new{ |d| -260.0 / (d - 260.0) }, Proc.new{ |d| 260.0 - (260.0 / d) }],
       :baume    => [Proc.new{ |d| -145.0 / (d - 145.0) }, Proc.new{ |d| 145.0 - (145.0 / d) }]
     },
+
     :distance => {
       :meter => 1.0, :metres => 1.0, :meters => 1.0, :m => 1.0,
       :fermi => 1.0e-15, :fermis => 1.0e-15,
@@ -88,10 +93,12 @@ module Alchemist
       :length_of_a_double_decker_bus => 8.4, :height_of_a_double_decker_bus => 4.4,
       :smoot => 1.7018, :smoots => 1.7018
     },
+
     :dose_equivalent => {
       :sievert => 1.0, :sieverts => 1.0, :Si => 1.0,
       :rem => 1.0e-2, :rems => 1.0e-2
     },
+
     :electric_charge => {
       :coulomb => 1.0, :coulombs => 1.0, :C => 1.0,
       :abcoulomb => 10.0, :abcoulombs => 10.0,
@@ -100,21 +107,25 @@ module Alchemist
       :franklin => 3.335641e-10, :franklins => 3.335641e-10, :Fr => 3.335641e-10,
       :statcoulomb => 3.335641e-10, :statcoulombs => 3.335641e-10
     },
+
     :electric_conductance => {
       :siemen => 1.0, :siemens => 1.0, :S => 1.0, :mho => 1.0,
       :abmho => 1.0e+9, :absiemen => 1.0e+9, :absiemens => 1.0e+9,
       :statmho => 1.112650e-12, :statsiemen => 1.112650e-12, :statsiemens => 1.112650e-12
     },
+
     :electrical_impedance => {
       :ohm => 1.0, :ohms => 1.0,
       :abohm => 1.0e-9, :emu_of_resistance => 1.0e-9, :abohms => 1.0e-9, :emus_of_resistance => 1.0e-9,
       :statohm => 8.987552e+11, :esu_of_resistance => 8.987552e+11, :statohms => 8.987552e+11, :esus_of_resistance => 8.987552e+11
     },
+
     :electromotive_force => {
       :volt => 1.0, :volts => 1.0, :V => 1.0,
       :abvolt => 1.0e-8, :emu_of_electric_potential => 1.0e-8, :abvolts => 1.0e-8, :emus_of_electric_potential => 1.0e-8,
       :statvolt => 2.997925e+2, :esu_of_electric_potential => 2.997925e+2, :statvolts => 2.997925e+2, :esus_of_electric_potential => 2.997925e+2
     },
+
     :energy => {
       :joule => 1.0, :joules => 1.0, :J => 1.0, :watt_second => 1.0, :watt_seconds => 1.0,
       :watt_hour => 3.6e+3, :watt_hours => 3.6e+3,
@@ -138,11 +149,13 @@ module Alchemist
       #unusual measurements
       :foe => 1e+44, :foes => 1e+44
     },
+
     :frequency => {
       :hertz => 1.0, :hz => 1.0, :'Hz' => 1.0,
       :revolutions_per_minute => 1/60.0, :rpm => 1/60.0,
       :beats_per_minute => 1/60.0, :bpm => 1/60.0
     },
+
     :force => {
       :newton => 1.0, :newtons => 1.0, :N => 1.0,
       :dyne => 1.0e-5, :dynes => 1.0e-5, :dyn => 1.0e-5,
@@ -153,37 +166,45 @@ module Alchemist
       :pound_force => 4.448222, :lbf => 4.448222,
       :ton_force => 8.896443e+3
     },
+
     :illuminance => {
       :lux => 1.0, :lx => 1.0, :lumens_per_square_metre => 1.0, :lumens_per_square_meter => 1.0, :lumen_per_square_metre => 1.0, :lumen_per_square_meter => 1.0,
       :phot => 1.0e+4, :phots => 1.0e+4, :ph => 1.0e+4,
       :lumens_per_square_foot => 10.76391, :footcandle => 10.76391, :lumen_per_square_foot => 10.76391, :footcandles => 10.76391
     },
+
    :inductance => {
       :henry => 1.0, :henrys => 1.0, :H => 1.0,
       :abhenrys => 1.0e-9, :emus_of_inductance => 1.0e-9, :abhenry => 1.0e-9, :emu_of_inductance => 1.0e-9,
       :stathenrys => 8.987552e+11, :esus_of_inductance => 8.987552e+11, :stathenry => 8.987552e+11, :esu_of_inductance => 8.987552e+11
     },
+
     :information_storage => {
       :bit => 1.0, :bits => 1.0, :b => 1.0,
       :byte => 8.0, :bytes => 8.0, :B => 8.0,
       :nibbles => 4.0, :nybbles => 4.0
     },
+
     :luminous_flux => {
       :lumen => 1.0, :lumens => 1.0, :lm => 1.0
     },
+
     :luminous_intensity => {
       :candela => 1.0, :candelas => 1.0, :cd => 1.0
     },
+
     :magnetic_flux => {
       :webers => 1.0, :Wb => 1.0,
       :maxwells => 1.0e-8, :Mx => 1.0e-8,
       :unit_poles => 1.256637e-7
     },
+
     :magnetic_inductance => {
       :tesla => 1.0, :teslas => 1.0, :T => 1.0,
       :gamma => 1.0e-9, :gammas => 1.0e-9,
       :gauss => 1.0e-4, :Gs => 1.0e-4, :G => 1.0e-4
     },
+
     :mass => {
       :gram => 1.0, :gramme => 1.0, :grams => 1.0, :grammes => 1.0, :g => 1.0,
       :carat => 2.0e-1, :carats => 2.0e-1,
@@ -198,6 +219,7 @@ module Alchemist
       #unusual measurements
       :elephant => 5443108.44, :elephants => 5443108.44
     },
+
     :power => {
       :watt => 1.0, :watts => 1.0, :W => 1.0,
       :british_thermal_unit_per_hour => 2.928751e-1, :british_thermal_units_per_hour => 2.928751e-1,
@@ -220,6 +242,7 @@ module Alchemist
       :kilocalorie_per_second => 4.184e+3, :kilocalories_per_second => 4.184e+3,
       :ton_of_refrigeration => 3.516853e+3, :tons_of_refrigeration => 3.516853e+3
     },
+
     :pressure => {
       :pascal => 1.0, :pascals => 1.0, :Pa => 1.0,
       :atmosphere => 1.01325e+5, :atmospheres => 1.01325e+5,
@@ -244,10 +267,12 @@ module Alchemist
       :pound_force_per_square_inch => 6.894757e+3, :psi => 6.894757e+3,
       :torr => 1.333224e+2, :torrs => 1.333224e+2
     },
+
     :radioactivity => {
       :becquerel => 1.0, :becquerels => 1.0, :Bq => 1.0,
       :curie => 3.7e+10, :curies => 3.7e+10, :Ci => 3.7e+10
     },
+
     :temperature => {
       :kelvin => 1.0, :K => 1.0,
 
@@ -259,6 +284,7 @@ module Alchemist
       :degrees_fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
       :rankine => 1.8, :rankines => 1.8
     },
+
     :time => {
       :second => 1.0, :seconds => 1.0, :s => 1.0,
       :minute => 60.0, :minutes => 60.0, :min => 60.0,
@@ -277,6 +303,7 @@ module Alchemist
       :megaannum => 3.1536e+16, :Ma => 3.1536e+16, :megaannums => 3.1536e+16,
       :galactic_year => 7.884e+18, :galactic_years => 7.884e+18, :GY => 7.884e+18
     },
+
     :volume => {
       :litre => 1.0, :liter => 1.0, :litres => 1.0, :liters => 1.0, :l => 1.0, :L => 1.0,
       :barrel => 1.589873e+2, :barrels => 1.589873e+2,

@@ -1,45 +1,34 @@
 module Alchemist
   class NumericConversion
+    attr_reader :unit_name, :exponent, :value
     include Comparable
 
     def per
-      Alchemist::CompoundNumericConversion.new(self)
+      CompoundNumericConversion.new self
     end
-    alias_method :p, :per
+    alias_method :p, :per # TODO: deprecate p
 
-    def to(type = nil)
+    def to type = nil
       unless type
         self
       else
-        send(type)
+        send type
       end
     end
-    alias_method :as, :to
+    alias_method :as, :to # TODO: deprecate as
 
-    def base(unit_type)
+    def base unit_type
       conversion_base = conversion_base_for(unit_type)
 
-      if(conversion_base.is_a?(Array))
-        exponent * conversion_base[0].call(value)
+      if conversion_base.is_a?(Array)
+        exponent * conversion_base.first.call(value)
       else
         exponent * value * conversion_base
       end
     end
 
-    def unit_name
-      @unit_name
-    end
-
     def to_s
       value.to_s
-    end
-
-    def exponent
-      @exponent
-    end
-
-    def value
-      @value
     end
 
     def to_f
@@ -51,6 +40,7 @@ module Alchemist
     end
 
     private
+
     def initialize value, unit_name, exponent = 1.0
       @value = value.to_f
       @unit_name = unit_name
