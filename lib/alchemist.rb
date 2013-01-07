@@ -4,8 +4,6 @@ require "alchemist/numeric_conversion"
 require "alchemist/numeric_ext"
 
 module Alchemist
-  Conversions = {}
-
   def self.use_si
     @use_si ||= false
   end
@@ -30,14 +28,22 @@ module Alchemist
     SI_UNITS
   end
 
+  def self.conversions
+    @conversions ||= {}
+  end
+
+  def self.measurement_for name
+    conversions[ name ]
+  end
+
   def self.register(type, names, value)
 
     names = Array(names)
     value = value.is_a?(NumericConversion) ? value.base(type) : value
 
     names.each do |name|
-      Conversions[name] ||= []
-      Conversions[name] << type
+      conversions[name] ||= []
+      conversions[name] << type
       Alchemist.conversion_table[type][name] = value
     end
   end
@@ -53,7 +59,7 @@ module Alchemist
       if starts_with_prefix?(unit, prefix) && si_units.include?(remove_prefix(unit, prefix))
         unit = remove_prefix(unit, prefix).to_sym
 
-        if !(Conversions[ unit ] & [ :information_storage ]).empty? && !use_si && value >= 1e3 && power_of_2?(value)
+        if !(measurement_for(unit) & [ :information_storage ]).empty? && !use_si && value >= 1e3 && power_of_2?(value)
           value = convert_to_binary(value)
         end
 
@@ -80,10 +86,10 @@ module Alchemist
     2 ** (10 * (exponent / 3))
   end
 
-  conversion_table.each do |type, conversions|
-    conversions.each do |name, value|
-      Conversions[name] ||= []
-      Conversions[name] << type
+  conversion_table.each do |type, table_conversions|
+    table_conversions.each do |name, value|
+      conversions[name] ||= []
+      conversions[name] << type
     end
   end
 end

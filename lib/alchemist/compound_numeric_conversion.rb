@@ -24,7 +24,7 @@ module Alchemist
         @denominators.each_with_index do |denominator, d|
           next if numerator.is_a?(Numeric)
           next if denominator.is_a?(Numeric)
-          if (Conversions[numerator.unit_name] & Conversions[denominator.unit_name]).length > 0
+          if (Alchemist.measurement_for(numerator.unit_name) & Alchemist.measurement_for(denominator.unit_name)).length > 0
             value = numerator / denominator
             @numerators.delete_at(n)
             @denominators.delete_at(d)
@@ -42,7 +42,7 @@ module Alchemist
     end
 
     def method_missing(method, *attrs, &block)
-      if Conversions[method]
+      if Alchemist.measurement_for(method)
         @denominators << 1.send(method)
         consolidate
       end

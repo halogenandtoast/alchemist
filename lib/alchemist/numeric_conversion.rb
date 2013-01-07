@@ -54,8 +54,8 @@ module Alchemist
     def method_missing unit_name, *args, &block
       exponent, unit_name = Alchemist.parse_prefix(unit_name)
 
-      if Conversions[ unit_name ]
-        types = Conversions[ self.unit_name ] & Conversions[ unit_name ]
+      if Alchemist.measurement_for(unit_name)
+        types = Alchemist.measurement_for(self.unit_name) & Alchemist.measurement_for(unit_name)
         if types[0] # assume first type
           if(Alchemist.conversion_table[types[0]][unit_name].is_a?(Array))
             Alchemist.conversion_table[types[0]][unit_name][1].call(base(types[0]))
@@ -67,8 +67,8 @@ module Alchemist
         end
       else
         if args[0] && args[0].is_a?(NumericConversion) && Alchemist.operator_actions[unit_name]
-          t1 = Conversions[ self.unit_name ][0]
-          t2 = Conversions[ args[0].unit_name ][0]
+          t1 = Alchemist.measurement_for(self.unit_name)[0]
+          t2 = Alchemist.measurement_for(args[0].unit_name)[0]
           Alchemist.operator_actions[unit_name].each do |s1, s2, new_type|
             if t1 == s1 && t2 == s2
               return (value * args[0].to_f).send(new_type)
@@ -84,7 +84,7 @@ module Alchemist
           end
         end
         if unit_name == :/ && args[0].is_a?(NumericConversion)
-          raise Exception, "Incompatible Types" unless (Conversions[ self.unit_name ] & Conversions[ args[0].unit_name ]).length > 0
+          raise Exception, "Incompatible Types" unless (Alchemist.measurement_for(self.unit_name) & Alchemist.measurement_for(args[0].unit_name)).length > 0
         end
         args.map!{|a| a.is_a?(NumericConversion) ? a.send(self.unit_name).to_f / exponent : a }
         @value = value.send( unit_name, *args, &block )
