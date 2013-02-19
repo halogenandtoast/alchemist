@@ -24,22 +24,53 @@ module Alchemist
       {
         :density => {
           :specific_gravity => 1, :sg => 1,
-          :brix     => [Proc.new{ |d| -261.3 / (d - 261.3) }, Proc.new{ |d| 261.3 - (261.3 / d) }],
-          :plato    => [Proc.new{ |d| -260.0 / (d - 260.0) }, Proc.new{ |d| 260.0 - (260.0 / d) }],
-          :baume    => [Proc.new{ |d| -145.0 / (d - 145.0) }, Proc.new{ |d| 145.0 - (145.0 / d) }]
+          :brix     => [lambda{ |d| -261.3 / (d - 261.3) }, lambda{ |d| 261.3 - (261.3 / d) }],
+          :plato    => [lambda{ |d| -260.0 / (d - 260.0) }, lambda{ |d| 260.0 - (260.0 / d) }],
+          :baume    => [lambda{ |d| -145.0 / (d - 145.0) }, lambda{ |d| 145.0 - (145.0 / d) }]
         },
-        :temperature => {
+        :temperature => temperature
+      }
+    end
+
+    def temperature
+      {
           :kelvin => 1.0, :K => 1.0,
 
-          :celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
-          :degree_celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :degree_centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
-          :degrees_celsius => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }], :degrees_centrigrade => [Proc.new{ |t| t + 273.15 }, Proc.new{ |t| t - 273.15 }],
-          :fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
-          :degree_fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
-          :degrees_fahrenheit => [Proc.new{ |t| (t + 459.67) * (5.0/9.0) }, Proc.new{ |t| t * (9.0/5.0) - 459.67 }],
+          :celsius => celsius_conversion,
+          :centrigrade => celsius_conversion,
+          :degree_celsius => celsius_conversion,
+          :degree_centrigrade => celsius_conversion,
+          :degrees_celsius => celsius_conversion,
+          :degrees_centrigrade => celsius_conversion,
+          :fahrenheit => fahrenheit_conversion,
+          :degree_fahrenheit => fahrenheit_conversion,
+          :degrees_fahrenheit => fahrenheit_conversion,
           :rankine => 1.8, :rankines => 1.8
         }
-      }
+    end
+
+    def to_celsius
+      lambda{ |t| t + 273.15 }
+    end
+
+    def from_celsius
+      lambda{ |t| t - 273.15 }
+    end
+
+    def celsius_conversion
+      [to_celsius, from_celsius]
+    end
+
+    def to_fahrenheit
+      lambda{ |t| (t + 459.67) * (5.0/9.0) }
+    end
+
+    def from_fahrenheit
+      lambda{ |t| t * (9.0/5.0) - 459.67 }
+    end
+
+    def fahrenheit_conversion
+      [to_fahrenheit, from_fahrenheit]
     end
   end
 end
