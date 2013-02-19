@@ -17,7 +17,7 @@ module Alchemist
   end
 
   def self.conversion_table
-    @conversion_table ||= CONVERSION_TABLE.dup
+    @conversion_table ||= ConversionTable.new.load_all
   end
 
   def self.operator_actions
