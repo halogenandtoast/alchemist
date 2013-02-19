@@ -1,6 +1,9 @@
 Alchemist
 =========
 
+[![Build Status](https://travis-ci.org/halogenandtoast/alchemist.png?branch=master)](https://travis-ci.org/halogenandtoast/alchemist)
+[![Code Climate](https://codeclimate.com/github/halogenandtoast/alchemist.png)](https://codeclimate.com/github/halogenandtoast/alchemist)
+
 Doing conversions for you so you don’t have to google them and making
 code more readable.
 
