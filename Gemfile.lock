@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    alchemist (0.1.4)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rake (10.0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  alchemist!
+  rake
