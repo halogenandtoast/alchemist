@@ -17,17 +17,12 @@
 #
 # While more verbose, I feel like it will be more flexible
 
-module Alchemist
-  SI_UNITS = %w[
-    m meter metre meters metres liter litre litres liters l L
-    farad farads F coulombs C gray grays Gy siemen siemens S
-    mhos mho ohm ohms volt volts V joule joules J newton
-    newtons N lux lx henry henrys H b B bits bytes bit byte
-    lumen lumens lm candela candelas cd tesla teslas T gauss
-    Gs G gram gramme grams grammes g watt watts W pascal
-    pascals Pa becquerel becquerels Bq curie curies Ci
-  ]
+require 'alchemist/si_units'
+require 'alchemist/unit_prefixes'
+require 'alchemist/binary_prefixes'
 
+
+module Alchemist
   CONVERSION_TABLE = {
     :absorbed_radiation_dose => {
       :gray => 1.0, :grays => 1.0, :Gy => 1.0,
@@ -349,62 +344,5 @@ module Alchemist
       #unusual measurements
       :sydharb => 5.0e+11, :sydharbs => 5.0e+11
     }
-  }
-
-  UNIT_PREFIXES = {
-    :googol => 1e+100,
-    :yotta => 1e+24, :Y => 1e+24,
-    :zetta => 1e+21, :Z => 1e+21,
-    :exa => 1e+18, :E => 1e+18,
-    :peta => 1e+15, :P => 1e+15,
-    :tera => 1e+12, :T => 1e+12,
-    :giga => 1e+9, :G => 1e+9,
-    :mega => 1e+6, :M => 1e+6,
-    :kilo => 1e+3, :k => 1e+3,
-    :hecto => 1e+2, :h => 1e+2,
-    :deca => 10, :da => 10,
-    :deci => 1e-1, :d => 1e-1,
-    :centi => 1e-2, :c => 1e-2,
-    :milli => 1e-3, :m => 1e-3,
-    :micro => 1e-6, :u => 1e-6,
-    :nano => 1e-9, :n => 1e-9,
-    :pico => 1e-12, :p => 1e-12,
-    :femto => 1e-15, :f => 1e-15,
-    :atto => 1e-18, :a => 1e-18,
-    :zepto => 1e-21, :z => 1e-21,
-    :yocto => 1e-24, :y => 1e-24,
-
-    # binary prefixes
-
-    :kibi => 2.0**10.0, :Ki => 2.0**10.0,
-    :mebi => 2.0**20.0, :Mi => 2.0**20.0,
-    :gibi => 2.0**30.0, :Gi => 2.0**30.0,
-    :tebi => 2.0**40.0, :Ti => 2.0**40.0,
-    :pebi => 2.0**50.0, :Pi => 2.0**50.0,
-    :exbi => 2.0**60.0, :Ei => 2.0**60.0,
-    :zebi => 2.0**70.0, :Zi => 2.0**70.0,
-    :yobi => 2.0**80.0, :Yi => 2.0**80.0
-  }
-
-  BINARY_PREFIXES = {
-    :yotta => 2.0**80.0, :Y => 2.0**80,
-    :zetta => 2.0**70.0, :Z => 2.0**70.0,
-    :exa => 2.0**60.0, :E => 2.0**60.0,
-    :peta => 2.0**50.0, :P => 2.0**50.0,
-    :tera => 2.0**40.0, :T => 2.0**40.0,
-    :giga => 2.0**30.0, :G => 2.0**30.0,
-    :mega => 2.0**20.0, :M => 2.0**20.0,
-    :kilo => 2.0**10.0, :k => 2.0**10.0,
-
-    # binary prefixes
-
-    :kibi => 2.0**10.0, :Ki => 2.0**10.0,
-    :mebi => 2.0**20.0, :Mi => 2.0**20.0,
-    :gibi => 2.0**30.0, :Gi => 2.0**30.0,
-    :tebi => 2.0**40.0, :Ti => 2.0**40.0,
-    :pebi => 2.0**50.0, :Pi => 2.0**50.0,
-    :exbi => 2.0**60.0, :Ei => 2.0**60.0,
-    :zebi => 2.0**70.0, :Zi => 2.0**70.0,
-    :yobi => 2.0**80.0, :Yi => 2.0**80.0
   }
 end

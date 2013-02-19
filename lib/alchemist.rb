@@ -16,24 +16,12 @@ module Alchemist
     @use_si = use_si
   end
 
-  def self.unit_prefixes
-    UNIT_PREFIXES
-  end
-
-  def self.binary_prefixes
-    BINARY_PREFIXES
-  end
-
   def self.conversion_table
     @conversion_table ||= CONVERSION_TABLE.dup
   end
 
   def self.operator_actions
     @operator_actions ||= {}
-  end
-
-  def self.si_units
-    SI_UNITS
   end
 
   def self.conversions
