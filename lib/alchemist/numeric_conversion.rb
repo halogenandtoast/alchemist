@@ -93,14 +93,9 @@ module Alchemist
       arg.is_a?(NumericConversion) && Alchemist.operator_actions[unit_name]
     end
 
-    class ConversionWrap
-      attr_reader :value
-      def initialize value
-        @value = value
-      end
+    class ConversionWrap < Struct.new(:value)
     end
 
-    # TODO: lots of work here
     def method_missing unit_name, *args, &block
       exponent, unit_name = Alchemist.parse_prefix(unit_name)
       arg = args.first
@@ -109,20 +104,25 @@ module Alchemist
         types = Alchemist.measurement_for(self.unit_name) & Alchemist.measurement_for(unit_name)
         convert types[0], unit_name, exponent
       else
-        if can_perform_conversion?(arg, unit_name)
-          wrap = check_operator_conversion(arg, unit_name)
-          return wrap.value if wrap.is_a?(ConversionWrap)
-        end
-        if unit_name == :*
-          return multiply(arg)
-        end
-        if unit_name == :/ && arg.is_a?(NumericConversion)
-          raise Exception, "Incompatible Types" unless (Alchemist.measurement_for(self.unit_name) & Alchemist.measurement_for(arg.unit_name)).length > 0
-        end
-        args.map!{|a| a.is_a?(NumericConversion) ? a.send(self.unit_name).to_f / exponent : a }
-        @value = value.send( unit_name, *args, &block )
-        unit_name == :/ ? value : self
+        perform_conversion_method args, unit_name, exponent, &block
       end
+    end
+
+    def perform_conversion_method args, unit_name, exponent, &block
+      arg = args.first
+      if can_perform_conversion?(arg, unit_name)
+        wrap = check_operator_conversion(arg, unit_name)
+        return wrap.value if wrap.is_a?(ConversionWrap)
+      end
+      if unit_name == :*
+        return multiply(arg)
+      end
+      if unit_name == :/ && arg.is_a?(NumericConversion)
+        raise Exception, "Incompatible Types" unless (Alchemist.measurement_for(self.unit_name) & Alchemist.measurement_for(arg.unit_name)).length > 0
+      end
+      args.map!{|a| a.is_a?(NumericConversion) ? a.send(self.unit_name).to_f / exponent : a }
+      @value = value.send( unit_name, *args, &block )
+      unit_name == :/ ? value : self
     end
   end
 
