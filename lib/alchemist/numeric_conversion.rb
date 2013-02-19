@@ -62,8 +62,8 @@ module Alchemist
       end
     end
 
-    def convert type, unit_name, exponent
-      if type
+    def convert types, unit_name, exponent
+      if type = types[0]
         convert_from_type type, unit_name, exponent
       else
         raise Exception, "Incompatible Types"
@@ -93,6 +93,18 @@ module Alchemist
       arg.is_a?(NumericConversion) && Alchemist.operator_actions[unit_name]
     end
 
+    def types
+      Alchemist.measurement_for(unit_name)
+    end
+
+    def shared_types other_unit_name
+      types & Alchemist.measurement_for(other_unit_name)
+    end
+
+    def has_shared_types? other_unit_name
+      shared_type(other_unit_name).length > 0
+    end
+
     class ConversionWrap < Struct.new(:value)
     end
 
@@ -101,8 +113,7 @@ module Alchemist
       arg = args.first
 
       if Alchemist.measurement_for(unit_name)
-        types = Alchemist.measurement_for(self.unit_name) & Alchemist.measurement_for(unit_name)
-        convert types[0], unit_name, exponent
+        convert shared_types(unit_name), unit_name, exponent
       else
         perform_conversion_method args, unit_name, exponent, &block
       end
@@ -114,11 +125,9 @@ module Alchemist
         wrap = check_operator_conversion(arg, unit_name)
         return wrap.value if wrap.is_a?(ConversionWrap)
       end
-      if unit_name == :*
-        return multiply(arg)
-      end
+      return multiply(arg) if unit_name == :*
       if unit_name == :/ && arg.is_a?(NumericConversion)
-        raise Exception, "Incompatible Types" unless (Alchemist.measurement_for(self.unit_name) & Alchemist.measurement_for(arg.unit_name)).length > 0
+        raise Exception, "Incompatible Types" unless has_shared_types?(arg.unit_name)
       end
       args.map!{|a| a.is_a?(NumericConversion) ? a.send(self.unit_name).to_f / exponent : a }
       @value = value.send( unit_name, *args, &block )
