@@ -102,7 +102,7 @@ module Alchemist
     end
 
     def has_shared_types? other_unit_name
-      shared_type(other_unit_name).length > 0
+      shared_types(other_unit_name).length > 0
     end
 
     class ConversionWrap < Struct.new(:value)
@@ -123,9 +123,13 @@ module Alchemist
       arg = args.first
       if can_perform_conversion?(arg, unit_name)
         wrap = check_operator_conversion(arg, unit_name)
-        return wrap.value if wrap.is_a?(ConversionWrap)
+        if wrap.is_a?(ConversionWrap)
+          return wrap.value
+        end
       end
-      return multiply(arg) if unit_name == :*
+      if unit_name == :*
+        return multiply(arg)
+      end
       if unit_name == :/ && arg.is_a?(NumericConversion)
         raise Exception, "Incompatible Types" unless has_shared_types?(arg.unit_name)
       end
