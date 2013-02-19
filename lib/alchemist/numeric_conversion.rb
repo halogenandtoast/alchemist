@@ -19,12 +19,7 @@ module Alchemist
 
     def base unit_type
       conversion_base = conversion_base_for(unit_type)
-
-      if conversion_base.is_a?(Array)
-        exponent * conversion_base.first.call(value)
-      else
-        exponent * value * conversion_base
-      end
+      convert_to_base conversion_base
     end
 
     def to_s
@@ -45,6 +40,14 @@ module Alchemist
       @value = value.to_f
       @unit_name = unit_name
       @exponent = exponent
+    end
+
+    def convert_to_base conversion_base
+      if conversion_base.is_a?(Array)
+        exponent * conversion_base.first.call(value)
+      else
+        exponent * value * conversion_base
+      end
     end
 
     def conversion_base_for unit_type
