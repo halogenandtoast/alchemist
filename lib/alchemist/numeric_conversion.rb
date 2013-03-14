@@ -26,6 +26,10 @@ module Alchemist
       value.to_s
     end
 
+    def to_i
+      value.to_i
+    end
+
     def to_f
       @value
     end
