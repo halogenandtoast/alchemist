@@ -89,4 +89,10 @@ class AlchemistTest < Test::Unit::TestCase
     assert_equal(60.hz, 3600.rpm)
     assert_equal(2400.rpm, 40.hz)
   end
+
+  def test_conversion_to_datatypes
+    assert_equal(10.meters.to_i, 10)
+    assert_equal(10.meters.to_f, 10.0)
+    assert_equal(10.meters.to_s, "10.0")
+  end
 end
