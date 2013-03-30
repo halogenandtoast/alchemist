@@ -138,8 +138,8 @@ module Alchemist
         raise Exception, "Incompatible Types" unless has_shared_types?(arg.unit_name)
       end
       args.map!{|a| a.is_a?(NumericConversion) ? a.send(self.unit_name).to_f / exponent : a }
-      @value = value.send( unit_name, *args, &block )
-      unit_name == :/ ? value : self
+      ret = NumericConversion.new(value.send(unit_name, *args, &block), @unit_name, @exponent)
+      unit_name == :/ ? ret.value : ret
     end
   end
 
