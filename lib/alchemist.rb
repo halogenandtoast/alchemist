@@ -1,6 +1,9 @@
+require "alchemist/loader"
 require "alchemist/units"
 require "alchemist/compound_numeric_conversion"
 require "alchemist/numeric_conversion"
+require "alchemist/compound"
+
 require "alchemist/numeric_ext"
 
 module Alchemist
@@ -18,10 +21,6 @@ module Alchemist
 
   def self.conversion_table
     @conversion_table ||= ConversionTable.new.load_all
-  end
-
-  def self.operator_actions
-    @operator_actions ||= {}
   end
 
   def self.conversions
@@ -44,11 +43,6 @@ module Alchemist
     end
   end
 
-  def self.register_operation_conversions type, other_type, operation, converted_type
-    operator_actions[operation] ||= []
-    operator_actions[operation] << [type, other_type, converted_type]
-  end
-
   def self.parse_prefix(unit)
     matches = unit.to_s.match(prefix_matcher)
     prefix, parsed_unit = matches.captures
@@ -66,7 +60,6 @@ module Alchemist
   def self.use_binary_prefix? unit
     !use_si && measurement_for(unit).include?(:information_storage)
   end
-
 
   def self.prefix_matcher
     keys = unit_prefixes.keys.map(&:to_s).sort{ |a,b| b.length <=> a.length }
@@ -92,5 +85,3 @@ module Alchemist
     conversions
   end
 end
-
-require "alchemist/compound"
