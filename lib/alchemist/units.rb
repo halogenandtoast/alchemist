@@ -2,23 +2,25 @@ require 'yaml'
 require 'alchemist/si_units'
 require 'alchemist/unit_prefixes'
 require 'alchemist/binary_prefixes'
+require 'alchemist/exceptions'
 
 module Alchemist
   class ConversionTable
 
-    def load_all
-      @conversions ||= load_yaml.merge(proc_based)
+    def load_all( yaml_file )
+      @conversions = load_yaml(yaml_file).merge(proc_based)
     end
 
     private
 
-    def load_yaml
-      YAML.load_file(yaml_file)
+    def load_yaml(yaml_file)
+      begin
+        YAML.load_file(yaml_file)
+      rescue SyntaxError
+        raise YamlSyntaxError
+      end
     end
 
-    def yaml_file
-      File.join(File.dirname(__FILE__), "units.yml")
-    end
 
     def proc_based
       {
