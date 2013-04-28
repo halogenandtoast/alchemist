@@ -6,19 +6,16 @@ require 'alchemist/binary_prefixes'
 module Alchemist
   class ConversionTable
 
-    def load_all
-      @conversions ||= load_yaml.merge(proc_based)
+    def load_all( yaml_file )
+      @conversions = load_yaml(yaml_file).merge(proc_based)
     end
 
     private
 
-    def load_yaml
+    def load_yaml(yaml_file)
       YAML.load_file(yaml_file)
     end
 
-    def yaml_file
-      File.join(File.dirname(__FILE__), "units.yml")
-    end
 
     def proc_based
       {
