@@ -2,6 +2,7 @@ require 'yaml'
 require 'alchemist/si_units'
 require 'alchemist/unit_prefixes'
 require 'alchemist/binary_prefixes'
+require 'alchemist/exceptions'
 
 module Alchemist
   class ConversionTable
@@ -13,7 +14,11 @@ module Alchemist
     private
 
     def load_yaml(yaml_file)
-      YAML.load_file(yaml_file)
+      begin
+        YAML.load_file(yaml_file)
+      rescue SyntaxError
+        raise YamlSyntaxError
+      end
     end
 
 
