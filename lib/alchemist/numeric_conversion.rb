@@ -83,7 +83,7 @@ module Alchemist
       end
     end
 
-    def check_operator_conversion arg, unit_name
+    def check_operator_conversion unit_name, arg
       t1 = Alchemist.measurement_for(self.unit_name)[0]
       t2 = Alchemist.measurement_for(arg.unit_name)[0]
       Alchemist.operator_actions[unit_name].each do |s1, s2, new_type|
@@ -93,7 +93,7 @@ module Alchemist
       end
     end
 
-    def can_perform_conversion? arg, unit_name
+    def can_perform_conversion? unit_name, arg
       arg.is_a?(NumericConversion) && Alchemist.operator_actions[unit_name]
     end
 
@@ -123,24 +123,51 @@ module Alchemist
       end
     end
 
-    def perform_conversion_method args, unit_name, exponent, &block
-      arg = args.first
-      if can_perform_conversion?(arg, unit_name)
-        wrap = check_operator_conversion(arg, unit_name)
+    def check_for_conversion_wrap(unit_name, arg)
+      if can_perform_conversion?(unit_name, arg)
+        wrap = check_operator_conversion(unit_name, arg)
         if wrap.is_a?(ConversionWrap)
-          return wrap.value
+          return wrap
         end
       end
-      if unit_name == :*
+    end
+
+    def invalid_division?(unit_name, arg)
+      division?(unit_name) && arg.is_a?(NumericConversion) && !has_shared_types?(arg.unit_name)
+    end
+
+    def multiplication?(unit_name)
+      unit_name == :*
+    end
+
+    def division?(unit_name)
+      unit_name == :/
+    end
+
+    def incompatible_types
+      raise Exception, "Incompatible Types"
+    end
+
+    def get_conversion_value(args, unit_name, exponent, &block)
+      mapped = args.map do |arg|
+        arg.is_a?(NumericConversion) ? arg.send(self.unit_name).to_f / exponent : arg
+      end
+      return_value = NumericConversion.new(value.send(unit_name, *mapped, &block), @unit_name, @exponent)
+      division?(unit_name) ? return_value.value : return_value
+    end
+
+    def perform_conversion_method args, unit_name, exponent, &block
+      arg = args.first
+      if wrap = check_for_conversion_wrap(unit_name, arg)
+        return wrap.value
+      end
+      if multiplication?(unit_name)
         return multiply(arg)
       end
-      if unit_name == :/ && arg.is_a?(NumericConversion)
-        raise Exception, "Incompatible Types" unless has_shared_types?(arg.unit_name)
+      if invalid_division?(unit_name, arg)
+        incompatible_types
       end
-      args.map!{|a| a.is_a?(NumericConversion) ? a.send(self.unit_name).to_f / exponent : a }
-      ret = NumericConversion.new(value.send(unit_name, *args, &block), @unit_name, @exponent)
-      unit_name == :/ ? ret.value : ret
+      get_conversion_value(args, unit_name, exponent, &block)
     end
   end
-
 end
