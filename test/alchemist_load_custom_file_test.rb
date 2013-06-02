@@ -31,7 +31,7 @@ class AlchemistLoadCustomFileTest < Test::Unit::TestCase
       "Should be able to load a valid yaml file")
 
     assert_equal(
-      false,
+      nil,
       Alchemist::load_conversion_table(File.join(File.dirname(__FILE__),"bad_filename_test.yml")),
       "Should not load invalid yaml file")
 
@@ -40,6 +40,12 @@ class AlchemistLoadCustomFileTest < Test::Unit::TestCase
       Alchemist::load_conversion_table(File.join(File.dirname(__FILE__),"bad_test.yml")),
       "Should not load invalid yaml file")
   end
+
+  def test_after_bad_load
+    Alchemist::load_conversion_table(File.join(File.dirname(__FILE__),"bad_test.yml"))
+    assert_equal( 5280.feet,  1.mile.to.feet )
+  end
+
 
   def test_loaded_correctly
     load_custom

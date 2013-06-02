@@ -25,7 +25,7 @@ module Alchemist
     begin
       @conversion_table = ConversionTable.new.load_all(filename)
     rescue
-      false
+      @conversion_table = nil
     end
   end
 
