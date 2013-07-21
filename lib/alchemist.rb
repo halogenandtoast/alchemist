@@ -7,7 +7,7 @@ require "alchemist/compound"
 require "alchemist/numeric_ext"
 
 module Alchemist
-  @@default_yaml_file = File.join(File.dirname(__FILE__), "alchemist/units.yml")
+  DEFAULT_YAML_FILE = File.join(File.dirname(__FILE__), "alchemist/units.yml")
 
   def self.measurement value, unit, exponent = 1.0
     NumericConversion.new value, unit, exponent
@@ -21,7 +21,7 @@ module Alchemist
     @use_si = use_si
   end
 
-  def self.load_conversion_table(filename=@@default_yaml_file)
+  def self.load_conversion_table(filename=DEFAULT_YAML_FILE)
     begin
       @conversion_table = ConversionTable.new.load_all(filename)
     rescue
