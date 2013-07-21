@@ -42,15 +42,18 @@ Installation
 
     gem install alchemist
 
-Usage
+Setup
 -----
 
-    require 'rubygems'
-    require 'alchemist'
+In order for methods like 1.meters to work, you'll either need to include the `Alchemist::Conversion` module in `Numeric` yourself like so:
 
-Or if you’re using rails
+    class Numeric
+      include Alchemist::Conversion
+    end
 
-    gem 'alchemist'
+or you can just call:
+
+    Alchemist.setup
 
 Rails Warning
 -------------
