@@ -11,6 +11,10 @@ module Alchemist
   DEFAULT_SI_UNITS_FILE = File.join(DATA_DIR, "si_units.yml")
   DEFAULT_UNIT_PREFIXES_FILE = File.join(DATA_DIR, "unit_prefixes.yml")
 
+  def self.setup
+    Numeric.send(:include, Alchemist::Conversion)
+  end
+
   def self.measurement value, unit, exponent = 1.0
     Measurement.new value, unit, exponent
   end

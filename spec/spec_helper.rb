@@ -2,6 +2,4 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
 
 require 'alchemist'
 
-class Numeric
-  include Alchemist::Conversion
-end
+Alchemist.setup
