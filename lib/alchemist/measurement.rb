@@ -1,10 +1,44 @@
 module Alchemist
   class Measurement
-    attr_reader :unit_name, :exponent, :value
     include Comparable
+
+    attr_reader :unit_name, :exponent, :value
+
+    def initialize value, unit_name, exponent = 1.0
+      @value = value.to_f
+      @unit_name = unit_name
+      @exponent = exponent
+    end
 
     def per
       CompoundNumericConversion.new self
+    end
+
+    def + measurement
+      ensure_shared_type!(measurement)
+      Measurement.new(value + measurement.value, unit_name, exponent)
+    end
+
+    def - measurement
+      ensure_shared_type!(measurement)
+      Measurement.new(value - measurement.value, unit_name, exponent)
+    end
+
+    def / measurement
+      ensure_shared_type!(measurement)
+      dividend = measurement.is_a?(Measurement) ? measurement.to(unit_name).to_f / exponent : measurement
+      Measurement.new(value / dividend, unit_name, exponent).value
+    end
+
+    def * multiplicand
+      if wrap = check_for_conversion_wrap(:*, multiplicand)
+        return wrap.value
+      end
+      if multiplicand.is_a?(Numeric)
+        Measurement.new(value * multiplicand, unit_name, exponent)
+      else
+        raise Exception, "Incompatible Types"
+      end
     end
 
     def to type = nil
@@ -38,10 +72,10 @@ module Alchemist
 
     private
 
-    def initialize value, unit_name, exponent = 1.0
-      @value = value.to_f
-      @unit_name = unit_name
-      @exponent = exponent
+    def ensure_shared_type! measurement
+      if !has_shared_types?(measurement.unit_name)
+        incompatible_types
+      end
     end
 
     def convert_to_base conversion_base
@@ -73,12 +107,6 @@ module Alchemist
     end
 
     def multiply multiplicand
-      if multiplicand.is_a?(Numeric)
-        @value *= multiplicand
-        return self
-      else
-        raise Exception, "Incompatible Types"
-      end
     end
 
     def check_operator_conversion unit_name, arg
@@ -117,7 +145,7 @@ module Alchemist
       if Alchemist.measurement_for(unit_name)
         convert shared_types(unit_name), unit_name, exponent
       else
-        perform_conversion_method args, unit_name, exponent, &block
+        super
       end
     end
 
@@ -130,42 +158,8 @@ module Alchemist
       end
     end
 
-    def invalid_division?(unit_name, arg)
-      division?(unit_name) && arg.is_a?(Measurement) && !has_shared_types?(arg.unit_name)
-    end
-
-    def multiplication?(unit_name)
-      unit_name == :*
-    end
-
-    def division?(unit_name)
-      unit_name == :/
-    end
-
     def incompatible_types
       raise Exception, "Incompatible Types"
-    end
-
-    def get_conversion_value(args, unit_name, exponent, &block)
-      mapped = args.map do |arg|
-        arg.is_a?(Measurement) ? arg.send(self.unit_name).to_f / exponent : arg
-      end
-      return_value = Measurement.new(value.send(unit_name, *mapped, &block), @unit_name, @exponent)
-      division?(unit_name) ? return_value.value : return_value
-    end
-
-    def perform_conversion_method args, unit_name, exponent, &block
-      arg = args.first
-      if wrap = check_for_conversion_wrap(unit_name, arg)
-        return wrap.value
-      end
-      if multiplication?(unit_name)
-        return multiply(arg)
-      end
-      if invalid_division?(unit_name, arg)
-        incompatible_types
-      end
-      get_conversion_value(args, unit_name, exponent, &block)
     end
   end
 end
