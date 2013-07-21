@@ -1,9 +1,6 @@
-require "alchemist/loader"
 require "alchemist/conversion_table"
 require "alchemist/compound_numeric_conversion"
 require "alchemist/numeric_conversion"
-require "alchemist/compound"
-
 require "alchemist/numeric_ext"
 
 module Alchemist
@@ -60,6 +57,15 @@ module Alchemist
     else
       [1, unit]
     end
+  end
+
+  def self.register_operation_conversions type, other_type, operation, converted_type
+    operator_actions[operation] ||= []
+    operator_actions[operation] << [type, other_type, converted_type]
+  end
+
+  def self.operator_actions
+    @operator_actions ||= {}
   end
 
   private
