@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.homepage = 'http://github.com/halogenandtoast/alchemist'
   gem.summary = 'Conversions... like you\'ve never seen them before!'
   gem.description = 'Conversions... like you\'ve never seen them before!!'
+  gem.license = 'MIT'
 
   gem.files = `git ls-files`.split($/)
   gem.test_files = gem.files.grep(%r{^(test|spec|features)/})
