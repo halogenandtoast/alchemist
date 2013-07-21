@@ -55,11 +55,11 @@ module Alchemist
     end
 
     def to_fahrenheit
-      lambda{ |t| (t + 459.67) * (5.0/9.0) }
+      lambda{ |t| (t - 32.0) * (5.0/9.0) + 273.15 }
     end
 
     def from_fahrenheit
-      lambda{ |t| t * (9.0/5.0) - 459.67 }
+      lambda{ |t| (t - 273.15) * (9.0/5.0) + 32.0 }
     end
 
     def fahrenheit_conversion

@@ -19,7 +19,7 @@ module Alchemist
         conversion_base = BigDecimal.new(from.base(type).to_s)
         conversion_factor = Alchemist.conversion_table[type][unit_name]
         if proc_based?(conversion_factor)
-          conversion_factor[1].call(conversion_base)
+          Measurement.new(conversion_factor[1].call(conversion_base), unit_name, exponent)
         else
           Measurement.new(conversion_base / BigDecimal.new(conversion_factor.to_s), unit_name, exponent)
         end

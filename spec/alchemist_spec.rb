@@ -9,6 +9,10 @@ describe Alchemist do
     expect(5.grams).to eq(0.005.kilograms)
   end
 
+  it "can convert units with formulas" do
+    expect(222.5.celsius.to.fahrenheit).to eq(432.5.fahrenheit)
+  end
+
   it "knows if it has a measurement" do
     expect(Alchemist.has_measurement?(:meter)).to be_true
   end
