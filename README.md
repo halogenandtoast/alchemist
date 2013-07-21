@@ -31,14 +31,11 @@ To switch to the IEC memory standard, force SI units with
 
     Alchemist::use_si = true
 
+To see all the units alchemist has built in conversion for, check out the [units file](lib/alchemist/data/units.yml)
+
 <strong>You may also register your own units</strong>
 
     Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
-
-Thanks to <a href='http://github.com/simonmenke'>simonmenke</a> you can
-now do comparisons without having to convert to floats like so:
-
-    5.grams == 0.005.kilograms
 
 Installation
 ------------
@@ -54,68 +51,3 @@ Usage
 Or if you’re using rails
 
     gem 'alchemist'
-
-Alchemist has conversions for:
-------------------------------
-
-### Distance
-
--   metres or meters
--   fermis
--   microns
--   chains
--   inches
--   microinches
--   mils
--   rods
--   leagues
--   feet
--   yards
--   miles
--   astronomical\_units
--   light\_years
--   parsecs
--   nautical\_miles
--   admirality\_miles
--   fathoms
--   cable\_lengths
--   angstroms
--   picas
--   printer\_picas
--   points
--   printer\_points
-
-### Mass
-
--   grams or grammes
--   carats
--   ounces
--   pennyweights
--   pounds
--   troy\_pounds or apothecary\_pounds
--   slugs
--   assay\_tons
--   metric\_tons
--   tons or short\_tons
-
-### Volume
-
--   litres or liters
--   barrels
--   bushels
--   cubic\_meters
--   cups
--   imperial\_fluid\_ounces
--   fluid\_ounces
--   imperial\_gallons
--   gallons
--   imperial\_gills
--   gills
--   pints
--   liquid\_pints
--   quarts
--   liquid\_quarts
--   tablespoons
--   teaspoons
-
-### And many more checkout **lib/alchemist.rb** for the rest
