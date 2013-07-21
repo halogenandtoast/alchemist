@@ -10,7 +10,3 @@ module Alchemist
     end
   end
 end
-
-class Numeric
-  include Alchemist::Conversion
-end
