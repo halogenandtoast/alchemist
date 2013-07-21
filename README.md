@@ -55,6 +55,10 @@ or you can just call:
 
     Alchemist.setup
 
+if you only want to use one category for conversions you can load it individually (this will prevent method_missing from being overridden):
+
+    Alchemist.setup('distance')
+
 Rails Warning
 -------------
 
