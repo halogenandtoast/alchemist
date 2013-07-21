@@ -44,7 +44,6 @@ module Alchemist
   end
 
   def self.register(type, names, value)
-
     names = Array(names)
     value = value.is_a?(Measurement) ? value.base(type) : value
     Alchemist.conversion_table[type] ||= {}

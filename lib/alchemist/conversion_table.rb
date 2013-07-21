@@ -27,19 +27,19 @@ module Alchemist
 
     def temperature
       {
-          :kelvin => 1.0, :K => 1.0,
+        :kelvin => 1.0, :K => 1.0,
 
-          :celsius => celsius_conversion,
-          :centrigrade => celsius_conversion,
-          :degree_celsius => celsius_conversion,
-          :degree_centrigrade => celsius_conversion,
-          :degrees_celsius => celsius_conversion,
-          :degrees_centrigrade => celsius_conversion,
-          :fahrenheit => fahrenheit_conversion,
-          :degree_fahrenheit => fahrenheit_conversion,
-          :degrees_fahrenheit => fahrenheit_conversion,
-          :rankine => 1.8, :rankines => 1.8
-        }
+        :celsius => celsius_conversion,
+        :centrigrade => celsius_conversion,
+        :degree_celsius => celsius_conversion,
+        :degree_centrigrade => celsius_conversion,
+        :degrees_celsius => celsius_conversion,
+        :degrees_centrigrade => celsius_conversion,
+        :fahrenheit => fahrenheit_conversion,
+        :degree_fahrenheit => fahrenheit_conversion,
+        :degrees_fahrenheit => fahrenheit_conversion,
+        :rankine => 1.8, :rankines => 1.8
+      }
     end
 
     def to_celsius
