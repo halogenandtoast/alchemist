@@ -1,6 +1,6 @@
 require "alchemist/conversion_table"
-require "alchemist/compound_numeric_conversion"
 require "alchemist/measurement"
+require "alchemist/compound_measurement"
 require "alchemist/numeric_ext"
 
 module Alchemist

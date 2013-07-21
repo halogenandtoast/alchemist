@@ -1,5 +1,5 @@
 module Alchemist
-  class CompoundNumericConversion
+  class CompoundMeasurement
     attr_accessor :numerators, :denominators
 
     def initialize(numerator)

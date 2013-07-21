@@ -11,7 +11,7 @@ module Alchemist
     end
 
     def per
-      CompoundNumericConversion.new self
+      CompoundMeasurement.new self
     end
 
     def + measurement
