@@ -9,6 +9,14 @@ describe Alchemist do
     expect(5.grams).to eq(0.005.kilograms)
   end
 
+  it "knows if it has a measurement" do
+    expect(Alchemist.has_measurement?(:meter)).to be_true
+  end
+
+  it "knows if it doesn't have a measurement" do
+    expect(Alchemist.has_measurement?(:wombat)).to be_false
+  end
+
   it "can register units" do
     Alchemist.register :quux, :qaat, 1.0
     Alchemist.register :quux, :quut, 3.0

@@ -35,6 +35,10 @@ module Alchemist
     @conversions ||= load_conversions
   end
 
+  def self.has_measurement? name
+    conversions.keys.include? name.to_sym
+  end
+
   def self.measurement_for name
     conversions[ name.to_sym ]
   end
