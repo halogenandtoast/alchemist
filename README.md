@@ -58,3 +58,8 @@ Rails Warning
 Rails adds some methods like `bytes` to `Numeric` so it's highly recommended that instead of trying to call `bytes` on a numeric, you should use the `measurement` method:
 
     Alchemist.measurement(10, :bytes)
+
+License
+-------
+
+Alchemist is licensed under the MIT license as specified in the [gemspec](alchemist.gemspec)
