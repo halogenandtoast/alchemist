@@ -1,15 +1,6 @@
 require 'bundler/gem_tasks'
 require 'rake'
-require 'rake/testtask'
+require 'rspec/core/rake_task'
 
-task :default => [:test]
-task :test => ['test:units']
-
-namespace :test do
-  Rake::TestTask.new(:units) do |test|
-    test.libs << 'test'
-    test.ruby_opts << '-rubygems'
-    test.pattern = 'test/*.rb'
-    test.verbose = true
-  end
-end
+RSpec::Core::RakeTask.new(:spec)
+task default: :spec
