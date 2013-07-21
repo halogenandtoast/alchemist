@@ -6,7 +6,6 @@ module Alchemist
     def per
       CompoundNumericConversion.new self
     end
-    alias_method :p, :per # TODO: deprecate p
 
     def to type = nil
       unless type
@@ -15,7 +14,6 @@ module Alchemist
         send type
       end
     end
-    alias_method :as, :to # TODO: deprecate as
 
     def base unit_type
       conversion_base = conversion_base_for(unit_type)
