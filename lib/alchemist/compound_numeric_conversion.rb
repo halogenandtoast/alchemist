@@ -13,7 +13,7 @@ module Alchemist
       when Numeric
          @coefficient *= value
          self
-      when Alchemist::NumericConversion
+      when Alchemist::Measurement
         @numerators << value
         return consolidate
       end

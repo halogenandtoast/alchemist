@@ -1,6 +1,6 @@
 require "alchemist/conversion_table"
 require "alchemist/compound_numeric_conversion"
-require "alchemist/numeric_conversion"
+require "alchemist/measurement"
 require "alchemist/numeric_ext"
 
 module Alchemist
@@ -12,7 +12,7 @@ module Alchemist
   DEFAULT_UNIT_PREFIXES_FILE = File.join(DATA_DIR, "unit_prefixes.yml")
 
   def self.measurement value, unit, exponent = 1.0
-    NumericConversion.new value, unit, exponent
+    Measurement.new value, unit, exponent
   end
 
   def self.use_si
@@ -46,7 +46,7 @@ module Alchemist
   def self.register(type, names, value)
 
     names = Array(names)
-    value = value.is_a?(NumericConversion) ? value.base(type) : value
+    value = value.is_a?(Measurement) ? value.base(type) : value
     Alchemist.conversion_table[type] ||= {}
 
     names.each do |name|

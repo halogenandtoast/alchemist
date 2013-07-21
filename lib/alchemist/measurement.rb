@@ -1,5 +1,5 @@
 module Alchemist
-  class NumericConversion
+  class Measurement
     attr_reader :unit_name, :exponent, :value
     include Comparable
 
@@ -62,7 +62,7 @@ module Alchemist
       if(Alchemist.conversion_table[type][unit_name].is_a?(Array))
         Alchemist.conversion_table[type][unit_name][1].call(base(type))
       else
-        NumericConversion.new(base(type) / (exponent * Alchemist.conversion_table[type][unit_name]), unit_name)
+        Measurement.new(base(type) / (exponent * Alchemist.conversion_table[type][unit_name]), unit_name)
       end
     end
 
@@ -94,7 +94,7 @@ module Alchemist
     end
 
     def can_perform_conversion? unit_name, arg
-      arg.is_a?(NumericConversion) && Alchemist.operator_actions[unit_name]
+      arg.is_a?(Measurement) && Alchemist.operator_actions[unit_name]
     end
 
     def types
@@ -133,7 +133,7 @@ module Alchemist
     end
 
     def invalid_division?(unit_name, arg)
-      division?(unit_name) && arg.is_a?(NumericConversion) && !has_shared_types?(arg.unit_name)
+      division?(unit_name) && arg.is_a?(Measurement) && !has_shared_types?(arg.unit_name)
     end
 
     def multiplication?(unit_name)
@@ -150,9 +150,9 @@ module Alchemist
 
     def get_conversion_value(args, unit_name, exponent, &block)
       mapped = args.map do |arg|
-        arg.is_a?(NumericConversion) ? arg.send(self.unit_name).to_f / exponent : arg
+        arg.is_a?(Measurement) ? arg.send(self.unit_name).to_f / exponent : arg
       end
-      return_value = NumericConversion.new(value.send(unit_name, *mapped, &block), @unit_name, @exponent)
+      return_value = Measurement.new(value.send(unit_name, *mapped, &block), @unit_name, @exponent)
       division?(unit_name) ? return_value.value : return_value
     end
 
