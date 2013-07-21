@@ -7,20 +7,15 @@ require 'alchemist/exceptions'
 module Alchemist
   class ConversionTable
 
-    def load_all( yaml_file )
-      @conversions = load_yaml(yaml_file).merge(proc_based)
-    end
-
-    private
-
-    def load_yaml(yaml_file)
+    def load_all(yaml_file)
       begin
-        YAML.load_file(yaml_file)
-      rescue SyntaxError
-        raise YamlSyntaxError
+        YAML.load_file(yaml_file).merge(proc_based)
+      rescue Psych::SyntaxError, Errno::ENOENT
+        nil
       end
     end
 
+    private
 
     def proc_based
       {

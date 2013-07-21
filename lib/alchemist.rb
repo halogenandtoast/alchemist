@@ -1,5 +1,5 @@
 require "alchemist/loader"
-require "alchemist/units"
+require "alchemist/conversion_table"
 require "alchemist/compound_numeric_conversion"
 require "alchemist/numeric_conversion"
 require "alchemist/compound"
@@ -22,11 +22,7 @@ module Alchemist
   end
 
   def self.load_conversion_table(filename=DEFAULT_YAML_FILE)
-    begin
-      @conversion_table = ConversionTable.new.load_all(filename)
-    rescue
-      @conversion_table = nil
-    end
+    @conversion_table = ConversionTable.new.load_all(filename)
   end
 
   def self.conversion_table
