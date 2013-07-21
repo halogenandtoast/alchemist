@@ -1,7 +1,7 @@
 require "alchemist/conversion_table"
 require "alchemist/measurement"
 require "alchemist/compound_measurement"
-require "alchemist/numeric_ext"
+require "alchemist/conversion_ext"
 
 module Alchemist
   DATA_DIR = File.join(File.dirname(__FILE__), "alchemist", "data")
