@@ -5,7 +5,7 @@ module Alchemist
       if Alchemist.has_measurement?(unit_name)
         Alchemist.measurement self, unit_name, exponent
       else
-        super( unit_name, *args, &block )
+        super
       end
     end
   end
