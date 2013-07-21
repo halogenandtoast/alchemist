@@ -19,7 +19,6 @@ module Alchemist
       end
     end
 
-    # TODO: minify this
     def consolidate
       compress_units
       set_coefficients

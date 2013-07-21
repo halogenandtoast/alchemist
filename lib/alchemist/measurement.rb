@@ -1,3 +1,5 @@
+require "alchemist/measurement_convertor"
+
 module Alchemist
   class Measurement
     include Comparable
@@ -12,6 +14,14 @@ module Alchemist
 
     def per
       CompoundMeasurement.new self
+    end
+
+    def to type = nil
+      if type
+        convertor.send(type)
+      else
+        convertor
+      end
     end
 
     def + measurement
@@ -41,14 +51,6 @@ module Alchemist
       end
     end
 
-    def to type = nil
-      unless type
-        self
-      else
-        send type
-      end
-    end
-
     def base unit_type
       conversion_base = conversion_base_for(unit_type)
       convert_to_base conversion_base
@@ -68,6 +70,10 @@ module Alchemist
 
     def <=>(other)
       (self.to_f * exponent).to_f <=> other.to(unit_name).to_f
+    end
+
+    def shared_types other_unit_name
+      types & Alchemist.measurement_for(other_unit_name)
     end
 
     private
@@ -90,23 +96,28 @@ module Alchemist
       Alchemist.conversion_table[unit_type][unit_name]
     end
 
-    def convert_from_type type, unit_name, exponent
-      if(Alchemist.conversion_table[type][unit_name].is_a?(Array))
-        Alchemist.conversion_table[type][unit_name][1].call(base(type))
-      else
-        Measurement.new(base(type) / (exponent * Alchemist.conversion_table[type][unit_name]), unit_name)
+    def types
+      Alchemist.measurement_for(unit_name)
+    end
+
+    def has_shared_types? other_unit_name
+      shared_types(other_unit_name).length > 0
+    end
+
+    class ConversionWrap < Struct.new(:value)
+    end
+
+    def check_for_conversion_wrap(unit_name, arg)
+      if can_perform_conversion?(unit_name, arg)
+        wrap = check_operator_conversion(unit_name, arg)
+        if wrap.is_a?(ConversionWrap)
+          return wrap
+        end
       end
     end
 
-    def convert types, unit_name, exponent
-      if type = types[0]
-        convert_from_type type, unit_name, exponent
-      else
-        raise Exception, "Incompatible Types"
-      end
-    end
-
-    def multiply multiplicand
+    def can_perform_conversion? unit_name, arg
+      arg.is_a?(Measurement) && Alchemist.operator_actions[unit_name]
     end
 
     def check_operator_conversion unit_name, arg
@@ -119,47 +130,12 @@ module Alchemist
       end
     end
 
-    def can_perform_conversion? unit_name, arg
-      arg.is_a?(Measurement) && Alchemist.operator_actions[unit_name]
-    end
-
-    def types
-      Alchemist.measurement_for(unit_name)
-    end
-
-    def shared_types other_unit_name
-      types & Alchemist.measurement_for(other_unit_name)
-    end
-
-    def has_shared_types? other_unit_name
-      shared_types(other_unit_name).length > 0
-    end
-
-    class ConversionWrap < Struct.new(:value)
-    end
-
-    def method_missing unit_name, *args, &block
-      exponent, unit_name = Alchemist.parse_prefix(unit_name)
-      arg = args.first
-
-      if Alchemist.measurement_for(unit_name)
-        convert shared_types(unit_name), unit_name, exponent
-      else
-        super
-      end
-    end
-
-    def check_for_conversion_wrap(unit_name, arg)
-      if can_perform_conversion?(unit_name, arg)
-        wrap = check_operator_conversion(unit_name, arg)
-        if wrap.is_a?(ConversionWrap)
-          return wrap
-        end
-      end
-    end
-
     def incompatible_types
       raise Exception, "Incompatible Types"
+    end
+
+    def convertor
+      MeasurementConvertor.new(self)
     end
   end
 end
