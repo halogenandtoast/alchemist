@@ -33,23 +33,6 @@ describe Alchemist do
     expect(0.yeti).to eq(1.kelvin)
   end
 
-  it "can multiply units" do
-    Alchemist.register_operation_conversions(:distance, :distance, :*, :square_meters)
-    expect(1.meter * 1.meter).to eq(1.square_meter)
-  end
-
-  it "can divide units" do
-    expect(2.meters / 1.meter).to eq(2.0)
-  end
-
-  it "can add units" do
-    expect(2.meters + 1.meter).to eq(3.meters)
-  end
-
-  it "can subtract units" do
-    expect(3.meters - 2.meters).to eq(1.meter)
-  end
-
   it "can convert to other datatypes" do
     expect(10.meters.to_i).to eq(10)
     expect(10.meters.to_f).to eq(10.0)

@@ -12,10 +12,6 @@ module Alchemist
       @exponent = exponent
     end
 
-    def per
-      CompoundMeasurement.new self
-    end
-
     def to type = nil
       if type
         convertor.send(type)
@@ -34,18 +30,12 @@ module Alchemist
       Measurement.new(value - measurement.value, unit_name, exponent)
     end
 
-    def / measurement
-      ensure_shared_type!(measurement)
-      dividend = measurement.is_a?(Measurement) ? measurement.to(unit_name).to_f / exponent : measurement
-      Measurement.new(value / dividend, unit_name, exponent).value
+    def / dividend
+      Measurement.new(value / dividend, unit_name, exponent)
     end
 
     def * multiplicand
-      if multiplicand.is_a?(Numeric)
-        Measurement.new(value * multiplicand, unit_name, exponent)
-      else
-        try_raising_dimension(multiplicand)
-      end
+      Measurement.new(value * multiplicand, unit_name, exponent)
     end
 
     def base unit_type
@@ -80,14 +70,12 @@ module Alchemist
     private
 
     def ensure_shared_type! measurement
-      if !has_shared_types?(measurement.unit_name)
-        incompatible_types
-      end
+      incompatible_types unless has_shared_types?(measurement.unit_name)
     end
 
     def convert_to_base conversion_base
       if conversion_base.is_a?(Array)
-        exponent * conversion_base.first.call(value)
+        exponent * conversion_base[0].call(value)
       else
         exponent * value * conversion_base
       end
@@ -99,16 +87,6 @@ module Alchemist
 
     def has_shared_types? other_unit_name
       shared_types(other_unit_name).length > 0
-    end
-
-    def try_raising_dimension(measurement)
-      valid_types = shared_types(measurement.unit_name)
-      Alchemist.operator_actions[:*].each do |s1, s2, new_type|
-        if (valid_types & [s1, s2]).any?
-          return Alchemist.measurement(value * measurement.to_f, new_type)
-        end
-      end
-      incompatible_types
     end
 
     def incompatible_types
