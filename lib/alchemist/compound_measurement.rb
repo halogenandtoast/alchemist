@@ -57,7 +57,7 @@ module Alchemist
 
     def method_missing(method, *attrs, &block)
       if Alchemist.measurement_for(method)
-        @denominators << Alchemist.measurement(1, method)
+        @denominators << Alchemist.measure(1, method)
         consolidate
       end
     end

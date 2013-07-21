@@ -105,7 +105,7 @@ module Alchemist
       valid_types = shared_types(measurement.unit_name)
       Alchemist.operator_actions[:*].each do |s1, s2, new_type|
         if (valid_types & [s1, s2]).any?
-          return Alchemist.measurement(value * measurement.to_f, new_type)
+          return Alchemist.measure(value * measurement.to_f, new_type)
         end
       end
       incompatible_types

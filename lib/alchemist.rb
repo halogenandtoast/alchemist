@@ -15,7 +15,7 @@ module Alchemist
     Numeric.send(:include, Alchemist::Conversion)
   end
 
-  def self.measurement value, unit, exponent = 1.0
+  def self.measure value, unit, exponent = 1.0
     Measurement.new value, unit, exponent
   end
 

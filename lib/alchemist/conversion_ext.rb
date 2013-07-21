@@ -7,7 +7,7 @@ module Alchemist
 
       exponent, unit_name = Alchemist.parse_prefix(unit_name)
       if Alchemist.has_measurement?(unit_name)
-        Alchemist.measurement self.to_f, unit_name, exponent
+        Alchemist.measure self.to_f, unit_name, exponent
       else
         super
       end
