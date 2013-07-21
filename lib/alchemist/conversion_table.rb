@@ -1,8 +1,4 @@
 require 'yaml'
-require 'alchemist/si_units'
-require 'alchemist/unit_prefixes'
-require 'alchemist/binary_prefixes'
-require 'alchemist/exceptions'
 
 module Alchemist
   class ConversionTable
