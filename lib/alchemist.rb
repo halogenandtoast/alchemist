@@ -4,7 +4,7 @@ require "alchemist/numeric_conversion"
 require "alchemist/numeric_ext"
 
 module Alchemist
-  DEFAULT_YAML_FILE = File.join(File.dirname(__FILE__), "alchemist/units.yml")
+  DEFAULT_YAML_FILE = File.join(File.dirname(__FILE__), "alchemist", "data", "units.yml")
 
   def self.measurement value, unit, exponent = 1.0
     NumericConversion.new value, unit, exponent
