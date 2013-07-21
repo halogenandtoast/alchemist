@@ -45,7 +45,7 @@ Installation
 Setup
 -----
 
-In order for methods like 1.meters to work, you'll either need to include the `Alchemist::Conversion` module in `Numeric` yourself like so:
+In order for methods like `1.meter` to work, you'll either need to include the `Alchemist::Conversion` module in `Numeric` yourself like so:
 
     class Numeric
       include Alchemist::Conversion
