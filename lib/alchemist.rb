@@ -95,8 +95,10 @@ module Alchemist
   end
 
   def self.prefix_matcher
-    keys = unit_prefixes.keys.map(&:to_s).sort{ |a,b| b.length <=> a.length }
-    %r{^(#{keys.join('|')})?(.+)}
+    @prefix_matcher ||= begin
+                          prefix_keys = unit_prefixes.keys.map(&:to_s).sort{ |a,b| b.length <=> a.length }
+                          %r{^(#{prefix_keys.join('|')})?(.+)}
+                        end
   end
 
   def self.prefixed_value_for prefix, unit
