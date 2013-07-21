@@ -2,6 +2,7 @@ require "alchemist/conversion_table"
 require "alchemist/measurement"
 require "alchemist/compound_measurement"
 require "alchemist/conversion_ext"
+require "alchemist/module_builder"
 
 module Alchemist
   DATA_DIR = File.join(File.dirname(__FILE__), "alchemist", "data")
@@ -11,32 +12,16 @@ module Alchemist
   DEFAULT_SI_UNITS_FILE = File.join(DATA_DIR, "si_units.yml")
   DEFAULT_UNIT_PREFIXES_FILE = File.join(DATA_DIR, "unit_prefixes.yml")
 
-  def self.setup
-    Numeric.send(:include, Alchemist::Conversion)
+  def self.setup category = nil
+    if category
+      Numeric.send(:include, ModuleBuilder.new(category).build)
+    else
+      Numeric.send(:include, Alchemist::Conversion)
+    end
   end
 
   def self.measure value, unit, exponent = 1.0
     Measurement.new value, unit, exponent
-  end
-
-  def self.use_si
-    @use_si ||= false
-  end
-
-  def self.use_si= use_si
-    @use_si = use_si
-  end
-
-  def self.load_conversion_table(filename=DEFAULT_UNITS_FILE)
-    @conversion_table = ConversionTable.new.load_all(filename)
-  end
-
-  def self.conversion_table
-    @conversion_table ||= load_conversion_table
-  end
-
-  def self.conversions
-    @conversions ||= load_conversions
   end
 
   def self.has_measurement? name
@@ -91,6 +76,27 @@ module Alchemist
   def self.unit_prefixes
     @unit_prefixes ||= YAML.load_file(DEFAULT_UNIT_PREFIXES_FILE)
   end
+
+  def self.use_si
+    @use_si ||= false
+  end
+
+  def self.use_si= use_si
+    @use_si = use_si
+  end
+
+  def self.load_conversion_table(filename=DEFAULT_UNITS_FILE)
+    @conversion_table = ConversionTable.new.load_all(filename)
+  end
+
+  def self.conversion_table
+    @conversion_table ||= load_conversion_table
+  end
+
+  def self.conversions
+    @conversions ||= load_conversions
+  end
+
 
   private
 

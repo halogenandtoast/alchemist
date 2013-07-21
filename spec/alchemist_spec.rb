@@ -1,21 +1,17 @@
 require 'spec_helper'
 
 describe Alchemist do
+
+  it "sets up Numeric" do
+    fake_module = double()
+    fake_module.should_receive(:include).with(Alchemist::Conversion)
+    stub_const("Numeric", fake_module)
+    Alchemist.setup
+  end
+
   it "creates a measurement" do
     unit = Alchemist.measure(1, :meter)
     expect(unit).to eq(1.meter)
-  end
-
-  it "can compare units" do
-    expect(1.m).to eq(1.meter)
-  end
-
-  it "can convert units" do
-    expect(5.grams).to eq(0.005.kilograms)
-  end
-
-  it "can convert units with formulas" do
-    expect(222.5.celsius.to.fahrenheit).to eq(432.5.fahrenheit)
   end
 
   it "knows if it has a measurement" do
@@ -29,39 +25,23 @@ describe Alchemist do
   it "can register units" do
     Alchemist.register :quux, :qaat, 1.0
     Alchemist.register :quux, :quut, 3.0
-    expect(1.quut).to eq(3.qaat)
+    expect(Alchemist.conversion_table[:quux]).to eq({:qaat=>1.0, :quut=>3.0})
   end
 
   it "can register units with plural names" do
-    Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
-    expect(2.beard_seconds).to eq(10.angstroms)
+    Alchemist.register(:beards, [:beard_second, :beard_seconds], 1.0)
+    expect(Alchemist.conversion_table[:beards]).to eq({:beard_second=>1.0, :beard_seconds=>1.0})
   end
 
   it "can register units with formulas" do
-    Alchemist.register(:temperature, :yeti, [Proc.new{|t| t + 1}, Proc.new{|t| t - 1}])
-    expect(0.yeti).to eq(1.kelvin)
+    to = lambda { |t| t + 1 }
+    from = lambda { |t| t - 1 }
+    Alchemist.register(:yetis, :yeti, [to, from])
+    expect(Alchemist.conversion_table[:yetis]).to eq({:yeti => [to, from]})
   end
 
-  it "can multiply units" do
-    Alchemist.register_operation_conversions(:distance, :distance, :*, :square_meters)
-    expect(1.meter * 1.meter).to eq(1.square_meter)
-  end
-
-  it "can divide units" do
-    expect(2.meters / 1.meter).to eq(2.0)
-  end
-
-  it "can add units" do
-    expect(2.meters + 1.meter).to eq(3.meters)
-  end
-
-  it "can subtract units" do
-    expect(3.meters - 2.meters).to eq(1.meter)
-  end
-
-  it "can convert to other datatypes" do
-    expect(10.meters.to_i).to eq(10)
-    expect(10.meters.to_f).to eq(10.0)
-    expect(10.meters.to_s).to eq("10.0")
+  it "can parse a prefix" do
+    parsed = Alchemist.parse_prefix(:kilometer)
+    expect(parsed).to eq([1000.0, :meter])
   end
 end
