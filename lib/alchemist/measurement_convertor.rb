@@ -1,3 +1,5 @@
+require 'bigdecimal'
+
 module Alchemist
   class MeasurementConvertor
     def initialize from
@@ -14,12 +16,12 @@ module Alchemist
 
     def convert types, unit_name, exponent
       if type = types[0]
-        conversion_base = from.base(type)
+        conversion_base = BigDecimal.new(from.base(type).to_s)
         conversion_factor = Alchemist.conversion_table[type][unit_name]
         if proc_based?(conversion_factor)
           conversion_factor[1].call(conversion_base)
         else
-          Measurement.new(conversion_base / conversion_factor, unit_name, exponent)
+          Measurement.new(conversion_base / BigDecimal.new(conversion_factor.to_s), unit_name, exponent)
         end
       else
         raise Exception, "Incompatible Types"
