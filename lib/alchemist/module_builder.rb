@@ -6,6 +6,7 @@ module Alchemist
 
     def build
       Module.new.tap do |category_module|
+        category_module.class_eval %(def self.inspect() "#<Module(#{category})>" end)
         category_module.class_eval category_methods
       end
     end
