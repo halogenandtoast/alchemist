@@ -9,33 +9,47 @@ code more readable.
 
 Having code that looks like this is meaningless
 
-    miles = 8 * 1609.344
+```ruby
+miles = 8 * 1609.344
+```
 
 You could add comments
 
-    miles = 8 * 1609.344 # converting meters to miles
+```ruby
+miles = 8 * 1609.344 # converting meters to miles
+```
 
 But why not have this!
 
-    8.meters.to.miles
+```ruby
+8.meters.to.miles
+```
 
 You can even perform mathematical operations
 
-    10.kilometers + 1.mile # 11.609344 kilometers
+```ruby
+10.kilometers + 1.mile # 11.609344 kilometers
+```
 
 Handling bytes now works according to the JEDEC memory standard
 
-    1.kb.to.b.to_f == 1024.0
+```ruby
+1.kb.to.b.to_f == 1024.0
+```
 
 To switch to the IEC memory standard, force SI units with
 
-    Alchemist::use_si = true
+```ruby
+Alchemist::use_si = true
+```
 
 To see all the units alchemist has built in conversion for, check out the [units file](lib/alchemist/data/units.yml)
 
 <strong>You may also register your own units</strong>
 
-    Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
+```ruby
+Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
+```
 
 Installation
 ------------
@@ -45,26 +59,26 @@ Installation
 Setup
 -----
 
-In order for methods like `1.meter` to work, you'll either need to include the `Alchemist::Conversion` module in `Numeric` yourself like so:
+In order for methods like `1.meter` to work, you'll either need to setup Alchemist yourself:
 
-    class Numeric
-      include Alchemist::Conversion
-    end
-
-or you can just call:
-
-    Alchemist.setup
+```ruby
+Alchemist.setup # This will load every category of measurement
+```
 
 if you only want to use one category for conversions you can load it individually (this will prevent method_missing from being overridden):
 
-    Alchemist.setup('distance')
+```ruby
+Alchemist.setup('distance') # This will load only distance
+```
 
 Rails Warning
 -------------
 
 Rails adds some methods like `bytes` to `Numeric` so it's highly recommended that instead of trying to call `bytes` on a numeric, you should use the `measure` method:
 
-    Alchemist.measure(10, :bytes)
+```ruby
+Alchemist.measure(10, :bytes)
+```
 
 License
 -------

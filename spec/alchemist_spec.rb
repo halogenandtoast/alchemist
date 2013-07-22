@@ -3,10 +3,14 @@ require 'spec_helper'
 describe Alchemist do
 
   it "sets up Numeric" do
+    category_module = double()
+    module_builder = double()
+    module_builder.should_receive(:build).and_return(category_module)
     fake_module = double()
-    fake_module.should_receive(:include).with(Alchemist::Conversion)
+    fake_module.should_receive(:include).with(category_module)
+    Alchemist::ModuleBuilder.should_receive(:new).with('distance').and_return(module_builder)
     stub_const("Numeric", fake_module)
-    Alchemist.setup
+    Alchemist.setup('distance')
   end
 
   it "creates a measurement" do

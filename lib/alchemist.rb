@@ -1,7 +1,6 @@
 require "alchemist/conversion_table"
 require "alchemist/measurement"
 require "alchemist/compound_measurement"
-require "alchemist/conversion_ext"
 require "alchemist/module_builder"
 
 module Alchemist
@@ -16,7 +15,7 @@ module Alchemist
     if category
       Numeric.send(:include, ModuleBuilder.new(category).build)
     else
-      Numeric.send(:include, Alchemist::Conversion)
+      conversion_table.keys.each { |category| Numeric.send(:include, ModuleBuilder.new(category).build) }
     end
   end
 

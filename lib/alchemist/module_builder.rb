@@ -33,7 +33,7 @@ module Alchemist
 
     def prefixed_methods(name)
       prefixes_with_value(name).map do |prefix, value|
-        %(define_method("#{prefix}#{name}") { Alchemist.measure self, :#{prefix}#{name}, #{value} })
+        %(define_method("#{prefix}#{name}") { Alchemist.measure self, :#{name}, #{value} })
       end.join("\n")
     end
   end
