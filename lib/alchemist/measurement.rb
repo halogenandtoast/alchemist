@@ -79,6 +79,16 @@ module Alchemist
       types & Alchemist.measurement_for(other_unit_name)
     end
 
+    def geospatial
+      if types.include?(:angles)
+        geospatial_angle_to_arc
+      elsif types.include?(:distance)
+        geospatial_arc_to_angle
+      else
+        raise Exception, "geospatial must either be angles or distance"
+      end
+    end
+
     private
 
     def ensure_shared_type! measurement
@@ -119,6 +129,14 @@ module Alchemist
 
     def convertor
       MeasurementConvertor.new(self)
+    end
+
+    def geospatial_angle_to_arc
+      to.radians.to_f.radians_latitude.to.earth_arc_meters.to_f.meters
+    end
+
+    def geospatial_arc_to_angle
+      to.meters.to_f.earth_arc_meters.to.radians_latitude.to_f.radians
     end
   end
 end
