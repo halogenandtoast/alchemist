@@ -37,6 +37,12 @@ Handling bytes now works according to the JEDEC memory standard
 1.kb.to.b.to_f == 1024.0
 ```
 
+Converting distance of arc length on Earth to an (approximate) corresponding spherical geometry angle can be done with
+
+```ruby
+1.mile.geospatial.to.degree == 0.014457066992474555
+```
+
 To switch to the IEC memory standard, force SI units with
 
 ```ruby

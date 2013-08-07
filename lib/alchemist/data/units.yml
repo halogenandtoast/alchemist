@@ -557,3 +557,8 @@
   :teaspoons: 0.00492892159
   :sydharb: 500000000000.0
   :sydharbs: 500000000000.0
+:geospatial:
+  :earth_arc_meter: 1.0
+  :earth_arc_meters: 1.0
+  :radian_latitude: 6378100
+  :radians_latitude: 6378100

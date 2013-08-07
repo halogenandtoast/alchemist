@@ -42,5 +42,16 @@ module Alchemist
     it "can provide a string value" do
       expect(10.meters.to_s).to eq("10.0")
     end
+
+    describe '#geospatial' do
+      it 'should convert angles to meters' do
+        expect(1.degree.geospatial).to eq(111318.84502145034.meters)
+      end
+
+      it 'should convert distances to radians' do
+        expect(1.mile.geospatial).to eq(0.00025232341920007525.radians)
+      end
+    end
+
   end
 end
