@@ -27,8 +27,16 @@ module Alchemist
       expect(2.meters + 1.meter).to eq(3.meters)
     end
 
+    it "can add different measurements" do
+      expect(5.meters + 2.inches).to eq(5.0508.meters)
+    end
+
     it "can be subtracted" do
       expect(3.meters - 2.meters).to eq(1.meter)
+    end
+
+    it "can subtract different measurements" do
+      expect(5.meters - 2.inches).to eq(4.9492.meters)
     end
 
     it "can provide an integer value" do

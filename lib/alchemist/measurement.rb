@@ -26,12 +26,14 @@ module Alchemist
 
     def + measurement
       ensure_shared_type!(measurement)
-      Measurement.new(value + measurement.value, unit_name, exponent)
+      converted = measurement.to(unit_name)
+      Measurement.new(value + converted.value, unit_name, exponent)
     end
 
     def - measurement
       ensure_shared_type!(measurement)
-      Measurement.new(value - measurement.value, unit_name, exponent)
+      converted = measurement.to(unit_name)
+      Measurement.new(value - converted.value, unit_name, exponent)
     end
 
     def / measurement
