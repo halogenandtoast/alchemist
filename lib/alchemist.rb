@@ -4,6 +4,8 @@ require "alchemist/compound_measurement"
 require "alchemist/module_builder"
 
 module Alchemist
+  autoload :Earth, "alchemist/objects/planets/earth"
+
   DATA_DIR = File.join(File.dirname(__FILE__), "alchemist", "data")
 
   DEFAULT_UNITS_FILE = File.join(DATA_DIR, "units.yml")
