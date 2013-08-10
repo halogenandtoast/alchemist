@@ -51,7 +51,12 @@ module Alchemist
       expect(10.meters.to_s).to eq("10.0")
     end
 
+    it "can coerce correctly" do
+      expect(1.meter.coerce(10)).to eq([1.meter, 10])
+    end
+
     describe '#geospatial' do
+
       it 'should convert angles to meters' do
         expect(1.degree.geospatial).to eq(111318.84502145034.meters)
       end
@@ -60,6 +65,5 @@ module Alchemist
         expect(1.mile.geospatial).to eq(0.00025232341920007525.radians)
       end
     end
-
   end
 end
