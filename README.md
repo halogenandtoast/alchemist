@@ -40,6 +40,7 @@ Handling bytes now works according to the JEDEC memory standard
 Converting distance of arc length on Earth to an (approximate) corresponding spherical geometry angle can be done with
 
 ```ruby
+require 'alchemist/geospatial'
 1.mile.geospatial.to.degree == 0.014457066992474555
 ```
 

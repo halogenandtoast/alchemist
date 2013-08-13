@@ -1,3 +1,5 @@
+require 'alchemist'
+
 module Alchemist
   class Measurement
     def geospatial
