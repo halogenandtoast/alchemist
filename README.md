@@ -72,7 +72,7 @@ In order for methods like `1.meter` to work, you'll either need to setup Alchemi
 Alchemist.setup # This will load every category of measurement
 ```
 
-if you only want to use one category for conversions you can load it individually (this will prevent method_missing from being overridden):
+if you only want to use one category for conversions you can load it individually:
 
 ```ruby
 Alchemist.setup('distance') # This will load only distance
