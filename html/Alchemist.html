@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Alchemist - RDoc Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/alchemist.rb
+    <li>lib/alchemist/compound_measurement.rb
+    <li>lib/alchemist/conversion_table.rb
+    <li>lib/alchemist/geospatial.rb
+    <li>lib/alchemist/measurement.rb
+    <li>lib/alchemist/measurement_convertor.rb
+    <li>lib/alchemist/module_builder.rb
+    <li>lib/alchemist/objects/planets/earth.rb
+    <li>lib/alchemist/version.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-c-binary_prefixes">::binary_prefixes</a>
+    
+    <li ><a href="#method-c-conversion_table">::conversion_table</a>
+    
+    <li ><a href="#method-c-conversions">::conversions</a>
+    
+    <li ><a href="#method-c-has_measurement-3F">::has_measurement?</a>
+    
+    <li ><a href="#method-c-load_conversion_table">::load_conversion_table</a>
+    
+    <li ><a href="#method-c-measure">::measure</a>
+    
+    <li ><a href="#method-c-measurement_for">::measurement_for</a>
+    
+    <li ><a href="#method-c-operator_actions">::operator_actions</a>
+    
+    <li ><a href="#method-c-parse_prefix">::parse_prefix</a>
+    
+    <li ><a href="#method-c-register">::register</a>
+    
+    <li ><a href="#method-c-register_operation_conversions">::register_operation_conversions</a>
+    
+    <li ><a href="#method-c-setup">::setup</a>
+    
+    <li ><a href="#method-c-si_units">::si_units</a>
+    
+    <li ><a href="#method-c-unit_prefixes">::unit_prefixes</a>
+    
+    <li ><a href="#method-c-use_si">::use_si</a>
+    
+    <li ><a href="#method-c-use_si-3D">::use_si=</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./README_md.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Alchemist.html">Alchemist</a>
+  
+    <li><a href="./Alchemist/CompoundMeasurement.html">Alchemist::CompoundMeasurement</a>
+  
+    <li><a href="./Alchemist/ConversionTable.html">Alchemist::ConversionTable</a>
+  
+    <li><a href="./Alchemist/Earth.html">Alchemist::Earth</a>
+  
+    <li><a href="./Alchemist/Measurement.html">Alchemist::Measurement</a>
+  
+    <li><a href="./Alchemist/MeasurementConvertor.html">Alchemist::MeasurementConvertor</a>
+  
+    <li><a href="./Alchemist/ModuleBuilder.html">Alchemist::ModuleBuilder</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Alchemist</h1>
+
+  <div id="description" class="description">
+    
+<p>This is the main <a href="Alchemist.html">Alchemist</a> module. It’s
+purpose is to load and register unit categories and types.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="DATA_DIR">DATA_DIR
+        
+        <dd class="description">
+        
+      
+        <dt id="DEFAULT_BINARY_PREFIXES_FILE">DEFAULT_BINARY_PREFIXES_FILE
+        
+        <dd class="description">
+        
+      
+        <dt id="DEFAULT_SI_UNITS_FILE">DEFAULT_SI_UNITS_FILE
+        
+        <dd class="description">
+        
+      
+        <dt id="DEFAULT_UNITS_FILE">DEFAULT_UNITS_FILE
+        
+        <dd class="description">
+        
+      
+        <dt id="DEFAULT_UNIT_PREFIXES_FILE">DEFAULT_UNIT_PREFIXES_FILE
+        
+        <dd class="description">
+        
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-binary_prefixes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">binary_prefixes</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="binary_prefixes-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 83</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">binary_prefixes</span>
+  <span class="ruby-ivar">@binary_prefixes</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-constant">DEFAULT_BINARY_PREFIXES_FILE</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- binary_prefixes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- binary_prefixes-method -->
+
+    
+      <div id="method-c-conversion_table" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">conversion_table</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="conversion_table-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 107</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">conversion_table</span>
+  <span class="ruby-ivar">@conversion_table</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">load_conversion_table</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- conversion_table-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- conversion_table-method -->
+
+    
+      <div id="method-c-conversions" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">conversions</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="conversions-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 111</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">conversions</span>
+  <span class="ruby-ivar">@conversions</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">load_conversions</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- conversions-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- conversions-method -->
+
+    
+      <div id="method-c-has_measurement-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">has_measurement?</span><span
+            class="method-args">(name)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="has_measurement-3F-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">has_measurement?</span> <span class="ruby-identifier">name</span>
+  <span class="ruby-identifier">conversions</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- has_measurement-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- has_measurement-3F-method -->
+
+    
+      <div id="method-c-load_conversion_table" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">load_conversion_table</span><span
+            class="method-args">(filename=DEFAULT_UNITS_FILE)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="load_conversion_table-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">load_conversion_table</span>(<span class="ruby-identifier">filename</span>=<span class="ruby-constant">DEFAULT_UNITS_FILE</span>)
+  <span class="ruby-ivar">@conversion_table</span> = <span class="ruby-constant">ConversionTable</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">load_all</span>(<span class="ruby-identifier">filename</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- load_conversion_table-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- load_conversion_table-method -->
+
+    
+      <div id="method-c-measure" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">measure</span><span
+            class="method-args">(value, unit, exponent = 1.0)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="measure-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 38</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">measure</span> <span class="ruby-identifier">value</span>, <span class="ruby-identifier">unit</span>, <span class="ruby-identifier">exponent</span> = <span class="ruby-value">1.0</span>
+  <span class="ruby-constant">Measurement</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">value</span>, <span class="ruby-identifier">unit</span>, <span class="ruby-identifier">exponent</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- measure-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- measure-method -->
+
+    
+      <div id="method-c-measurement_for" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">measurement_for</span><span
+            class="method-args">(name)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="measurement_for-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">measurement_for</span> <span class="ruby-identifier">name</span>
+  <span class="ruby-identifier">conversions</span>[ <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span> ]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- measurement_for-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- measurement_for-method -->
+
+    
+      <div id="method-c-operator_actions" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">operator_actions</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="operator_actions-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">operator_actions</span>
+  <span class="ruby-ivar">@operator_actions</span> <span class="ruby-operator">||=</span> {}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- operator_actions-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- operator_actions-method -->
+
+    
+      <div id="method-c-parse_prefix" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parse_prefix</span><span
+            class="method-args">(unit)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="parse_prefix-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 62</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_prefix</span>(<span class="ruby-identifier">unit</span>)
+  <span class="ruby-identifier">matches</span> = <span class="ruby-identifier">unit</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">prefix_matcher</span>)
+  <span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">parsed_unit</span> = <span class="ruby-identifier">matches</span>.<span class="ruby-identifier">captures</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">prefix</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">si_units</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">parsed_unit</span>)
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">prefixed_value_for</span>(<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">parsed_unit</span>)
+    [<span class="ruby-identifier">value</span>, <span class="ruby-identifier">parsed_unit</span>.<span class="ruby-identifier">to_sym</span>]
+  <span class="ruby-keyword">else</span>
+    [<span class="ruby-value">1</span>, <span class="ruby-identifier">unit</span>]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- parse_prefix-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- parse_prefix-method -->
+
+    
+      <div id="method-c-register" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register</span><span
+            class="method-args">(type, names, value)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="register-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">register</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">names</span>, <span class="ruby-identifier">value</span>)
+  <span class="ruby-identifier">names</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">names</span>)
+  <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Measurement</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">base</span>(<span class="ruby-identifier">type</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-constant">Alchemist</span>.<span class="ruby-identifier">conversion_table</span>[<span class="ruby-identifier">type</span>] <span class="ruby-operator">||=</span> {}
+
+  <span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">conversions</span>[<span class="ruby-identifier">name</span>] <span class="ruby-operator">||=</span> []
+    <span class="ruby-identifier">conversions</span>[<span class="ruby-identifier">name</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">type</span>
+    <span class="ruby-constant">Alchemist</span>.<span class="ruby-identifier">conversion_table</span>[<span class="ruby-identifier">type</span>][<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register-method -->
+
+    
+      <div id="method-c-register_operation_conversions" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register_operation_conversions</span><span
+            class="method-args">(type, other_type, operation, converted_type)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="register_operation_conversions-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">register_operation_conversions</span> <span class="ruby-identifier">type</span>, <span class="ruby-identifier">other_type</span>, <span class="ruby-identifier">operation</span>, <span class="ruby-identifier">converted_type</span>
+  <span class="ruby-identifier">operator_actions</span>[<span class="ruby-identifier">operation</span>] <span class="ruby-operator">||=</span> []
+  <span class="ruby-identifier">operator_actions</span>[<span class="ruby-identifier">operation</span>] <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">type</span>, <span class="ruby-identifier">other_type</span>, <span class="ruby-identifier">converted_type</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register_operation_conversions-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register_operation_conversions-method -->
+
+    
+      <div id="method-c-setup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">setup</span><span
+            class="method-args">(category = nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Loads a <code>category</code> of measurements into Numeric as a module.</p>
+
+<p>If no <code>category</code> is provided, it will load all known categories:</p>
+
+<pre>Alchemist.setup
+Alchemist.setup(:distance)</pre>
+          
+          
+
+          
+          <div class="method-source-code" id="setup-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 30</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">setup</span> <span class="ruby-identifier">category</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">category</span>
+    <span class="ruby-constant">Numeric</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">ModuleBuilder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">category</span>).<span class="ruby-identifier">build</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">conversion_table</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">category</span><span class="ruby-operator">|</span> <span class="ruby-constant">Numeric</span>.<span class="ruby-identifier">send</span>(<span class="ruby-value">:include</span>, <span class="ruby-constant">ModuleBuilder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">category</span>).<span class="ruby-identifier">build</span>) }
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- setup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- setup-method -->
+
+    
+      <div id="method-c-si_units" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">si_units</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="si_units-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 87</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">si_units</span>
+  <span class="ruby-ivar">@si_units</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-constant">DEFAULT_SI_UNITS_FILE</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- si_units-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- si_units-method -->
+
+    
+      <div id="method-c-unit_prefixes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unit_prefixes</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="unit_prefixes-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 91</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">unit_prefixes</span>
+  <span class="ruby-ivar">@unit_prefixes</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load_file</span>(<span class="ruby-constant">DEFAULT_UNIT_PREFIXES_FILE</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unit_prefixes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unit_prefixes-method -->
+
+    
+      <div id="method-c-use_si" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">use_si</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="use_si-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 95</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">use_si</span>
+  <span class="ruby-ivar">@use_si</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- use_si-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- use_si-method -->
+
+    
+      <div id="method-c-use_si-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">use_si=</span><span
+            class="method-args">(use_si)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="use_si-3D-source">
+            <pre><span class="ruby-comment"># File lib/alchemist.rb, line 99</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">use_si=</span> <span class="ruby-identifier">use_si</span>
+  <span class="ruby-ivar">@use_si</span> = <span class="ruby-identifier">use_si</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- use_si-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- use_si-3D-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

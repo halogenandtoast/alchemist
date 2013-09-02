@@ -3,8 +3,12 @@ require "alchemist/measurement"
 require "alchemist/compound_measurement"
 require "alchemist/module_builder"
 
+# :main: README.md
+
+##
 # This is the main Alchemist module. It's purpose is to load and register unit
 # categories and types.
+
 module Alchemist
   autoload :Earth, "alchemist/objects/planets/earth"
 
@@ -15,14 +19,14 @@ module Alchemist
   DEFAULT_SI_UNITS_FILE = File.join(DATA_DIR, "si_units.yml")
   DEFAULT_UNIT_PREFIXES_FILE = File.join(DATA_DIR, "unit_prefixes.yml")
 
-  # Loads a `category` of measurements into Numeric as a module.
+  ##
+  # Loads a +category+ of measurements into Numeric as a module.
   #
-  # If no `category` is provided, it will load all known categories:
+  # If no +category+ is provided, it will load all known categories:
   #
-  # ```ruby
-  # Alchemist.setup # loads all categories
-  # Alchemist.setup(:distance) #loads only the distance category
-  # ```
+  #   Alchemist.setup
+  #   Alchemist.setup(:distance)
+
   def self.setup category = nil
     if category
       Numeric.send(:include, ModuleBuilder.new(category).build)

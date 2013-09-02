@@ -7,6 +7,5 @@ RSpec::Core::RakeTask.new(:spec)
 task default: :spec
 
 YARD::Rake::YardocTask.new do |t|
-  t.files = ["lib/**/*.rb", "-", "README.md"]
-  t.options = ["-m", "markdown"]
+  t.files   = ['lib/**/*.rb']
 end

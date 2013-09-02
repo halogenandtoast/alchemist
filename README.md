@@ -1,5 +1,8 @@
-Alchemist
-=========
+# Alchemist
+
+[![Build Status](https://secure.travis-ci.org/jnicklas/capybara.png)](http://travis-ci.org/jnicklas/capybara)
+[![Dependency Status](https://gemnasium.com/jnicklas/capybara.png)](https://gemnasium.com/jnicklas/capybara)
+[![Code Quality](https://codeclimate.com/badge.png)](https://codeclimate.com/github/jnicklas/capybara)
 
 [![Build Status](https://travis-ci.org/halogenandtoast/alchemist.png?branch=master)](https://travis-ci.org/halogenandtoast/alchemist)
 [![Code Climate](https://codeclimate.com/github/halogenandtoast/alchemist.png)](https://codeclimate.com/github/halogenandtoast/alchemist)
@@ -61,7 +64,9 @@ Alchemist.register(:distance, [:beard_second, :beard_seconds], 5.angstroms)
 Installation
 ------------
 
-    gem install alchemist
+```bash
+gem install alchemist
+```
 
 Setup
 -----
