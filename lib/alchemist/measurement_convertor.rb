@@ -16,16 +16,27 @@ module Alchemist
 
     def convert types, unit_name, exponent
       if type = types[0]
-        conversion_base = BigDecimal.new(from.base(type).to_s)
-        conversion_factor = Alchemist.conversion_table[type][unit_name]
-        if proc_based?(conversion_factor)
-          Measurement.new(conversion_factor[1].call(conversion_base), unit_name, exponent)
-        else
-          Measurement.new(conversion_base / BigDecimal.new(conversion_factor.to_s), unit_name, exponent)
-        end
+        convert_from_type(type, unit_name, exponent)
       else
         raise Exception, "Incompatible Types"
       end
+    end
+
+    def convert_from_type(type, unit_name, exponent)
+      conversion_base = BigDecimal.new(from.base(type).to_s)
+      conversion_factor = Alchemist.conversion_table[type][unit_name]
+
+      value = value_from(conversion_base, conversion_factor)
+      Measurement.new(value, unit_name, exponent)
+    end
+
+    def value_from(base, factor)
+      if proc_based?(factor)
+        factor[1].call(base)
+      else
+        base / BigDecimal.new(factor.to_s)
+      end
+
     end
 
     def proc_based? conversion_factor
