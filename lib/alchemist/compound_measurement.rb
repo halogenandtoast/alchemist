@@ -42,7 +42,7 @@ module Alchemist
 
     def should_remove_units? numerator, denominator
       return false if numerator.is_a?(Numeric) || denominator.is_a?(Numeric)
-      (Alchemist.measurement_for(numerator.unit_name) & Alchemist.measurement_for(denominator.unit_name)).length > 0
+      (Alchemist.library.measurement_for(numerator.unit_name) & Alchemist.library.measurement_for(denominator.unit_name)).length > 0
     end
 
     def set_coefficients
@@ -56,7 +56,7 @@ module Alchemist
     end
 
     def method_missing(method, *attrs, &block)
-      if Alchemist.measurement_for(method)
+      if Alchemist.library.measurement_for(method)
         @denominators << Alchemist.measure(1, method)
         consolidate
       end

@@ -21,12 +21,12 @@ module Alchemist
     end
 
     def unit_names
-      Alchemist.conversion_table[category.to_sym].map { |values| values[0] }
+      Library.instance.unit_names(category)
     end
 
     def prefixes_with_value(name)
-      if Alchemist.si_units.include?(name.to_s)
-        Alchemist.unit_prefixes
+      if Library.instance.si_units.include?(name.to_s)
+        Library.instance.unit_prefixes
       else
         []
       end

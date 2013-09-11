@@ -72,11 +72,11 @@ module Alchemist
     end
 
     def types
-      Alchemist.measurement_for(unit_name)
+      library.measurement_for(unit_name)
     end
 
     def shared_types other_unit_name
-      types & Alchemist.measurement_for(other_unit_name)
+      types & library.measurement_for(other_unit_name)
     end
 
     def coerce(number)
@@ -84,6 +84,10 @@ module Alchemist
     end
 
     private
+
+    def library
+      Library.instance
+    end
 
     def ensure_shared_type! measurement
       if !has_shared_types?(measurement.unit_name)
@@ -100,7 +104,7 @@ module Alchemist
     end
 
     def conversion_base_for unit_type
-      Alchemist.conversion_table[unit_type][unit_name]
+      library.conversion_base_for(unit_type, unit_name)
     end
 
     def has_shared_types? other_unit_name
@@ -109,7 +113,7 @@ module Alchemist
 
     def try_raising_dimension(measurement)
       valid_types = shared_types(measurement.unit_name)
-      Alchemist.operator_actions[:*].each do |s1, s2, new_type|
+      library.operator_actions[:*].each do |s1, s2, new_type|
         if (valid_types & [s1, s2]).any?
           return Alchemist.measure(value * measurement.to_f, new_type)
         end

@@ -17,11 +17,11 @@ module Alchemist
     end
 
     def conversion_table
-      Alchemist::conversion_table
+      Alchemist.library.conversion_table
     end
 
     def load_file file
-      Alchemist::load_conversion_table file
+      Alchemist.library.load_conversion_table file
     end
 
     def good_file
@@ -33,7 +33,7 @@ module Alchemist
     end
 
     def default_file
-      File.join(File.dirname(__FILE__), "..", "lib", "alchemist", "units.yml")
+      Configuration::DEFAULT_UNITS_FILE
     end
   end
 end

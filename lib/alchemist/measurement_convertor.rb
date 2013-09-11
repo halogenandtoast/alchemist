@@ -1,4 +1,5 @@
 require 'bigdecimal'
+require 'alchemist/prefix_parser'
 
 module Alchemist
   class MeasurementConvertor
@@ -7,12 +8,16 @@ module Alchemist
     end
 
     def method_missing method, *args, &block
-      exponent, unit_name = Alchemist.parse_prefix(method)
+      exponent, unit_name = PrefixParser.new.parse(method)
       convert(from.shared_types(unit_name), unit_name, exponent)
     end
 
     private
     attr_reader :from
+
+    def library
+      Library.instance
+    end
 
     def convert types, unit_name, exponent
       if type = types[0]
@@ -24,7 +29,7 @@ module Alchemist
 
     def convert_from_type(type, unit_name, exponent)
       conversion_base = BigDecimal.new(from.base(type).to_s)
-      conversion_factor = Alchemist.conversion_table[type][unit_name]
+      conversion_factor = library.conversion_base_for(type, unit_name)
 
       value = value_from(conversion_base, conversion_factor)
       Measurement.new(value, unit_name, exponent)
