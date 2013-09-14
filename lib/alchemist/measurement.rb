@@ -18,7 +18,7 @@ module Alchemist
 
     def to type = nil
       if type
-        convertor.send(type)
+        convertor.send(type, exponent)
       else
         convertor
       end
@@ -52,7 +52,7 @@ module Alchemist
 
     def base unit_type
       conversion_base = conversion_base_for(unit_type)
-      convert_to_base conversion_base
+      convert_to_base(conversion_base) * exponent
     end
 
     def to_s
@@ -68,7 +68,7 @@ module Alchemist
     end
 
     def <=>(other)
-      (self.to_f * exponent).to_f <=> other.to(unit_name).to_f
+      self.to_f <=> other.to(unit_name).to_f
     end
 
     def types

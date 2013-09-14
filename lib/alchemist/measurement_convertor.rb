@@ -9,7 +9,7 @@ module Alchemist
 
     def method_missing method, *args, &block
       exponent, unit_name = PrefixParser.new.parse(method)
-      convert(from.shared_types(unit_name), unit_name, exponent)
+      convert(from.shared_types(unit_name), unit_name, args.first || exponent)
     end
 
     private
@@ -32,7 +32,7 @@ module Alchemist
       conversion_factor = library.conversion_base_for(type, unit_name)
 
       value = value_from(conversion_base, conversion_factor)
-      Measurement.new(value, unit_name, exponent)
+      Measurement.new(value / from.exponent, unit_name, exponent)
     end
 
     def value_from(base, factor)

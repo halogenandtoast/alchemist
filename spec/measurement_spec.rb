@@ -67,6 +67,11 @@ module Alchemist
       expect(1.6.meters.floor).to eq(1.meter)
     end
 
+    it "handles exponents correctly" do
+      expect(1.kg.to.kg).to eq(1.kg)
+      expect(1.kg.to(:kg)).to eq(1.kg)
+    end
+
     describe '#geospatial' do
 
       it 'should convert angles to meters' do
