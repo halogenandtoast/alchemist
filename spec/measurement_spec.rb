@@ -55,6 +55,18 @@ module Alchemist
       expect(1.meter.coerce(10)).to eq([1.meter, 10])
     end
 
+    it "can round measurements" do
+      expect(1.5.meters.round).to eq(2.meters)
+    end
+
+    it "can ceil measurements" do
+      expect(1.4.meters.ceil).to eq(2.meters)
+    end
+
+    it "can floor measurments" do
+      expect(1.6.meters.floor).to eq(1.meter)
+    end
+
     describe '#geospatial' do
 
       it 'should convert angles to meters' do

@@ -27,24 +27,24 @@ module Alchemist
     def + measurement
       ensure_shared_type!(measurement)
       converted = measurement.to(unit_name)
-      Measurement.new(value + converted.value, unit_name, exponent)
+      remeasure(value + converted.value)
     end
 
     def - measurement
       ensure_shared_type!(measurement)
       converted = measurement.to(unit_name)
-      Measurement.new(value - converted.value, unit_name, exponent)
+      remeasure(value - converted.value)
     end
 
     def / measurement
       ensure_shared_type!(measurement)
       dividend = measurement.is_a?(Measurement) ? measurement.to(unit_name).to_f / exponent : measurement
-      Measurement.new(value / dividend, unit_name, exponent).value
+      remeasure(value / dividend).value
     end
 
     def * multiplicand
       if multiplicand.is_a?(Numeric)
-        Measurement.new(value * multiplicand, unit_name, exponent)
+        remeasure(value * multiplicand)
       else
         try_raising_dimension(multiplicand)
       end
@@ -83,7 +83,23 @@ module Alchemist
       [self, number]
     end
 
+    def round(*args)
+      remeasure(value.round(*args))
+    end
+
+    def ceil(*args)
+      remeasure(value.ceil(*args))
+    end
+
+    def floor(*args)
+      remeasure(value.floor(*args))
+    end
+
     private
+
+    def remeasure value
+      Measurement.new(value, unit_name, exponent)
+    end
 
     def library
       Library.instance
