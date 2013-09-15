@@ -52,19 +52,19 @@ module Alchemist
 
     def base unit_type
       conversion_base = conversion_base_for(unit_type)
-      convert_to_base(conversion_base) * exponent
+      convert_to_base(conversion_base)
     end
 
     def to_s
-      value.to_s
+      to_f.to_s
     end
 
     def to_i
-      value.to_i
+      to_f.to_i
     end
 
     def to_f
-      @value
+      @value * exponent
     end
 
     def <=>(other)

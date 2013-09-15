@@ -70,6 +70,8 @@ module Alchemist
     it "handles exponents correctly" do
       expect(1.kg.to.kg).to eq(1.kg)
       expect(1.kg.to(:kg)).to eq(1.kg)
+      expect(1.kg.to.kg.to.g).to eq(1000.g)
+      expect(1.kg.to.g.to.kg).to eq(1.kg)
     end
 
     describe '#geospatial' do

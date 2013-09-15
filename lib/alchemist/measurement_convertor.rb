@@ -1,5 +1,6 @@
 require 'bigdecimal'
 require 'alchemist/prefix_parser'
+require 'pry'
 
 module Alchemist
   class MeasurementConvertor
@@ -32,7 +33,7 @@ module Alchemist
       conversion_factor = library.conversion_base_for(type, unit_name)
 
       value = value_from(conversion_base, conversion_factor)
-      Measurement.new(value / from.exponent, unit_name, exponent)
+      Measurement.new(value / exponent, unit_name, exponent)
     end
 
     def value_from(base, factor)
