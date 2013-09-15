@@ -1,0 +1,3 @@
+require 'alchemist'
+
+Alchemist.setup
