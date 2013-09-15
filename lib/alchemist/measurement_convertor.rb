@@ -1,6 +1,5 @@
 require 'bigdecimal'
 require 'alchemist/prefix_parser'
-require 'pry'
 
 module Alchemist
   class MeasurementConvertor
