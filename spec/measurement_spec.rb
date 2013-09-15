@@ -21,6 +21,7 @@ module Alchemist
 
     it "can be divided" do
       expect(2.meters / 1.meter).to eq(2.0)
+      expect(4.meters / 2).to eq(2.meters)
     end
 
     it "can be added" do

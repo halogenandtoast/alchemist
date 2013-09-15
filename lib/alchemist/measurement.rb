@@ -37,9 +37,13 @@ module Alchemist
     end
 
     def / measurement
-      ensure_shared_type!(measurement)
-      dividend = measurement.is_a?(Measurement) ? measurement.to(unit_name).to_f / exponent : measurement
-      remeasure(value / dividend).value
+      converted = remeasure(value / dividend(measurement))
+
+      if measurement.is_a?(Measurement)
+        converted.value
+      else
+        converted
+      end
     end
 
     def * multiplicand
@@ -96,6 +100,15 @@ module Alchemist
     end
 
     private
+
+    def dividend measurement
+      if measurement.is_a?(Measurement)
+        ensure_shared_type!(measurement)
+        measurement.to(unit_name).to_f / exponent
+      else
+        measurement
+      end
+    end
 
     def remeasure value
       Measurement.new(value, unit_name, exponent)
