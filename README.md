@@ -66,17 +66,20 @@ Installation
 Setup
 -----
 
-In order for methods like `1.meter` to work, you'll either need to setup Alchemist yourself:
+In order for methods like `1.meter` to work, you'll either need to setup Alchemist yourself.
 
+Add the following line to your `config/initializers/alchemist.rb:`
 ```ruby
 Alchemist.setup # This will load every category of measurement
 ```
 
-if you only want to use one category for conversions you can load it individually:
+If you only want to use one category for conversions you can load it individually:
 
 ```ruby
 Alchemist.setup('distance') # This will load only distance
 ```
+
+Restart your application.
 
 Rails Warning
 -------------
