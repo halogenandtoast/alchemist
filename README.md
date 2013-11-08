@@ -78,8 +78,15 @@ if you only want to use one category for conversions you can load it individuall
 Alchemist.setup('distance') # This will load only distance
 ```
 
-Rails Warning
--------------
+Rails
+-----
+
+#### Setup
+
+It is suggested that you add your `Alchemist.setup` call to `config/initializers/alchemist.rb` and then restart your rails server.
+
+
+#### Rails Warning
 
 Rails adds some methods like `bytes` to `Numeric` so it's highly recommended that instead of trying to call `bytes` on a numeric, you should use the `measure` method:
 
