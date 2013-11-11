@@ -10,19 +10,19 @@ code more readable.
 Having code that looks like this is meaningless
 
 ```ruby
-miles = 8 * 1609.344
+meters = 8 * 1609.344
 ```
 
 You could add comments
 
 ```ruby
-miles = 8 * 1609.344 # converting meters to miles
+meters = 8 * 1609.344 # converting miles to meters
 ```
 
 But why not have this!
 
 ```ruby
-8.meters.to.miles
+8.miles.to.meters
 ```
 
 You can even perform mathematical operations
