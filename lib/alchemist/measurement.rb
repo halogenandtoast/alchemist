@@ -115,7 +115,7 @@ module Alchemist
     end
 
     def library
-      Library.instance
+      Alchemist.library
     end
 
     def ensure_shared_type! measurement

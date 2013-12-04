@@ -1,12 +1,5 @@
-require 'singleton'
-
 module Alchemist
-  def self.library
-    Library.instance
-  end
-
   class Library
-    include Singleton
 
     attr_reader :si_units, :unit_prefixes, :conversion_table, :binary_prefixes
 

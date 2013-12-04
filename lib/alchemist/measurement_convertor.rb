@@ -16,7 +16,7 @@ module Alchemist
     attr_reader :from
 
     def library
-      Library.instance
+      Alchemist.library
     end
 
     def convert types, unit_name, exponent

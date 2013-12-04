@@ -14,6 +14,10 @@ module Alchemist
     private
     attr_reader :category
 
+    def library
+      Alchemist.library
+    end
+
     def category_methods
       unit_names.map do |name|
         %(define_method("#{name}") { Alchemist.measure self, :#{name} }) + "\n" + prefixed_methods(name)
@@ -21,12 +25,12 @@ module Alchemist
     end
 
     def unit_names
-      Library.instance.unit_names(category)
+      library.unit_names(category)
     end
 
     def prefixes_with_value(name)
-      if Library.instance.si_units.include?(name.to_s)
-        Library.instance.unit_prefixes
+      if library.si_units.include?(name.to_s)
+        library.unit_prefixes
       else
         []
       end
