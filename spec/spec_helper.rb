@@ -10,4 +10,10 @@ end
 require 'alchemist'
 require 'alchemist/geospatial'
 
+RSpec.configure do |config|
+  config.before(:each) do
+    Alchemist.config.use_si = false
+  end
+end
+
 Alchemist.setup
