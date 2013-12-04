@@ -22,11 +22,11 @@ module Alchemist
   end
 
   def self.library
-    @@library ||= Library.new
+    @library ||= Library.new
   end
 
   def self.config
-    @@configuration ||= Configuration.new
+    @configuration ||= Configuration.new
   end
 
   private

@@ -1,11 +1,20 @@
 module Alchemist
   class CompoundMeasurement
+    include Comparable
     attr_accessor :numerators, :denominators
 
     def initialize(numerator)
-      @coefficient = 1
-      @numerators = [numerator]
+      @coefficient = numerator.value
+      @numerators = [numerator / @coefficient]
       @denominators = []
+    end
+
+    def <=> other
+      if @coefficient == other.coefficient
+        [@numerators, @denominators] <=> [other.numerators, other.denominators]
+      else
+        @coefficient <=> other.coefficient
+      end
     end
 
     def *(value)
@@ -61,5 +70,9 @@ module Alchemist
         consolidate
       end
     end
+
+    protected
+
+    attr_reader :coefficient
   end
 end

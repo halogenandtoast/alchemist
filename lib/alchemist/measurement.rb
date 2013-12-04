@@ -1,3 +1,4 @@
+require "bigdecimal"
 require "alchemist/measurement_convertor"
 
 module Alchemist
