@@ -11,9 +11,9 @@ module Alchemist
 
   def self.setup category = nil
     if category
-      Numeric.send :include, ModuleBuilder.new(category).build
+      load_category category
     else
-      setup_all_categories
+      load_all_categories
     end
   end
 
@@ -31,10 +31,13 @@ module Alchemist
 
   private
 
-  def self.setup_all_categories
+  def self.load_all_categories
     library.categories.each do|category|
-      Numeric.send :include, ModuleBuilder.new(category).build
+      load_category category
     end
   end
 
+  def self.load_category category
+    Numeric.send :include, ModuleBuilder.new(category).build
+  end
 end
