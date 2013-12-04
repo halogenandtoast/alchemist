@@ -15,7 +15,7 @@ module Alchemist
     end
 
     def unit_names category
-      @conversion_table[category.to_sym].map { |values| values[0] }
+      @conversion_table[category.to_sym].map(&:first)
     end
 
     def measurement_for unit_name

@@ -27,13 +27,15 @@ module Alchemist
     def + measurement
       ensure_shared_type!(measurement)
       converted = measurement.to(unit_name)
-      remeasure(value + converted.value)
+      addend = converted.value / exponent
+      remeasure(value + addend)
     end
 
     def - measurement
       ensure_shared_type!(measurement)
       converted = measurement.to(unit_name)
-      remeasure(value - converted.value)
+      subtrahend = converted.value / exponent
+      remeasure(value - subtrahend)
     end
 
     def / measurement
@@ -68,11 +70,11 @@ module Alchemist
     end
 
     def to_f
-      @value * exponent
+      (precise_value * exponent).to_f
     end
 
     def <=>(other)
-      self.to_f <=> other.to(unit_name).to_f
+      to_f <=> other.to(unit_name).to_f
     end
 
     def types
@@ -128,7 +130,7 @@ module Alchemist
       if conversion_base.is_a?(Array)
         exponent * conversion_base.first.call(value)
       else
-        exponent * value * conversion_base
+        precise_value * conversion_base * exponent
       end
     end
 
@@ -156,6 +158,10 @@ module Alchemist
 
     def convertor
       MeasurementConvertor.new(self)
+    end
+
+    def precise_value
+      BigDecimal.new(@value.to_s)
     end
   end
 end

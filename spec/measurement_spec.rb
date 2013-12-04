@@ -32,12 +32,20 @@ module Alchemist
       expect(5.meters + 2.inches).to eq(5.0508.meters)
     end
 
+    it "can add different measurements with exponents" do
+      expect(10.kilometers + 1.mile).to eq(11.609344.kilometers)
+    end
+
     it "can be subtracted" do
       expect(3.meters - 2.meters).to eq(1.meter)
     end
 
     it "can subtract different measurements" do
       expect(5.meters - 2.inches).to eq(4.9492.meters)
+    end
+
+    it "can subtract measurements with exponents" do
+      expect(10.kilometers - 1.mile).to eq(8.390656.kilometers)
     end
 
     it "can provide an integer value" do
@@ -78,7 +86,7 @@ module Alchemist
     describe '#geospatial' do
 
       it 'should convert angles to meters' do
-        expect(1.degree.geospatial).to eq(111318.84502145034.meters)
+        expect(1.degree.geospatial).to eq(111318.84502145035.meters)
       end
 
       it 'should convert distances to radians' do

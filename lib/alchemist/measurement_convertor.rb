@@ -20,7 +20,7 @@ module Alchemist
     end
 
     def convert types, unit_name, exponent
-      if type = types[0]
+      if type = types.first
         convert_from_type(type, unit_name, exponent)
       else
         raise Exception, "Incompatible Types"
