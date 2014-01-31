@@ -5,14 +5,26 @@ module Alchemist
     end
 
     def build
-      Module.new.tap do |category_module|
-        category_module.class_eval %(def self.inspect() "#<Module(#{category})>" end)
-        category_module.class_eval category_methods
+      build_module do |category_module|
+        define_inspect_method(category_module)
+        define_unit_methods(category_module)
       end
     end
 
     private
     attr_reader :category
+
+    def build_module(&block)
+      Module.new.tap &block
+    end
+
+    def define_inspect_method(category_module)
+      category_module.class_eval %(def self.inspect() "#<Module(#{category})>" end)
+    end
+
+    def define_unit_methods(category_module)
+      category_module.class_eval category_methods
+    end
 
     def library
       Alchemist.library
