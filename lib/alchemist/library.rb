@@ -8,10 +8,16 @@ module Alchemist
       @si_units = YAML.load_file(Configuration::DEFAULT_SI_UNITS_FILE)
       @unit_prefixes = YAML.load_file(Configuration::DEFAULT_UNIT_PREFIXES_FILE)
       @binary_prefixes = YAML.load_file(Configuration::DEFAULT_BINARY_PREFIXES_FILE)
+      @loaded_modules = {}
     end
 
     def categories
       @conversion_table.keys
+    end
+
+    def load_category(category)
+      @loaded_modules[category] = ModuleBuilder.new(category).build
+      Numeric.send :include, @loaded_modules[category]
     end
 
     def unit_names category
@@ -61,6 +67,8 @@ module Alchemist
         conversions[name] << type
         conversion_table[type][name] = value
       end
+
+      @loaded_modules[type].define_unit_method(names)
     end
 
     private

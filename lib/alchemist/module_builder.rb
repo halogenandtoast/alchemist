@@ -15,7 +15,13 @@ module Alchemist
     attr_reader :category
 
     def build_module(&block)
-      Module.new.tap &block
+      Module.new do
+        def self.define_unit_method(names)
+          names.each do |name|
+            define_method(name.to_sym) { Alchemist.measure self, name.to_sym }
+          end
+        end
+      end.tap &block
     end
 
     def define_inspect_method(category_module)

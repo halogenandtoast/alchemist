@@ -38,6 +38,6 @@ module Alchemist
   end
 
   def self.load_category category
-    Numeric.send :include, ModuleBuilder.new(category).build
+    library.load_category(category)
   end
 end
