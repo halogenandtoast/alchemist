@@ -45,8 +45,7 @@ describe Alchemist do
 
   it "will reset! the library" do
     stub_library
-    Alchemist.library
-    Alchemist.library
+    2.times { Alchemist.library }
     Alchemist.reset!
     Alchemist.library
     expect(Alchemist::Library).to have_received(:new).twice
@@ -54,8 +53,7 @@ describe Alchemist do
 
   it "will reset! the configuration" do
     stub_configuration
-    Alchemist.config
-    Alchemist.config
+    2.times { Alchemist.config }
     Alchemist.reset!
     Alchemist.config
     expect(Alchemist::Configuration).to have_received(:new).twice
