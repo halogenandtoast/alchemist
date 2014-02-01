@@ -33,6 +33,11 @@ module Alchemist
     library.register(types, names, value)
   end
 
+  def self.reset!
+    @library = nil
+    @configuration = nil
+  end
+
   private
 
   def self.load_all_categories

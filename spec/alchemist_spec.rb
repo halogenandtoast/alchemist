@@ -1,38 +1,84 @@
 require 'spec_helper'
 
 describe Alchemist do
+  it "loads a single category into the library" do
+    library_double = stub_library
 
-  it "sets up Numeric" do
-    category_module = build_category_module
-    fake_numeric = build_fake_numeric
     Alchemist.setup('distance')
-    expect(Alchemist::ModuleBuilder).to have_received(:new).with('distance')
-    expect(fake_numeric).to have_received(:include).with(category_module)
+
+    expect(library_double).to have_received(:load_category).with('distance')
+  end
+
+  it "loads all categories into the library" do
+    library_double = stub_library
+    allow(library_double).to receive(:categories).and_return(['foo', 'bar'])
+
+    Alchemist.setup
+
+    expect(library_double).to have_received(:load_category).with('foo')
+    expect(library_double).to have_received(:load_category).with('bar')
   end
 
   it "creates a measurement" do
     unit = Alchemist.measure(1, :meter)
+
     expect(unit).to eq(1.meter)
   end
 
   it "delegates register to the Library" do
-    allow(Alchemist.library).to receive(:register)
+    stub_library
+
     Alchemist.register(:foo, :bar, :baz)
+
     expect(Alchemist.library).to have_received(:register).with(:foo, :bar, :baz)
   end
 
-  def build_category_module
-    double.tap do |category_module|
-      module_builder = double()
-      allow(module_builder).to receive(:build) { category_module }
-      Alchemist::ModuleBuilder.stub(:new).and_return(module_builder)
+  it "builds a library" do
+    library_double = stub_library
+
+    expect(Alchemist.library).to eq library_double
+  end
+
+  it "builds its configuration" do
+    configuration_double = stub_configuration
+
+    expect(Alchemist.config).to eq configuration_double
+  end
+
+  it "will reset! the library" do
+    stub_library
+    Alchemist.library
+    Alchemist.library
+    Alchemist.reset!
+    Alchemist.library
+    expect(Alchemist::Library).to have_received(:new).twice
+  end
+
+  it "will reset! the configuration" do
+    stub_configuration
+    Alchemist.config
+    Alchemist.config
+    Alchemist.reset!
+    Alchemist.config
+    expect(Alchemist::Configuration).to have_received(:new).twice
+  end
+
+  def stub_library
+    double(Alchemist::Library, library_methods).tap do |library_double|
+      allow(Alchemist::Library).to receive(:new).and_return(library_double)
     end
   end
 
-  def build_fake_numeric
-    double.tap do |fake_module|
-      allow(fake_module).to receive(:include)
-      stub_const("Numeric", fake_module)
+  def library_methods
+    {
+      register: true,
+      load_category: true
+    }
+  end
+
+  def stub_configuration
+    double(Alchemist::Configuration).tap do |configuration_double|
+      allow(Alchemist::Configuration).to receive(:new).and_return(configuration_double)
     end
   end
 end

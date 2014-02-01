@@ -12,7 +12,7 @@ require 'alchemist/geospatial'
 
 RSpec.configure do |config|
   config.before(:each) do
-    Alchemist.config.use_si = false
+    Alchemist.reset!
   end
 end
 
