@@ -41,9 +41,7 @@ module Alchemist
   private
 
   def self.load_all_categories
-    library.categories.each do|category|
-      load_category category
-    end
+    library.load_all_categories
   end
 
   def self.load_category category

@@ -20,6 +20,12 @@ module Alchemist
       Numeric.send :include, @loaded_modules[category]
     end
 
+    def load_all_categories
+      categories.each do |category|
+        load_category category
+      end
+    end
+
     def unit_names category
       @conversion_table[category.to_sym].map(&:first)
     end

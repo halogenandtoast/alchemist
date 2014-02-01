@@ -11,12 +11,10 @@ describe Alchemist do
 
   it "loads all categories into the library" do
     library_double = stub_library
-    allow(library_double).to receive(:categories).and_return(['foo', 'bar'])
 
     Alchemist.setup
 
-    expect(library_double).to have_received(:load_category).with('foo')
-    expect(library_double).to have_received(:load_category).with('bar')
+    expect(library_double).to have_received(:load_all_categories)
   end
 
   it "creates a measurement" do
@@ -72,7 +70,8 @@ describe Alchemist do
   def library_methods
     {
       register: true,
-      load_category: true
+      load_category: true,
+      load_all_categories: true
     }
   end
 
