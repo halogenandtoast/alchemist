@@ -15,6 +15,12 @@ describe Alchemist do
     expect(unit).to eq(1.meter)
   end
 
+  it "delegates register to the Library" do
+    allow(Alchemist.library).to receive(:register)
+    Alchemist.register(:foo, :bar, :baz)
+    expect(Alchemist.library).to have_received(:register).with(:foo, :bar, :baz)
+  end
+
   def build_category_module
     double.tap do |category_module|
       module_builder = double()

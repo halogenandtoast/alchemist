@@ -29,6 +29,10 @@ module Alchemist
     @configuration ||= Configuration.new
   end
 
+  def self.register(types, names, value)
+    library.register(types, names, value)
+  end
+
   private
 
   def self.load_all_categories
