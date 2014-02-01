@@ -16,6 +16,5 @@ module Alchemist
     def use_si?
       @use_si
     end
-
   end
 end

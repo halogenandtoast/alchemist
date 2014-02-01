@@ -28,6 +28,8 @@ module Alchemist
       end
     end
 
+    private
+
     def consolidate
       compress_units
       set_coefficients
