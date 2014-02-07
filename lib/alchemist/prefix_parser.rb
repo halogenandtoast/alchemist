@@ -1,14 +1,19 @@
 module Alchemist
   class PrefixParser
-    def parse(unit)
+    attr_reader :unit_name, :exponent
+
+    def initialize(unit)
+      @unit = unit
       matches = unit.to_s.match(prefix_matcher)
       prefix, parsed_unit = matches.captures
 
       if prefix && library.si_units.include?(parsed_unit)
         value = prefixed_value_for(prefix.to_sym, parsed_unit)
-        [value, parsed_unit.to_sym]
+        @exponent = value
+        @unit_name = parsed_unit.to_sym
       else
-        [1, unit]
+        @exponent = 1
+        @unit_name = unit
       end
     end
 
@@ -16,7 +21,20 @@ module Alchemist
       @prefix_matcher ||= generate_prefix_matcher
     end
 
+    def shares_type?(from)
+      guess_type(from)
+    end
+
+    def guess_type(from)
+      shared_types(from).first
+    end
+
     private
+
+    def shared_types from
+      library.measurement_for(from.unit_name) & library.measurement_for(unit_name)
+    end
+
 
     def library
       Alchemist.library

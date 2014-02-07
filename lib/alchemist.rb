@@ -4,6 +4,7 @@ require "alchemist/compound_measurement"
 require "alchemist/module_builder"
 require "alchemist/configuration"
 require "alchemist/library"
+require "alchemist/conversion_calculator"
 
 module Alchemist
 
