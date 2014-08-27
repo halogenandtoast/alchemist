@@ -6,6 +6,10 @@ module Alchemist
       expect(1.m).to eq(1.meter)
     end
 
+    it "has a unit name" do
+      expect(1.kilometer.unit_name).to eq("kilometer")
+    end
+
     it "can be converted" do
       expect(5.grams).to eq(0.005.kilograms)
     end

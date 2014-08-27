@@ -32,7 +32,7 @@ module Alchemist
     private
 
     def shared_types from
-      library.measurement_for(from.unit_name) & library.measurement_for(unit_name)
+      library.measurement_for(from.unprefixed_unit_name) & library.measurement_for(unit_name)
     end
 
 

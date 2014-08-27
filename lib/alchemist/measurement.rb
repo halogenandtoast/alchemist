@@ -5,12 +5,17 @@ module Alchemist
   class Measurement
     include Comparable
 
-    attr_reader :unit_name, :exponent, :value
+    attr_reader :unprefixed_unit_name, :exponent, :value, :prefix
 
-    def initialize value, unit_name, exponent = 1.0
+    def initialize value, unit_name, exponent = 1.0, options = {}
       @value = value.to_f
-      @unit_name = unit_name
+      @unprefixed_unit_name = unit_name.to_sym
       @exponent = exponent
+      @prefix = options[:prefix] || ""
+    end
+
+    def unit_name
+      "#{prefix}#{unprefixed_unit_name}"
     end
 
     def per
@@ -74,12 +79,16 @@ module Alchemist
       (precise_value * exponent).to_f
     end
 
-    def <=>(other)
+    def <=> other
+      to_f <=> other.to(unit_name).to_f
+    end
+
+    def == other
       to_f <=> other.to(unit_name).to_f
     end
 
     def types
-      library.measurement_for(unit_name)
+      library.measurement_for(unprefixed_unit_name)
     end
 
     def shared_types other_unit_name
@@ -122,7 +131,7 @@ module Alchemist
     end
 
     def ensure_shared_type! measurement
-      if !has_shared_types?(measurement.unit_name)
+      if !has_shared_types?(measurement.unprefixed_unit_name)
         incompatible_types
       end
     end
@@ -136,7 +145,7 @@ module Alchemist
     end
 
     def conversion_base_for unit_type
-      library.conversion_base_for(unit_type, unit_name)
+      library.conversion_base_for(unit_type, unprefixed_unit_name)
     end
 
     def has_shared_types? other_unit_name
