@@ -9,8 +9,8 @@ Gem::Specification.new do |gem|
   gem.authors = ["Matthew Mongeau"]
   gem.email = ["halogenandtoast@gmail.com"]
   gem.homepage = 'http://github.com/halogenandtoast/alchemist'
-  gem.summary = 'Conversions... like you\'ve never seen them before!'
-  gem.description = 'Conversions... like you\'ve never seen them before!!'
+  gem.summary = 'A scientific conversion library'
+  gem.description = 'A scientific conversion library'
   gem.license = 'MIT'
 
   gem.files = `git ls-files`.split($/)
