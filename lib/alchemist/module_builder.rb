@@ -46,17 +46,17 @@ module Alchemist
       library.unit_names(category)
     end
 
-    def prefixes_with_value(name)
+    def prefixes_for(name)
       if library.si_units.include?(name.to_s)
-        library.unit_prefixes
+        library.unit_prefixes.keys
       else
         []
       end
     end
 
     def prefixed_methods(name)
-      prefixes_with_value(name).map do |prefix, value|
-        %(define_method("#{prefix}#{name}") { Alchemist.measure_prefixed self, :#{prefix}, :#{name}, #{value} })
+      prefixes_for(name).map do |prefix|
+        %(define_method("#{prefix}#{name}") { Alchemist.measure_prefixed self, :#{prefix}, :#{name} })
       end.join("\n")
     end
   end

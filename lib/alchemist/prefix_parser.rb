@@ -8,8 +8,7 @@ module Alchemist
       prefix, parsed_unit = matches.captures
 
       if prefix && library.si_units.include?(parsed_unit)
-        value = prefixed_value_for(prefix.to_sym, parsed_unit)
-        @exponent = value
+        @exponent = library.exponent_for(parsed_unit, prefix.to_sym)
         @unit_name = parsed_unit.to_sym
       else
         @exponent = 1
@@ -43,18 +42,6 @@ module Alchemist
     def generate_prefix_matcher
       prefix_keys = library.unit_prefixes.keys.map(&:to_s).sort{ |a,b| b.length <=> a.length }
       %r{^(#{prefix_keys.join('|')})?(.+)}
-    end
-
-    def prefixed_value_for prefix, unit
-      if use_binary_prefix? unit
-        library.binary_prefixes[prefix]
-      else
-        library.unit_prefixes[prefix]
-      end
-    end
-
-    def use_binary_prefix? unit
-      !Alchemist.config.use_si? && library.measurement_for(unit).include?(:information_storage)
     end
   end
 end

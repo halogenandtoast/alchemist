@@ -11,6 +11,22 @@ module Alchemist
       @loaded_modules = {}
     end
 
+    def exponent_for(name, prefix)
+      if binary_unit?(name)
+        binary_prefixes[prefix]
+      else
+        unit_prefixes[prefix]
+      end
+    end
+
+    def binary_unit?(name)
+      using_binary? && measurement_for(name).include?(:information_storage)
+    end
+
+    def using_binary?
+      !Alchemist.config.use_si?
+    end
+
     def categories
       @conversion_table.keys
     end

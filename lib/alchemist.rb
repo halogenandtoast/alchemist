@@ -22,7 +22,8 @@ module Alchemist
     Measurement.new value, unit, exponent
   end
 
-  def self.measure_prefixed value, prefix, unit, exponent = 1.0
+  def self.measure_prefixed value, prefix, unit
+    exponent = library.exponent_for(unit, prefix)
     Measurement.new value, unit, exponent, prefix: prefix
   end
 
