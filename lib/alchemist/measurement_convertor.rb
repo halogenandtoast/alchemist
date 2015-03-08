@@ -24,7 +24,7 @@ module Alchemist
       if parsed_unit.shares_type?(from)
         ConversionCalculator.new(from, parsed_unit).calculate
       else
-        raise Exception, "Incompatible Types"
+        raise IncompatibleTypeError, "Incompatible Types"
       end
     end
   end

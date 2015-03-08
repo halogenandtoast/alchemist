@@ -10,6 +10,9 @@ module Alchemist
 
   autoload :Earth, "alchemist/objects/planets/earth"
 
+  class IncompatibleTypeError < StandardError ; end
+  class GeospatialArgumentError < StandardError ; end
+
   def self.setup category = nil
     if category
       load_category category

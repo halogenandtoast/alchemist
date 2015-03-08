@@ -132,7 +132,7 @@ module Alchemist
 
     def ensure_shared_type! measurement
       if !has_shared_types?(measurement.unprefixed_unit_name)
-        incompatible_types
+        incompatible_type_error
       end
     end
 
@@ -159,11 +159,7 @@ module Alchemist
           return Alchemist.measure(value * measurement.to_f, new_type)
         end
       end
-      incompatible_types
-    end
-
-    def incompatible_types
-      raise Exception, "Incompatible Types"
+      incompatible_type_error
     end
 
     def convertor
@@ -172,6 +168,12 @@ module Alchemist
 
     def precise_value
       BigDecimal.new(@value.to_s)
+    end
+
+    private
+
+    def incompatible_type_error
+      raise IncompatibleTypeError, "Incompatible Types"
     end
   end
 end

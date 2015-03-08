@@ -12,7 +12,7 @@ module Alchemist
       elsif types.include?(:distance)
         geospatial_arc_to_angle
       else
-        raise Exception, "geospatial must either be angles or distance"
+        raise GeospatialArgumentError, "geospatial must either be angles or distance"
       end
     end
 
