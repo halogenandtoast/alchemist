@@ -47,7 +47,7 @@ require 'alchemist/geospatial'
 To switch to the IEC memory standard, force SI units with
 
 ```ruby
-Alchemist::use_si = true
+Alchemist.config.use_si = true
 ```
 
 To see all the units alchemist has built in conversion for, check out the [units file](lib/alchemist/data/units.yml)
