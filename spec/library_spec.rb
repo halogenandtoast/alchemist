@@ -36,12 +36,12 @@ module Alchemist
 
     it "knows if it has a measurement" do
       library = Library.new
-      expect(library.has_measurement?(:meter)).to be_true
+      expect(library.has_measurement?(:meter)).to be true
     end
 
     it "knows if it doesn't have a measurement" do
       library = Library.new
-      expect(library.has_measurement?(:wombat)).to be_false
+      expect(library.has_measurement?(:wombat)).to be false
     end
 
     def stub_loading
