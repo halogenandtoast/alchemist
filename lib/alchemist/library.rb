@@ -32,7 +32,7 @@ module Alchemist
     end
 
     def load_category(category)
-      @loaded_modules[category] = ModuleBuilder.new(category).build
+      @loaded_modules[category] = ModuleBuilder.new(category)
       Numeric.send :include, @loaded_modules[category]
     end
 

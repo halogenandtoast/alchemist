@@ -1,48 +1,42 @@
 module Alchemist
-  class ModuleBuilder
+  class ModuleBuilder < Module
     def initialize category
-      @category = category
+      define_inspect_method(category)
+      define_unit_methods(category)
     end
 
-    def build
-      build_module do |category_module|
-        define_inspect_method(category_module)
-        define_unit_methods(category_module)
+    def define_unit_method(names)
+      names.each do |name|
+        define_method(name.to_sym) { Alchemist.measure self, name.to_sym }
       end
     end
 
     private
-    attr_reader :category
 
-    def build_module(&block)
-      Module.new do
-        def self.define_unit_method(names)
-          names.each do |name|
-            define_method(name.to_sym) { Alchemist.measure self, name.to_sym }
+    def define_inspect_method(category)
+      define_method :inspect do
+        "#<Module(#{category})>"
+      end
+    end
+
+    def define_unit_methods(category)
+      unit_names(category).map do |name|
+        define_method name do
+          Alchemist.measure self, name.to_sym
+        end
+        prefixes_for(name).map do |prefix|
+          define_method "#{prefix}#{name}" do
+            Alchemist.measure_prefixed self, prefix.to_sym, name.to_sym
           end
         end
-      end.tap &block
-    end
-
-    def define_inspect_method(category_module)
-      category_module.class_eval %(def self.inspect() "#<Module(#{category})>" end)
-    end
-
-    def define_unit_methods(category_module)
-      category_module.class_eval category_methods
+      end
     end
 
     def library
       Alchemist.library
     end
 
-    def category_methods
-      unit_names.map do |name|
-        %(define_method("#{name}") { Alchemist.measure self, :#{name} }) + "\n" + prefixed_methods(name)
-      end.join("\n")
-    end
-
-    def unit_names
+    def unit_names(category)
       library.unit_names(category)
     end
 
@@ -52,12 +46,6 @@ module Alchemist
       else
         []
       end
-    end
-
-    def prefixed_methods(name)
-      prefixes_for(name).map do |prefix|
-        %(define_method("#{prefix}#{name}") { Alchemist.measure_prefixed self, :#{prefix}, :#{name} })
-      end.join("\n")
     end
   end
 end

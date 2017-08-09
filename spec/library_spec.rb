@@ -46,8 +46,7 @@ module Alchemist
 
     def stub_loading
       module_double = double(Module, define_unit_method: true)
-      module_builder_double = double(ModuleBuilder, build: module_double)
-      allow(ModuleBuilder).to receive(:new).and_return(module_builder_double)
+      allow(ModuleBuilder).to receive(:new).and_return(module_double)
       allow(Numeric).to receive(:send).with(:include, module_double).and_return(true)
     end
   end
