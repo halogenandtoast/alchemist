@@ -167,7 +167,7 @@ module Alchemist
     end
 
     def precise_value
-      BigDecimal.new(@value.to_s)
+      BigDecimal(@value.to_s)
     end
 
     private
