@@ -24,7 +24,7 @@ module Alchemist
       if proc_based?
         factor[1].call(base)
       else
-        base / BigDecimal.new(factor.to_s)
+        base / BigDecimal(factor.to_s)
       end
     end
 
@@ -33,7 +33,7 @@ module Alchemist
     end
 
     def base
-      @base ||= BigDecimal.new(from.base(type).to_s)
+      @base ||= BigDecimal(from.base(type).to_s)
     end
 
     def type
