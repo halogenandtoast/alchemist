@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    alchemist (0.1.7)
+    alchemist (0.1.8)
 
 GEM
   remote: https://rubygems.org/
@@ -30,3 +30,6 @@ DEPENDENCIES
   rake
   rspec
   simplecov
+
+BUNDLED WITH
+   2.0.2
