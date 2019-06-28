@@ -9,7 +9,7 @@ module Alchemist
       @denominators = []
     end
 
-    def <=> other
+    def <=>(other)
       if @coefficient == other.coefficient
         [@numerators, @denominators] <=> [other.numerators, other.denominators]
       else
@@ -24,7 +24,7 @@ module Alchemist
          self
       when Alchemist::Measurement
         @numerators << value
-        return consolidate
+        consolidate
       end
     end
 
@@ -43,16 +43,17 @@ module Alchemist
       end
     end
 
-    def remove_excess_units numerator, n, denominator, d
-      if should_remove_units? numerator, denominator
+    def remove_excess_units(numerator, n, denominator, d)
+      if should_remove_units?(numerator, denominator)
         @numerators.delete_at(n)
         @denominators.delete_at(d)
         @coefficient *= (numerator / denominator)
       end
     end
 
-    def should_remove_units? numerator, denominator
+    def should_remove_units?(numerator, denominator)
       return false if numerator.is_a?(Numeric) || denominator.is_a?(Numeric)
+
       (Alchemist.library.measurement_for(numerator.unit_name) & Alchemist.library.measurement_for(denominator.unit_name)).length > 0
     end
 

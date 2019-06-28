@@ -1,6 +1,6 @@
 module Alchemist
   class ModuleBuilder < Module
-    def initialize category
+    def initialize(category)
       define_inspect_method(category)
       define_unit_methods(category)
     end
@@ -24,6 +24,7 @@ module Alchemist
         define_method name do
           Alchemist.measure self, name.to_sym
         end
+
         prefixes_for(name).map do |prefix|
           define_method "#{prefix}#{name}" do
             Alchemist.measure_prefixed self, prefix.to_sym, name.to_sym

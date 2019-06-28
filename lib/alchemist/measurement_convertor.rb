@@ -3,12 +3,13 @@ require 'alchemist/prefix_parser'
 
 module Alchemist
   class MeasurementConvertor
-    def initialize from
+    def initialize(from)
       @from = from
     end
 
-    def method_missing method, *args, &block
+    def method_missing(method, *args, &block)
       parsed_unit = parse_prefix(method)
+
       convert(parsed_unit)
     end
 
@@ -20,7 +21,7 @@ module Alchemist
     end
 
 
-    def convert parsed_unit
+    def convert(parsed_unit)
       if parsed_unit.shares_type?(from)
         ConversionCalculator.new(from, parsed_unit).calculate
       else

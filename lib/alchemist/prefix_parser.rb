@@ -30,7 +30,7 @@ module Alchemist
 
     private
 
-    def shared_types from
+    def shared_types(from)
       library.measurement_for(from.unprefixed_unit_name) & library.measurement_for(unit_name)
     end
 
@@ -41,6 +41,7 @@ module Alchemist
 
     def generate_prefix_matcher
       prefix_keys = library.unit_prefixes.keys.map(&:to_s).sort{ |a,b| b.length <=> a.length }
+
       %r{^(#{prefix_keys.join('|')})?(.+)}
     end
   end

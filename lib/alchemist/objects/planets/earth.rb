@@ -2,7 +2,7 @@ module Alchemist
   class Earth
     RADIUS = Alchemist.measure(6378100, :meters)
 
-    def initialize measurement
+    def initialize(measurement)
       @measurement = measurement
     end
 

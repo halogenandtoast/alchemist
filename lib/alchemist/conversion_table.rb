@@ -4,11 +4,9 @@ module Alchemist
   class ConversionTable
 
     def load_all(yaml_file)
-      begin
-        YAML.load_file(yaml_file).merge(proc_based)
-      rescue Psych::SyntaxError, Errno::ENOENT
-        nil
-      end
+      YAML.load_file(yaml_file).merge(proc_based)
+    rescue Psych::SyntaxError, Errno::ENOENT
+      nil
     end
 
     private

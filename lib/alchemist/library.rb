@@ -33,21 +33,22 @@ module Alchemist
 
     def load_category(category)
       @loaded_modules[category] ||= ModuleBuilder.new(category)
+
       Numeric.send :include, @loaded_modules[category]
     end
 
     def load_all_categories
       categories.each do |category|
-        load_category category
+        load_category(category)
       end
     end
 
-    def unit_names category
+    def unit_names(category)
       @conversion_table[category.to_sym].map(&:first)
     end
 
-    def measurement_for unit_name
-      conversions[ unit_name.to_sym ]
+    def measurement_for(unit_name)
+      conversions[unit_name.to_sym]
     end
 
     def conversions
@@ -58,11 +59,11 @@ module Alchemist
       @conversion_table[unit_type][unit_name]
     end
 
-    def has_measurement? name
+    def has_measurement?(name)
       conversions.keys.include? name.to_sym
     end
 
-    def register_operation_conversions type, other_type, operation, converted_type
+    def register_operation_conversions(type, other_type, operation, converted_type)
       operator_actions[operation] ||= []
       operator_actions[operation] << [type, other_type, converted_type]
     end
@@ -71,7 +72,7 @@ module Alchemist
       @operator_actions ||= {}
     end
 
-    def load_conversion_table(filename=Configuration::DEFAULT_UNITS_FILE)
+    def load_conversion_table(filename = Configuration::DEFAULT_UNITS_FILE)
       if new_table = ConversionTable.new.load_all(filename)
         @conversion_table = new_table
       else
@@ -97,12 +98,14 @@ module Alchemist
 
     def load_conversions
       conversions = {}
+
       conversion_table.each do |type, table_conversions|
         table_conversions.each do |name, value|
           conversions[name] ||= []
           conversions[name] << type
         end
       end
+
       conversions
     end
   end

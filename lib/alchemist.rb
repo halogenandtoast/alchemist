@@ -13,7 +13,7 @@ module Alchemist
   class IncompatibleTypeError < StandardError ; end
   class GeospatialArgumentError < StandardError ; end
 
-  def self.setup category = nil
+  def self.setup(category = nil)
     if category
       load_category category
     else
@@ -21,13 +21,14 @@ module Alchemist
     end
   end
 
-  def self.measure value, unit, exponent = 1.0
-    Measurement.new value, unit, exponent
+  def self.measure(value, unit, exponent = 1.0)
+    Measurement.new(value, unit, exponent)
   end
 
-  def self.measure_prefixed value, prefix, unit
+  def self.measure_prefixed(value, prefix, unit)
     exponent = library.exponent_for(unit, prefix)
-    Measurement.new value, unit, exponent, prefix: prefix
+
+    Measurement.new(value, unit, exponent, prefix: prefix)
   end
 
   def self.library
@@ -53,7 +54,7 @@ module Alchemist
     library.load_all_categories
   end
 
-  def self.load_category category
+  def self.load_category(category)
     library.load_category(category)
   end
 end
