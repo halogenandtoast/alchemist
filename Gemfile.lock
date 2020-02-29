@@ -8,7 +8,7 @@ GEM
   specs:
     diff-lcs (1.2.4)
     multi_json (1.8.2)
-    rake (10.0.3)
+    rake (13.0.1)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
