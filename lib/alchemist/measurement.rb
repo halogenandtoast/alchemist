@@ -84,11 +84,13 @@ module Alchemist
     end
 
     def <=> other
-      to_f <=> other.to(unit_name).to_f
+      other = other.to(unit_name) unless other.is_a?(Numeric)
+      to_f <=> other.to_f
     end
 
     def == other
-      to_f <=> other.to(unit_name).to_f
+      other = other.to(unit_name) unless other.is_a?(Numeric)
+      to_f <=> other.to_f
     end
 
     def types
